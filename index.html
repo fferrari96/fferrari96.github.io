@@ -75,7 +75,7 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  .wrap{max-width:840px; margin:0 auto; padding:0 28px;}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 28px;}
 
   h1,h2,h3{font-family:"Fraunces", ui-serif, Georgia, serif; font-weight:500; margin:0; text-wrap:balance;}
 
@@ -109,7 +109,7 @@
     border-bottom:1px solid var(--line);
   }
   .nav-inner{
-    max-width:840px; margin:0 auto; padding:16px 28px;
+    max-width:1040px; margin:0 auto; padding:16px 28px;
     display:flex; align-items:center; justify-content:space-between;
     gap:16px;
   }
@@ -152,6 +152,47 @@
     pointer-events:none;
   }
   .hero-inner{position:relative;}
+  .hero-split{ display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:48px; align-items:start; margin-top:30px; }
+  @media (max-width:860px){ .hero-split{ grid-template-columns:1fr; gap:0; } }
+  .slideshow{ position:relative; margin:34px 0 26px; outline:none; }
+  .slides{ position:relative; height:clamp(250px, 36vw, 400px); overflow:hidden; }
+  .slide{ position:absolute; top:0; left:50%; height:100%; aspect-ratio:1/1; margin:0; overflow:hidden; cursor:pointer;
+    border-radius:12px; border:1px solid var(--line-strong); background:var(--surface); box-shadow:var(--shadow);
+    opacity:0; transform:translateX(-50%) scale(0.66);
+    transition:transform .6s cubic-bezier(.3,.7,.3,1), opacity .6s ease, filter .6s ease; }
+  .slide.is-on{ opacity:1; transform:translateX(-50%); cursor:default; }
+  .slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .slide.fit img{ object-fit:contain; background:#fff; }
+  .slide-svg{ width:100%; height:100%; display:block; background:var(--surface); }
+  .slide-svg .sp-grid{ stroke:var(--line); stroke-width:1; }
+  .slide-svg .sp-axis{ stroke:var(--ink-faint); stroke-width:1.2; fill:none; }
+  .slide-svg .sp-tick{ font-family:"IBM Plex Mono", monospace; font-size:13px; fill:var(--ink-faint); }
+  .slide-svg .sp-sup{ font-size:10px; }
+  .slide-svg .sp-sub{ font-size:11px; }
+  .slide-svg .sp-lab{ font-family:"IBM Plex Sans", sans-serif; font-size:15px; fill:var(--ink-soft); }
+  .slide-svg .sp-name{ font-family:"IBM Plex Sans", sans-serif; font-size:15px; font-weight:600; }
+  .slide-svg .sp-key{ font-family:"IBM Plex Sans", sans-serif; font-size:14px; fill:var(--ink-soft); }
+  .slide-svg .sp-note{ font-family:"IBM Plex Mono", monospace; font-size:12px; fill:var(--ink-faint); }
+  .slide-svg .sp-dot{ stroke:var(--surface); stroke-width:0.8; }
+  .slideshow.vertical{ margin:0; }
+  .slideshow.vertical .slides{ height:540px; }
+  .slideshow.vertical .slide{ top:50%; height:62%; transform:translate(-50%, -50%) scale(0.64); }
+  .slideshow.vertical .slide.is-on{ transform:translate(-50%, -50%); }
+  .slideshow.vertical .slide-btn{ left:calc(50% - 19px); right:auto; }
+  .slideshow.vertical .slide-btn.prev{ top:4px; transform:rotate(90deg); }
+  .slideshow.vertical .slide-btn.next{ top:auto; bottom:4px; transform:rotate(90deg); }
+  .slide-btn{ position:absolute; top:calc(50% - 19px); z-index:5; width:38px; height:38px; border-radius:50%; cursor:pointer;
+    border:1px solid var(--line-strong); background:color-mix(in srgb, var(--surface) 90%, transparent); color:var(--ink);
+    font-size:22px; line-height:34px; }
+  .slide-btn.prev{ left:4px; } .slide-btn.next{ right:4px; }
+  .slide-bar{ display:flex; flex-direction:column; align-items:center; gap:10px; max-width:640px; margin:14px auto 0; text-align:center; }
+  .slide-cap{ margin:0; min-height:4.2em; font-family:"IBM Plex Mono", monospace; font-size:0.74rem; line-height:1.4; color:var(--ink-soft); }
+  .slide-cap a{ color:var(--accent-ink); text-decoration:none; white-space:nowrap; }
+  .slide-cap a:hover{ text-decoration:underline; }
+  .slide-dots{ display:flex; gap:6px; }
+  .slide-dots button{ width:8px; height:8px; padding:0; border:0; border-radius:50%; cursor:pointer; background:var(--line-strong); }
+  .slide-dots button.on{ background:var(--accent); }
+  @media (prefers-reduced-motion: reduce){ .slide{ transition:none; } }
   .hero-role{
     font-family:"IBM Plex Mono", monospace;
     font-size:0.85rem;
@@ -160,7 +201,7 @@
     margin:0 0 18px;
   }
   h1.name{
-    font-size:clamp(2.6rem, 6vw, 4.2rem);
+    font-size:clamp(2.6rem, 6.4vw, 4.8rem);
     line-height:0.98;
     letter-spacing:-0.01em;
   }
@@ -175,6 +216,7 @@
   .hero-sub strong{ color:var(--ink); font-weight:600; }
   .hero-brief{ margin:30px 0 0; }
   .hero-brief + .hero-sub{ margin-top:12px; }
+  .hero-sub + .hero-sub{ margin-top:14px; }
 
   .hero-anim{ opacity:0; transform:translateY(10px); animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards; }
   .hero-anim.d1{ animation-delay:.05s; }
@@ -186,7 +228,8 @@
     .hero-anim{ opacity:1; transform:none; animation:none; }
   }
 
-  .trace{ margin-top:44px; }
+  /* chart styles kept for the chapter 4 page, where the annealing plot will go */
+  .trace{ margin-top:44px; max-width:880px; }
   .trace svg{ width:100%; height:auto; display:block; overflow:visible; }
   .trace-path{
     fill:none; stroke:var(--accent); stroke-width:1.6;
@@ -247,13 +290,23 @@
   .section-head{ margin-bottom:36px; }
   .section-head h2{ font-size:1.7rem; }
 
-  #about p{ max-width:66ch; color:var(--ink-soft); font-size:1.02rem; }
-  #about p + p{ margin-top:16px; }
-  #about strong{ color:var(--ink); font-weight:600; }
-  #about h3{ font-size:1.18rem; margin:32px 0 10px; }
-  #about .about-text > h3:first-child{ margin-top:0; }
-  #about p a{ color:var(--accent-ink); text-underline-offset:2px; }
-  #about p a:hover{ color:var(--accent); }
+  .story p{ max-width:66ch; color:var(--ink-soft); font-size:1.02rem; }
+  .story p + p{ margin-top:16px; }
+  .story strong{ color:var(--ink); font-weight:600; }
+  .story{ margin:0 0 34px; border:1px solid var(--line-strong); border-radius:10px; background:var(--surface); }
+  .story > summary{ list-style:none; cursor:pointer; display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; padding:14px 18px;
+    font-family:"IBM Plex Mono", monospace; font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink); }
+  .story > summary::-webkit-details-marker{ display:none; }
+  .story > summary::before{ content:"+"; width:14px; color:var(--accent); font-size:1rem; line-height:1; }
+  .story[open] > summary::before{ content:"\2212"; }
+  .story > summary:hover .story-title{ color:var(--accent-ink); }
+  .story-hint{ text-transform:none; letter-spacing:0; color:var(--ink-faint); }
+  .story[open] > summary{ border-bottom:1px solid var(--line); }
+  .story .about-text{ padding:26px 22px 28px; }
+  .story h3{ font-size:1.18rem; margin:32px 0 10px; }
+  .story .about-text > h3:first-child{ margin-top:0; }
+  .story p a{ color:var(--accent-ink); text-underline-offset:2px; }
+  .story p a:hover{ color:var(--accent); }
 
   .now-badge{
     display:inline-flex; align-items:center; gap:8px;
@@ -304,8 +357,17 @@
     font-size:0.96rem;
   }
   .entry li{ margin-bottom:7px; }
+  .entry li a{ color:var(--accent-ink); text-underline-offset:2px; }
+  .entry li a:hover{ color:var(--accent); }
+  .entry-body > summary{ list-style:none; cursor:pointer; position:relative; padding-right:36px; }
+  .entry-body > summary::-webkit-details-marker{ display:none; }
+  .entry-body > summary::after{ content:"+"; position:absolute; right:4px; top:0; font-family:"IBM Plex Mono", monospace; font-size:1.15rem; color:var(--accent); }
+  .entry-body[open] > summary::after{ content:"\2212"; }
+  .entry-body > summary:hover h3{ color:var(--accent-ink); }
+  .timeline-tools{ display:flex; justify-content:flex-end; margin:0 0 6px; }
+  .entry ul, .entry .thesis, .entry .degree{ max-width:80ch; }
   .entry li::marker{ color:var(--accent); }
-  .entry .degree{ margin-top:8px; font-size:0.92rem; color:var(--ink); }
+  .entry .degree{ display:block; margin-top:8px; font-size:0.92rem; color:var(--ink); }
   .entry .thesis{
     margin-top:10px; font-size:0.92rem; color:var(--ink-faint);
     font-style:italic;
@@ -458,7 +520,7 @@
   .project-hero{ float:right; width:min(300px, 42%); margin:6px 0 16px 28px; }
   .project-hero img{ width:100%; height:auto; display:block; border-radius:10px; border:1px solid var(--line); box-shadow:var(--shadow); }
   .project-hero figcaption{ margin-top:8px; font-family:"IBM Plex Mono", monospace; font-size:0.74rem; color:var(--ink-faint); line-height:1.4; }
-  @media (max-width:600px){ .project-hero{ float:none; width:100%; max-width:360px; margin:4px auto 22px; } }
+  @media (max-width:600px){ .project-hero{ float:none; width:100%; max-width:360px; margin:4px auto 22px; } .rig-result .project-hero{ margin:0 auto; } }
   .project-cap{
     font-family:"IBM Plex Mono", monospace;
     font-size:0.78rem;
@@ -467,26 +529,23 @@
     margin:0 0 28px;
   }
   #project .project-cap{ font-size:0.78rem; max-width:none; margin-top:10px; }
-  .project-gallery{
-    clear:both;
-    padding-top:20px;
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
-    gap:18px;
-    margin-top:12px;
-  }
-  .project-gallery figure{ margin:0; }
-  .project-gallery img{
-    width:100%; height:200px; object-fit:cover;
-    border-radius:8px; border:1px solid var(--line-strong);
-    display:block;
-  }
-  .project-gallery figcaption{
-    margin-top:8px;
-    font-family:"IBM Plex Mono", monospace;
-    font-size:0.76rem;
-    color:var(--ink-faint);
-    line-height:1.4;
+  .rig-split{ display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:40px; align-items:start; }
+  .rig-split .rig-text > p:first-child{ margin-top:0; }
+  #project .rig-parts .parts-title{ margin-top:0; }
+  .rig-parts .parts{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
+  .rig-result{ display:grid; grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr); gap:40px; align-items:center; margin-top:40px; }
+  .rig-result .project-hero{ float:none; width:auto; margin:0; }
+  .rig-trace{ margin:0; max-width:520px; }
+  .rig-trace .plot-title{ margin:0; }
+  .rig-trace .trace{ margin-top:14px; max-width:none; }
+  .rig-trace .trace svg.trace-narrow{ display:block; }
+  .rig-trace .trace-caption{ margin-top:12px; line-height:1.5; }
+  .rig-trace .trace-caption a{ color:var(--accent-ink); }
+  .rig-trace .trace-path, .rig-trace .trace-band{ animation-play-state:paused; }
+  .rig-trace.seen .trace-path, .rig-trace.seen .trace-band{ animation-play-state:running; }
+  @media (max-width:860px){
+    .rig-split, .rig-result{ grid-template-columns:1fr; gap:28px; }
+    .rig-result .project-hero{ max-width:380px; }
   }
   .parts{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px; margin-top:14px; }
   .part{ font:inherit; padding:10px 8px; text-align:left; cursor:pointer; background:var(--surface); border:1px solid var(--line); border-radius:8px; transition:border-color .15s ease, transform .15s ease; }
@@ -495,7 +554,7 @@
   .part span{ display:block; margin-top:6px; font-family:"IBM Plex Mono", monospace; font-size:0.7rem; color:var(--ink-soft); line-height:1.35; }
   .parts.still .part{ cursor:default; }
   .parts.still .part:hover{ border-color:var(--line); transform:none; }
-  @media (max-width:600px){ .parts{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+  @media (max-width:600px){ .parts, .rig-parts .parts{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
   @media (prefers-reduced-motion: reduce){ .part{ transition:none; } .part:hover, .part:focus-visible{ transform:none; } }
   .part-view{ width:min(640px, 92vw); padding:0; color:var(--ink); background:var(--surface); border:1px solid var(--line-strong); border-radius:12px; box-shadow:var(--shadow); }
   .part-view::backdrop{ background:rgba(0,0,0,0.5); }
@@ -559,7 +618,7 @@
   .gx.no-idx .gx-idx, .gx.no-idx .gx-handle, .gx.no-idx .gx-tag, .gx.no-idx .gx-range{ display:none; }
   .gx-cap{ margin-top:10px; font-family:"IBM Plex Mono", monospace; font-size:0.76rem; color:var(--ink-faint); line-height:1.45; }
   img{ mix-blend-mode:multiply; }
-  .project-hero img, .project-gallery img, .preview-thumb{ mix-blend-mode:normal; }
+  .project-hero img, .slide img, .preview-thumb{ mix-blend-mode:normal; }
   @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) img{ mix-blend-mode:normal; filter:brightness(.85); } }
   :root[data-theme="dark"] img{ mix-blend-mode:normal; filter:brightness(.85); }
   .pub-extra{ margin-top:2px; }
@@ -573,17 +632,17 @@
   .pub-extra a:hover{ border-color:var(--accent2); }
 
   /* ---------- Awards / Languages ---------- */
-  .about-side{ display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:36px; align-items:start; }
+  .exp-grid{ display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:40px; align-items:start; }
   .places{ position:sticky; top:84px; margin:0; }
-  .places-map{ height:300px; padding:0; overflow:hidden; }
+  .places-map{ height:310px; padding:0; overflow:hidden; }
+  @media (max-width:860px){
+    .exp-grid{ grid-template-columns:1fr; gap:26px; }
+    .places{ position:relative; top:auto; order:-1; }
+  }
   .places .project-cap{ margin:10px 0 0; }
   .place-tip{ width:230px; }
   .place-tip img{ width:auto; max-width:100%; height:42px; object-fit:contain; object-position:left center; margin-bottom:5px; }
   .place-tip .n{ color:var(--ink); }
-  @media (max-width:760px){
-    .about-side{ grid-template-columns:1fr; gap:24px; }
-    .places{ position:relative; top:auto; order:-1; }
-  }
   @media (max-width:600px){ .places-map{ height:240px; } }
   .exp-extra{ margin-top:36px; padding-top:36px; border-top:1px solid var(--line-strong); }
   .two-col{ display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:8px; }
@@ -644,7 +703,6 @@
   <div class="nav-inner">
     <a class="nav-name" href="#top">Federico Ferrari</a>
     <div class="nav-links">
-      <a href="#about">About me</a>
       <a href="#experience">Experience</a>
       <a href="#project">Projects</a>
       <a href="#skills">Skills</a>
@@ -658,69 +716,46 @@
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="wrap hero-inner">
     <p class="hero-role hero-anim d1">PhD Applied Physics &nbsp;/&nbsp; Thin-Film Process Development, Device Testing &amp; Test Automation</p>
-    <h1 class="name hero-anim d2"><em>Federico</em><br><strong>Ferrari</strong></h1>
-    <p class="eyebrow hero-brief hero-anim d3">In brief</p>
-    <p class="hero-sub hero-anim d3">
-      I develop and characterize <strong>thin-film processes</strong> &mdash; deposition, patterning, doping &mdash; and
-      build the <strong>test setups</strong> that close the loop: vary the process, measure, relate the results
-      statistically, set the next experiment. Seven years of cleanroom and lab work on semiconductor films and
-      devices, and a PhD in Applied Physics from Groningen.
-    </p>
-    <div class="now-badge hero-anim d3"><span class="dot" aria-hidden="true"></span> PhD defense 8 Feb 2027 &middot; in Taipei, open to relocation &middot; EU citizen, no sponsorship needed in Taiwan</div>
-
-    <div class="hero-anim d4">
-      <div class="trace">
-        <svg class="trace-wide" viewBox="0 0 620 166" role="img" aria-label="Conductivity of doped PCBM films recorded while annealing for 3000 seconds, bulk-doped and vapor-doped, at 100 and 120 degrees C. Bulk-doped films settle near 4.6 and 3.6 S/cm, vapor-doped films near 2 S/cm.">
-          <line class="trace-axis" x1="36" y1="146" x2="612" y2="146"></line>
-          <line class="trace-grid" x1="36" y1="93.9" x2="612" y2="93.9"></line>
-          <line class="trace-grid" x1="36" y1="41.8" x2="612" y2="41.8"></line>
-          <text class="trace-label" x="30" y="149" text-anchor="end">0</text>
-          <text class="trace-label" x="30" y="96.9" text-anchor="end">2</text>
-          <text class="trace-label" x="30" y="44.8" text-anchor="end">4</text>
-          <text class="trace-label" x="36" y="161">0</text>
-          <text class="trace-label" x="224.9" y="161" text-anchor="middle">1000</text>
-          <text class="trace-label" x="413.7" y="161" text-anchor="middle">2000</text>
-          <text class="trace-label" x="602.6" y="161" text-anchor="end">3000 s</text>
-          <path class="trace-band" d="M36.3,146.0 L36.8,146.0 L37.4,146.0 L38.0,146.0 L38.5,146.0 L39.1,146.0 L39.7,146.0 L40.2,146.0 L40.8,146.0 L41.4,146.0 L41.9,146.0 L42.5,146.0 L43.1,146.0 L43.6,146.0 L44.2,146.0 L44.8,145.7 L45.3,145.0 L45.9,143.0 L46.5,138.1 L47.0,131.7 L47.6,124.0 L48.2,111.2 L48.7,102.4 L49.3,95.4 L49.9,80.3 L50.4,80.6 L51.0,73.5 L51.6,65.1 L52.1,66.0 L52.7,57.5 L53.3,60.4 L53.8,56.6 L54.4,51.4 L55.0,51.7 L55.5,49.7 L56.1,52.0 L56.7,50.6 L57.2,52.3 L57.8,52.9 L58.4,48.2 L58.9,53.6 L59.5,49.0 L60.1,50.2 L60.6,49.6 L61.2,54.6 L61.8,50.5 L62.3,48.7 L62.9,52.5 L63.5,49.9 L64.0,51.9 L64.6,50.6 L65.2,50.5 L65.7,50.9 L66.3,46.4 L66.9,54.4 L67.4,50.8 L68.0,49.0 L68.6,53.4 L69.1,47.0 L69.7,51.1 L70.3,49.8 L70.8,51.3 L71.4,52.7 L72.0,45.9 L72.5,49.3 L73.1,50.5 L73.7,50.9 L77.1,50.3 L82.7,47.8 L88.4,49.0 L94.1,47.3 L99.7,48.2 L105.4,47.6 L111.1,46.3 L116.7,46.1 L122.4,46.6 L128.1,45.1 L133.7,44.8 L139.4,44.7 L145.1,43.5 L150.7,43.8 L156.4,44.3 L162.1,42.5 L167.7,44.1 L173.4,42.8 L179.1,43.2 L184.7,41.6 L190.4,42.7 L196.1,42.8 L201.7,43.8 L207.4,41.9 L213.0,42.2 L218.7,43.2 L224.4,40.7 L230.0,42.1 L235.7,41.3 L241.4,41.3 L247.0,41.3 L252.7,40.1 L258.4,41.3 L264.0,43.0 L269.7,40.4 L275.4,41.6 L281.0,39.6 L286.7,42.1 L292.4,39.6 L298.0,40.4 L303.7,39.5 L309.4,40.2 L315.0,40.4 L320.7,39.6 L326.4,40.5 L332.0,40.4 L337.7,39.3 L343.4,41.2 L349.0,40.1 L354.7,40.8 L360.4,39.9 L366.0,39.3 L371.7,39.2 L377.4,38.9 L383.0,41.5 L388.7,40.0 L394.3,39.2 L400.0,39.5 L405.7,39.8 L411.3,39.0 L417.0,39.8 L422.7,39.3 L428.3,38.1 L434.0,38.5 L439.7,38.8 L445.3,38.9 L451.0,40.3 L456.7,40.8 L462.3,39.1 L468.0,39.8 L473.7,40.1 L479.3,38.2 L485.0,38.8 L490.7,38.6 L496.3,39.2 L502.0,39.6 L507.7,38.4 L513.3,40.6 L519.0,38.6 L524.7,39.7 L530.3,38.8 L536.0,39.0 L541.7,38.1 L547.3,41.2 L553.0,39.6 L558.6,39.2 L564.3,38.3 L570.0,38.0 L575.6,39.1 L581.3,38.7 L587.0,37.5 L592.6,39.2 L598.3,39.4 L604.0,39.0 L609.6,40.3 L609.6,64.0 L604.0,64.3 L598.3,63.9 L592.6,63.6 L587.0,62.2 L581.3,63.4 L575.6,63.4 L570.0,62.4 L564.3,62.9 L558.6,63.2 L553.0,64.2 L547.3,65.7 L541.7,62.5 L536.0,63.3 L530.3,63.5 L524.7,63.6 L519.0,62.5 L513.3,64.4 L507.7,63.1 L502.0,63.4 L496.3,63.9 L490.7,62.8 L485.0,63.1 L479.3,62.5 L473.7,64.1 L468.0,64.0 L462.3,63.8 L456.7,65.2 L451.0,64.3 L445.3,63.4 L439.7,63.1 L434.0,62.7 L428.3,62.2 L422.7,63.6 L417.0,63.9 L411.3,63.4 L405.7,63.6 L400.0,63.1 L394.3,63.4 L388.7,64.0 L383.0,65.8 L377.4,63.3 L371.7,63.7 L366.0,63.4 L360.4,63.9 L354.7,65.4 L349.0,64.3 L343.4,65.1 L337.7,63.0 L332.0,64.3 L326.4,65.1 L320.7,63.8 L315.0,64.0 L309.4,64.1 L303.7,63.7 L298.0,64.4 L292.4,63.4 L286.7,65.7 L281.0,63.6 L275.4,65.3 L269.7,63.9 L264.0,67.3 L258.4,64.3 L252.7,64.1 L247.0,65.3 L241.4,65.0 L235.7,64.9 L230.0,65.3 L224.4,64.2 L218.7,66.7 L213.0,66.3 L207.4,64.9 L201.7,67.2 L196.1,66.1 L190.4,65.7 L184.7,64.9 L179.1,66.3 L173.4,66.1 L167.7,67.2 L162.1,65.8 L156.4,67.4 L150.7,66.9 L145.1,66.6 L139.4,67.8 L133.7,67.4 L128.1,67.8 L122.4,68.6 L116.7,68.5 L111.1,68.5 L105.4,69.9 L99.7,70.1 L94.1,69.3 L88.4,70.5 L82.7,69.7 L77.1,71.7 L73.7,71.5 L73.1,71.7 L72.5,71.1 L72.0,68.5 L71.4,73.5 L70.8,72.5 L70.3,71.4 L69.7,72.2 L69.1,68.0 L68.6,75.5 L68.0,68.7 L67.4,73.0 L66.9,73.9 L66.3,68.7 L65.7,73.2 L65.2,70.3 L64.6,72.8 L64.0,72.2 L63.5,71.2 L62.9,74.1 L62.3,69.8 L61.8,71.2 L61.2,74.6 L60.6,72.1 L60.1,70.2 L59.5,70.9 L58.9,74.1 L58.4,69.2 L57.8,74.6 L57.2,71.0 L56.7,74.9 L56.1,73.4 L55.5,73.1 L55.0,74.4 L54.4,72.7 L53.8,79.5 L53.3,79.4 L52.7,79.7 L52.1,84.6 L51.6,83.7 L51.0,90.9 L50.4,95.4 L49.9,96.9 L49.3,107.5 L48.7,113.9 L48.2,119.1 L47.6,128.9 L47.0,135.5 L46.5,140.5 L45.9,143.9 L45.3,145.4 L44.8,145.8 L44.2,146.0 L43.6,146.0 L43.1,146.0 L42.5,146.0 L41.9,146.0 L41.4,146.0 L40.8,146.0 L40.2,146.0 L39.7,146.0 L39.1,146.0 L38.5,146.0 L38.0,146.0 L37.4,146.0 L36.8,146.0 L36.3,146.0Z"/>
-          <path class="trace-band" d="M36.3,146.0 L36.8,146.0 L37.4,146.0 L38.0,146.0 L38.5,146.0 L39.1,146.0 L39.7,146.0 L40.2,146.0 L40.8,146.0 L41.4,146.0 L41.9,146.0 L42.5,146.0 L43.1,146.0 L43.6,146.0 L44.2,146.0 L44.8,145.9 L45.3,144.7 L45.9,133.1 L46.5,116.6 L47.0,100.0 L47.6,97.1 L48.2,89.0 L48.7,88.7 L49.3,78.1 L49.9,59.8 L50.4,68.8 L51.0,66.8 L51.6,67.4 L52.1,63.9 L52.7,49.2 L53.3,53.0 L53.8,54.1 L54.4,45.0 L55.0,48.5 L55.5,51.9 L56.1,46.6 L56.7,34.0 L57.2,43.5 L57.8,41.4 L58.4,45.2 L58.9,44.7 L59.5,45.8 L60.1,38.8 L60.6,46.7 L61.2,44.6 L61.8,45.6 L62.3,46.8 L62.9,38.2 L63.5,40.0 L64.0,35.0 L64.6,34.5 L65.2,33.2 L65.7,32.1 L66.3,33.3 L66.9,32.2 L67.4,29.4 L68.0,34.6 L68.6,30.6 L69.1,29.9 L69.7,30.3 L70.3,30.4 L70.8,28.4 L71.4,24.5 L72.0,26.0 L72.5,23.7 L73.1,28.0 L73.7,24.3 L77.1,25.4 L82.7,24.9 L88.4,24.3 L94.1,25.4 L99.7,24.4 L105.4,24.7 L111.1,25.1 L116.7,24.8 L122.4,24.3 L128.1,23.9 L133.7,24.6 L139.4,23.4 L145.1,24.6 L150.7,23.6 L156.4,23.4 L162.1,23.1 L167.7,22.7 L173.4,22.4 L179.1,22.7 L184.7,23.0 L190.4,22.9 L196.1,22.4 L201.7,22.1 L207.4,22.0 L213.0,22.1 L218.7,22.4 L224.4,22.0 L230.0,21.7 L235.7,22.0 L241.4,21.5 L247.0,21.6 L252.7,21.2 L258.4,21.8 L264.0,21.5 L269.7,21.4 L275.4,21.4 L281.0,21.0 L286.7,21.0 L292.4,21.8 L298.0,20.4 L303.7,21.5 L309.4,21.7 L315.0,21.2 L320.7,21.2 L326.4,21.6 L332.0,21.1 L337.7,20.8 L343.4,21.5 L349.0,21.5 L354.7,21.3 L360.4,20.9 L366.0,21.4 L371.7,21.4 L377.4,21.7 L383.0,20.9 L388.7,21.1 L394.3,20.6 L400.0,20.9 L405.7,21.1 L411.3,20.4 L417.0,21.0 L422.7,21.4 L428.3,20.9 L434.0,20.7 L439.7,20.5 L445.3,20.2 L451.0,20.8 L456.7,20.8 L462.3,20.9 L468.0,21.2 L473.7,20.0 L479.3,20.6 L485.0,21.1 L490.7,21.3 L496.3,21.1 L502.0,20.8 L507.7,20.9 L513.3,21.5 L519.0,20.4 L524.7,21.0 L530.3,20.6 L536.0,21.1 L541.7,20.8 L547.3,20.9 L553.0,20.3 L558.6,20.2 L564.3,19.7 L570.0,19.6 L575.6,19.6 L581.3,18.8 L587.0,19.6 L592.6,18.6 L598.3,20.2 L604.0,19.9 L609.6,18.7 L609.6,29.7 L604.0,30.5 L598.3,31.2 L592.6,29.5 L587.0,30.5 L581.3,30.0 L575.6,30.5 L570.0,30.7 L564.3,30.8 L558.6,31.1 L553.0,31.0 L547.3,31.7 L541.7,31.4 L536.0,31.8 L530.3,31.4 L524.7,31.7 L519.0,31.3 L513.3,32.3 L507.7,31.7 L502.0,31.8 L496.3,32.0 L490.7,32.2 L485.0,32.1 L479.3,31.4 L473.7,30.9 L468.0,32.2 L462.3,31.8 L456.7,31.6 L451.0,31.8 L445.3,31.3 L439.7,31.4 L434.0,31.7 L428.3,31.9 L422.7,32.5 L417.0,32.0 L411.3,31.6 L405.7,32.0 L400.0,32.0 L394.3,31.9 L388.7,32.0 L383.0,31.8 L377.4,32.9 L371.7,32.5 L366.0,32.6 L360.4,32.1 L354.7,32.5 L349.0,32.7 L343.4,32.8 L337.7,32.2 L332.0,32.4 L326.4,32.8 L320.7,32.5 L315.0,32.6 L309.4,32.8 L303.7,32.9 L298.0,31.9 L292.4,33.0 L286.7,32.6 L281.0,32.4 L275.4,32.7 L269.7,32.9 L264.0,32.9 L258.4,33.3 L252.7,32.6 L247.0,33.1 L241.4,33.2 L235.7,33.5 L230.0,33.4 L224.4,33.6 L218.7,34.0 L213.0,33.7 L207.4,33.8 L201.7,33.7 L196.1,34.0 L190.4,34.6 L184.7,34.4 L179.1,34.4 L173.4,34.1 L167.7,34.4 L162.1,35.0 L156.4,34.8 L150.7,35.5 L145.1,36.2 L139.4,35.1 L133.7,36.3 L128.1,35.7 L122.4,36.1 L116.7,36.5 L111.1,36.9 L105.4,36.6 L99.7,36.4 L94.1,37.4 L88.4,36.9 L82.7,37.4 L77.1,37.7 L73.7,36.9 L73.1,39.7 L72.5,37.2 L72.0,37.6 L71.4,37.4 L70.8,39.5 L70.3,44.7 L69.7,42.9 L69.1,42.4 L68.6,44.0 L68.0,46.9 L67.4,43.1 L66.9,44.6 L66.3,46.8 L65.7,46.0 L65.2,49.9 L64.6,48.9 L64.0,50.7 L63.5,58.0 L62.9,56.7 L62.3,65.8 L61.8,66.5 L61.2,64.2 L60.6,67.5 L60.1,58.4 L59.5,66.8 L58.9,66.1 L58.4,65.9 L57.8,63.8 L57.2,71.0 L56.7,62.2 L56.1,73.1 L55.5,81.7 L55.0,75.9 L54.4,70.6 L53.8,79.8 L53.3,80.8 L52.7,77.2 L52.1,92.1 L51.6,92.8 L51.0,91.3 L50.4,97.0 L49.9,86.2 L49.3,101.6 L48.7,108.8 L48.2,108.6 L47.6,113.7 L47.0,113.7 L46.5,125.9 L45.9,138.1 L45.3,145.5 L44.8,146.0 L44.2,146.0 L43.6,146.0 L43.1,146.0 L42.5,146.0 L41.9,146.0 L41.4,146.0 L40.8,146.0 L40.2,146.0 L39.7,146.0 L39.1,146.0 L38.5,146.0 L38.0,146.0 L37.4,146.0 L36.8,146.0 L36.3,146.0Z"/>
-          <path class="trace-band trace-alt" d="M36.3,146.0 L36.8,146.0 L37.4,146.0 L38.0,146.0 L38.5,146.0 L39.1,146.0 L39.7,146.0 L40.2,146.0 L40.8,146.0 L41.4,146.0 L41.9,145.9 L42.5,145.8 L43.1,145.6 L43.6,145.1 L44.2,144.9 L44.8,144.5 L45.3,144.1 L45.9,143.7 L46.5,143.0 L47.0,142.2 L47.6,141.5 L48.2,141.2 L48.7,140.6 L49.3,140.0 L49.9,138.4 L50.4,138.6 L51.0,136.5 L51.6,136.4 L52.1,134.2 L52.7,134.3 L53.3,132.1 L53.8,130.5 L54.4,130.4 L55.0,129.7 L55.5,129.3 L56.1,126.5 L56.7,128.1 L57.2,129.0 L57.8,124.9 L58.4,127.5 L58.9,125.5 L59.5,124.3 L60.1,125.7 L60.6,126.5 L61.2,124.7 L61.8,126.0 L62.3,123.5 L62.9,123.7 L63.5,122.8 L64.0,123.9 L64.6,124.6 L65.2,122.4 L65.7,125.9 L66.3,122.6 L66.9,122.0 L67.4,122.5 L68.0,121.9 L68.6,123.8 L69.1,121.0 L69.7,124.6 L70.3,122.0 L70.8,120.4 L71.4,121.7 L72.0,122.1 L72.5,120.4 L73.1,119.6 L73.7,120.6 L77.1,119.6 L82.7,117.7 L88.4,116.9 L94.1,115.2 L99.7,114.3 L105.4,113.4 L111.1,112.5 L116.7,111.5 L122.4,110.6 L128.1,109.9 L133.7,110.2 L139.4,108.8 L145.1,108.3 L150.7,108.1 L156.4,107.2 L162.1,106.4 L167.7,105.7 L173.4,105.1 L179.1,104.9 L184.7,104.3 L190.4,104.0 L196.1,103.4 L201.7,102.8 L207.4,102.6 L213.0,102.1 L218.7,102.1 L224.4,101.6 L230.0,100.5 L235.7,100.4 L241.4,100.1 L247.0,100.0 L252.7,99.5 L258.4,99.3 L264.0,98.3 L269.7,98.4 L275.4,98.3 L281.0,97.1 L286.7,97.4 L292.4,96.8 L298.0,96.6 L303.7,96.5 L309.4,96.5 L315.0,95.8 L320.7,95.1 L326.4,95.2 L332.0,94.8 L337.7,95.3 L343.4,93.8 L349.0,93.9 L354.7,94.2 L360.4,93.2 L366.0,93.1 L371.7,92.7 L377.4,91.9 L383.0,92.9 L388.7,92.6 L394.3,91.3 L400.0,92.0 L405.7,91.6 L411.3,92.0 L417.0,90.7 L422.7,91.0 L428.3,91.1 L434.0,90.4 L439.7,90.4 L445.3,91.0 L451.0,90.8 L456.7,89.5 L462.3,89.7 L468.0,88.9 L473.7,89.7 L479.3,88.1 L485.0,88.8 L490.7,88.3 L496.3,87.7 L502.0,88.0 L507.7,87.9 L513.3,89.2 L519.0,88.0 L524.7,87.4 L530.3,86.7 L536.0,86.9 L541.7,87.3 L547.3,86.2 L553.0,86.4 L558.6,85.8 L564.3,86.5 L570.0,84.7 L575.6,87.1 L581.3,85.6 L587.0,84.9 L592.6,86.0 L598.3,84.8 L604.0,84.1 L609.6,84.4 L609.6,96.2 L604.0,96.0 L598.3,96.2 L592.6,97.7 L587.0,96.6 L581.3,97.2 L575.6,98.9 L570.0,96.3 L564.3,98.0 L558.6,97.3 L553.0,97.9 L547.3,97.6 L541.7,98.9 L536.0,98.2 L530.3,98.1 L524.7,98.7 L519.0,99.4 L513.3,100.6 L507.7,99.2 L502.0,99.2 L496.3,98.9 L490.7,99.4 L485.0,99.9 L479.3,99.2 L473.7,100.6 L468.0,99.8 L462.3,100.5 L456.7,100.5 L451.0,101.6 L445.3,101.7 L439.7,101.2 L434.0,101.1 L428.3,101.8 L422.7,101.6 L417.0,101.2 L411.3,102.7 L405.7,102.2 L400.0,102.5 L394.3,101.7 L388.7,103.0 L383.0,103.3 L377.4,102.2 L371.7,102.9 L366.0,103.5 L360.4,103.3 L354.7,104.4 L349.0,103.9 L343.4,103.8 L337.7,105.3 L332.0,104.7 L326.4,105.1 L320.7,104.9 L315.0,105.5 L309.4,106.2 L303.7,106.2 L298.0,106.1 L292.4,106.4 L286.7,107.0 L281.0,106.8 L275.4,107.7 L269.7,107.7 L264.0,107.5 L258.4,108.4 L252.7,108.5 L247.0,108.9 L241.4,109.1 L235.7,109.4 L230.0,109.4 L224.4,110.4 L218.7,110.9 L213.0,110.9 L207.4,111.3 L201.7,111.5 L196.1,111.9 L190.4,112.3 L184.7,112.3 L179.1,112.9 L173.4,113.0 L167.7,113.5 L162.1,114.1 L156.4,115.0 L150.7,116.2 L145.1,116.5 L139.4,116.7 L133.7,117.9 L128.1,117.7 L122.4,118.3 L116.7,119.1 L111.1,119.9 L105.4,120.6 L99.7,121.2 L94.1,121.8 L88.4,123.4 L82.7,124.1 L77.1,125.9 L73.7,127.0 L73.1,125.5 L72.5,127.7 L72.0,127.6 L71.4,128.3 L70.8,126.8 L70.3,127.9 L69.7,130.5 L69.1,127.3 L68.6,129.6 L68.0,127.5 L67.4,129.2 L66.9,127.8 L66.3,128.6 L65.7,131.2 L65.2,128.2 L64.6,130.1 L64.0,129.2 L63.5,129.1 L62.9,129.3 L62.3,129.3 L61.8,131.0 L61.2,130.3 L60.6,131.4 L60.1,130.7 L59.5,130.1 L58.9,130.5 L58.4,132.3 L57.8,129.9 L57.2,133.6 L56.7,132.4 L56.1,131.6 L55.5,133.4 L55.0,133.9 L54.4,134.2 L53.8,134.6 L53.3,135.5 L52.7,137.2 L52.1,137.3 L51.6,139.0 L51.0,139.0 L50.4,140.4 L49.9,140.5 L49.3,141.6 L48.7,142.0 L48.2,142.5 L47.6,142.7 L47.0,143.3 L46.5,143.8 L45.9,144.3 L45.3,144.7 L44.8,145.1 L44.2,145.3 L43.6,145.4 L43.1,145.8 L42.5,145.9 L41.9,146.0 L41.4,146.0 L40.8,146.0 L40.2,146.0 L39.7,146.0 L39.1,146.0 L38.5,146.0 L38.0,146.0 L37.4,146.0 L36.8,146.0 L36.3,146.0Z"/>
-          <path class="trace-band trace-alt" d="M36.3,145.9 L36.8,145.9 L37.4,145.9 L38.0,145.9 L38.5,145.9 L39.1,145.9 L39.7,145.9 L40.2,145.9 L40.8,145.9 L41.4,145.9 L41.9,145.9 L42.5,145.9 L43.1,145.9 L43.6,145.8 L44.2,144.9 L44.8,119.8 L45.3,116.2 L45.9,116.8 L46.5,114.8 L47.0,120.9 L47.6,125.6 L48.2,118.2 L48.7,132.0 L49.3,113.8 L49.9,104.4 L50.4,120.4 L51.0,113.5 L51.6,120.2 L52.1,113.1 L52.7,113.2 L53.3,118.5 L53.8,114.1 L54.4,121.3 L55.0,115.3 L55.5,119.2 L56.1,111.3 L56.7,118.8 L57.2,108.4 L57.8,116.1 L58.4,101.7 L58.9,111.8 L59.5,101.3 L60.1,104.3 L60.6,97.4 L61.2,103.2 L61.8,93.3 L62.3,94.5 L62.9,96.9 L63.5,91.9 L64.0,94.9 L64.6,93.7 L65.2,93.1 L65.7,94.4 L66.3,92.2 L66.9,93.8 L67.4,96.2 L68.0,91.9 L68.6,95.9 L69.1,90.7 L69.7,95.0 L70.3,90.5 L70.8,93.4 L71.4,92.0 L72.0,93.8 L72.5,96.7 L73.1,92.3 L73.7,97.1 L77.1,93.4 L82.7,93.2 L88.4,92.4 L94.1,91.9 L99.7,92.2 L105.4,92.2 L111.1,91.8 L116.7,92.5 L122.4,92.2 L128.1,91.9 L133.7,92.6 L139.4,92.1 L145.1,92.6 L150.7,91.5 L156.4,92.7 L162.1,92.7 L167.7,91.8 L173.4,90.8 L179.1,90.6 L184.7,91.5 L190.4,90.6 L196.1,90.6 L201.7,91.4 L207.4,90.1 L213.0,91.0 L218.7,91.6 L224.4,91.6 L230.0,90.6 L235.7,90.6 L241.4,90.9 L247.0,90.7 L252.7,89.9 L258.4,91.3 L264.0,91.3 L269.7,91.5 L275.4,90.5 L281.0,90.8 L286.7,92.1 L292.4,91.5 L298.0,91.4 L303.7,91.8 L309.4,91.1 L315.0,92.1 L320.7,91.8 L326.4,90.8 L332.0,91.5 L337.7,92.2 L343.4,91.6 L349.0,90.9 L354.7,91.0 L360.4,91.7 L366.0,91.7 L371.7,92.1 L377.4,91.2 L383.0,91.9 L388.7,90.9 L394.3,92.1 L400.0,90.7 L405.7,91.9 L411.3,92.0 L417.0,92.5 L422.7,92.1 L428.3,91.6 L434.0,92.4 L439.7,92.2 L445.3,91.7 L451.0,91.7 L456.7,92.0 L462.3,92.2 L468.0,91.7 L473.7,92.0 L479.3,93.6 L485.0,92.4 L490.7,91.2 L496.3,92.0 L502.0,91.6 L507.7,92.9 L513.3,91.6 L519.0,92.9 L524.7,92.9 L530.3,92.7 L536.0,92.9 L541.7,92.5 L547.3,93.1 L553.0,92.2 L558.6,92.9 L564.3,91.8 L570.0,93.3 L575.6,92.4 L581.3,92.6 L587.0,93.2 L592.6,92.7 L598.3,92.6 L604.0,93.1 L609.6,93.2 L609.6,104.8 L604.0,104.6 L598.3,104.1 L592.6,104.1 L587.0,104.6 L581.3,104.2 L575.6,103.9 L570.0,104.8 L564.3,103.3 L558.6,104.3 L553.0,103.6 L547.3,104.6 L541.7,104.0 L536.0,104.4 L530.3,104.0 L524.7,104.5 L519.0,104.6 L513.3,103.3 L507.7,104.4 L502.0,103.1 L496.3,103.4 L490.7,102.8 L485.0,103.8 L479.3,105.1 L473.7,103.4 L468.0,103.4 L462.3,103.8 L456.7,103.2 L451.0,103.4 L445.3,103.4 L439.7,103.8 L434.0,104.0 L428.3,103.4 L422.7,103.8 L417.0,104.0 L411.3,103.6 L405.7,103.4 L400.0,102.4 L394.3,104.0 L388.7,102.4 L383.0,103.8 L377.4,102.7 L371.7,103.7 L366.0,103.5 L360.4,103.2 L354.7,102.6 L349.0,102.7 L343.4,103.4 L337.7,103.9 L332.0,103.4 L326.4,102.4 L320.7,103.7 L315.0,104.0 L309.4,103.0 L303.7,103.6 L298.0,103.6 L292.4,103.6 L286.7,103.6 L281.0,102.9 L275.4,102.5 L269.7,103.4 L264.0,103.2 L258.4,103.4 L252.7,101.9 L247.0,102.7 L241.4,102.7 L235.7,102.8 L230.0,102.6 L224.4,103.5 L218.7,103.7 L213.0,103.0 L207.4,101.9 L201.7,103.5 L196.1,102.6 L190.4,102.8 L184.7,103.8 L179.1,102.6 L173.4,102.9 L167.7,103.2 L162.1,104.2 L156.4,104.2 L150.7,102.9 L145.1,104.1 L139.4,103.5 L133.7,104.1 L128.1,103.6 L122.4,103.8 L116.7,104.3 L111.1,103.7 L105.4,104.2 L99.7,104.3 L94.1,104.1 L88.4,104.8 L82.7,105.8 L77.1,106.0 L73.7,109.4 L73.1,103.9 L72.5,110.2 L72.0,106.5 L71.4,104.5 L70.8,107.3 L70.3,103.2 L69.7,107.7 L69.1,104.7 L68.6,109.1 L68.0,104.6 L67.4,109.2 L66.9,106.7 L66.3,105.8 L65.7,108.2 L65.2,107.1 L64.6,108.0 L64.0,108.1 L63.5,106.2 L62.9,110.8 L62.3,107.8 L61.8,107.4 L61.2,117.7 L60.6,110.8 L60.1,116.7 L59.5,113.1 L58.9,122.3 L58.4,114.9 L57.8,125.6 L57.2,120.8 L56.7,128.3 L56.1,123.9 L55.5,131.7 L55.0,129.0 L54.4,134.3 L53.8,130.3 L53.3,133.1 L52.7,131.1 L52.1,130.8 L51.6,136.2 L51.0,131.3 L50.4,136.7 L49.9,126.4 L49.3,136.2 L48.7,143.2 L48.2,138.0 L47.6,143.1 L47.0,139.0 L46.5,139.6 L45.9,138.0 L45.3,137.6 L44.8,137.8 L44.2,145.7 L43.6,145.9 L43.1,146.0 L42.5,146.0 L41.9,146.0 L41.4,146.0 L40.8,146.0 L40.2,146.0 L39.7,146.0 L39.1,146.0 L38.5,146.0 L38.0,146.0 L37.4,146.0 L36.8,146.0 L36.3,146.0Z"/>
-          <path class="trace-path trace-soft" pathLength="1" d="M36.3,146.0 L36.8,146.0 L37.4,146.0 L38.0,146.0 L38.5,146.0 L39.1,146.0 L39.7,146.0 L40.2,146.0 L40.8,146.0 L41.4,146.0 L41.9,146.0 L42.5,146.0 L43.1,146.0 L43.6,146.0 L44.2,146.0 L44.8,145.8 L45.3,145.2 L45.9,143.5 L46.5,139.3 L47.0,133.6 L47.6,126.4 L48.2,115.2 L48.7,108.1 L49.3,101.4 L49.9,88.6 L50.4,88.0 L51.0,82.2 L51.6,74.4 L52.1,75.3 L52.7,68.6 L53.3,69.9 L53.8,68.0 L54.4,62.0 L55.0,63.1 L55.5,61.4 L56.1,62.7 L56.7,62.8 L57.2,61.6 L57.8,63.8 L58.4,58.7 L58.9,63.8 L59.5,59.9 L60.1,60.2 L60.6,60.9 L61.2,64.6 L61.8,60.9 L62.3,59.2 L62.9,63.3 L63.5,60.5 L64.0,62.1 L64.6,61.7 L65.2,60.4 L65.7,62.1 L66.3,57.6 L66.9,64.1 L67.4,61.9 L68.0,58.9 L68.6,64.4 L69.1,57.5 L69.7,61.6 L70.3,60.6 L70.8,61.9 L71.4,63.1 L72.0,57.2 L72.5,60.2 L73.1,61.1 L73.7,61.2 L77.1,61.0 L82.7,58.8 L88.4,59.8 L94.1,58.3 L99.7,59.1 L105.4,58.8 L111.1,57.4 L116.7,57.3 L122.4,57.6 L128.1,56.5 L133.7,56.1 L139.4,56.2 L145.1,55.0 L150.7,55.4 L156.4,55.8 L162.1,54.1 L167.7,55.6 L173.4,54.5 L179.1,54.7 L184.7,53.3 L190.4,54.2 L196.1,54.5 L201.7,55.5 L207.4,53.4 L213.0,54.3 L218.7,54.9 L224.4,52.5 L230.0,53.7 L235.7,53.1 L241.4,53.1 L247.0,53.3 L252.7,52.1 L258.4,52.8 L264.0,55.2 L269.7,52.2 L275.4,53.4 L281.0,51.6 L286.7,53.9 L292.4,51.5 L298.0,52.4 L303.7,51.6 L309.4,52.2 L315.0,52.2 L320.7,51.7 L326.4,52.8 L332.0,52.3 L337.7,51.1 L343.4,53.1 L349.0,52.2 L354.7,53.1 L360.4,51.9 L366.0,51.3 L371.7,51.5 L377.4,51.1 L383.0,53.6 L388.7,52.0 L394.3,51.3 L400.0,51.3 L405.7,51.7 L411.3,51.2 L417.0,51.9 L422.7,51.5 L428.3,50.1 L434.0,50.6 L439.7,50.9 L445.3,51.1 L451.0,52.3 L456.7,53.0 L462.3,51.4 L468.0,51.9 L473.7,52.1 L479.3,50.3 L485.0,50.9 L490.7,50.7 L496.3,51.6 L502.0,51.5 L507.7,50.8 L513.3,52.5 L519.0,50.5 L524.7,51.6 L530.3,51.2 L536.0,51.2 L541.7,50.3 L547.3,53.5 L553.0,51.9 L558.6,51.2 L564.3,50.6 L570.0,50.2 L575.6,51.2 L581.3,51.1 L587.0,49.8 L592.6,51.4 L598.3,51.7 L604.0,51.7 L609.6,52.1"/>
-          <path class="trace-path" pathLength="1" d="M36.3,146.0 L36.8,146.0 L37.4,146.0 L38.0,146.0 L38.5,146.0 L39.1,146.0 L39.7,146.0 L40.2,146.0 L40.8,146.0 L41.4,146.0 L41.9,146.0 L42.5,146.0 L43.1,146.0 L43.6,146.0 L44.2,146.0 L44.8,145.9 L45.3,145.1 L45.9,135.6 L46.5,121.2 L47.0,106.9 L47.6,105.4 L48.2,98.8 L48.7,98.8 L49.3,89.9 L49.9,73.0 L50.4,82.9 L51.0,79.1 L51.6,80.1 L52.1,78.0 L52.7,63.2 L53.3,66.9 L53.8,66.9 L54.4,57.8 L55.0,62.2 L55.5,66.8 L56.1,59.9 L56.7,48.1 L57.2,57.2 L57.8,52.6 L58.4,55.6 L58.9,55.4 L59.5,56.3 L60.1,48.6 L60.6,57.1 L61.2,54.4 L61.8,56.1 L62.3,56.3 L62.9,47.5 L63.5,49.0 L64.0,42.8 L64.6,41.7 L65.2,41.5 L65.7,39.0 L66.3,40.0 L66.9,38.4 L67.4,36.3 L68.0,40.8 L68.6,37.3 L69.1,36.2 L69.7,36.6 L70.3,37.5 L70.8,34.0 L71.4,30.9 L72.0,31.8 L72.5,30.4 L73.1,33.9 L73.7,30.6 L77.1,31.5 L82.7,31.2 L88.4,30.6 L94.1,31.4 L99.7,30.4 L105.4,30.7 L111.1,31.0 L116.7,30.6 L122.4,30.2 L128.1,29.8 L133.7,30.5 L139.4,29.3 L145.1,30.4 L150.7,29.5 L156.4,29.1 L162.1,29.1 L167.7,28.5 L173.4,28.3 L179.1,28.6 L184.7,28.7 L190.4,28.8 L196.1,28.2 L201.7,27.9 L207.4,27.9 L213.0,27.9 L218.7,28.2 L224.4,27.8 L230.0,27.5 L235.7,27.7 L241.4,27.3 L247.0,27.3 L252.7,26.9 L258.4,27.6 L264.0,27.2 L269.7,27.2 L275.4,27.1 L281.0,26.7 L286.7,26.8 L292.4,27.4 L298.0,26.1 L303.7,27.2 L309.4,27.2 L315.0,26.9 L320.7,26.9 L326.4,27.2 L332.0,26.7 L337.7,26.5 L343.4,27.1 L349.0,27.1 L354.7,26.9 L360.4,26.5 L366.0,27.0 L371.7,27.0 L377.4,27.3 L383.0,26.4 L388.7,26.6 L394.3,26.3 L400.0,26.5 L405.7,26.5 L411.3,26.0 L417.0,26.5 L422.7,26.9 L428.3,26.4 L434.0,26.2 L439.7,25.9 L445.3,25.7 L451.0,26.3 L456.7,26.2 L462.3,26.3 L468.0,26.7 L473.7,25.5 L479.3,26.0 L485.0,26.6 L490.7,26.8 L496.3,26.5 L502.0,26.3 L507.7,26.3 L513.3,26.9 L519.0,25.9 L524.7,26.4 L530.3,26.0 L536.0,26.4 L541.7,26.1 L547.3,26.3 L553.0,25.6 L558.6,25.7 L564.3,25.2 L570.0,25.1 L575.6,25.1 L581.3,24.4 L587.0,25.0 L592.6,24.1 L598.3,25.7 L604.0,25.2 L609.6,24.2"/>
-          <path class="trace-path trace-alt trace-soft" pathLength="1" d="M36.3,146.0 L36.8,146.0 L37.4,146.0 L38.0,146.0 L38.5,146.0 L39.1,146.0 L39.7,146.0 L40.2,146.0 L40.8,146.0 L41.4,146.0 L41.9,146.0 L42.5,145.9 L43.1,145.7 L43.6,145.3 L44.2,145.1 L44.8,144.8 L45.3,144.4 L45.9,144.0 L46.5,143.4 L47.0,142.7 L47.6,142.1 L48.2,141.9 L48.7,141.3 L49.3,140.8 L49.9,139.4 L50.4,139.5 L51.0,137.8 L51.6,137.7 L52.1,135.8 L52.7,135.7 L53.3,133.8 L53.8,132.6 L54.4,132.3 L55.0,131.8 L55.5,131.3 L56.1,129.0 L56.7,130.2 L57.2,131.3 L57.8,127.4 L58.4,129.9 L58.9,128.0 L59.5,127.2 L60.1,128.2 L60.6,128.9 L61.2,127.5 L61.8,128.5 L62.3,126.4 L62.9,126.5 L63.5,126.0 L64.0,126.6 L64.6,127.3 L65.2,125.3 L65.7,128.5 L66.3,125.6 L66.9,124.9 L67.4,125.8 L68.0,124.7 L68.6,126.7 L69.1,124.1 L69.7,127.5 L70.3,125.0 L70.8,123.6 L71.4,125.0 L72.0,124.9 L72.5,124.0 L73.1,122.6 L73.7,123.8 L77.1,122.7 L82.7,120.9 L88.4,120.1 L94.1,118.5 L99.7,117.7 L105.4,117.0 L111.1,116.2 L116.7,115.3 L122.4,114.4 L128.1,113.8 L133.7,114.0 L139.4,112.8 L145.1,112.4 L150.7,112.2 L156.4,111.1 L162.1,110.2 L167.7,109.6 L173.4,109.1 L179.1,108.9 L184.7,108.3 L190.4,108.2 L196.1,107.7 L201.7,107.2 L207.4,107.0 L213.0,106.5 L218.7,106.5 L224.4,106.0 L230.0,105.0 L235.7,104.9 L241.4,104.6 L247.0,104.4 L252.7,104.0 L258.4,103.9 L264.0,102.9 L269.7,103.1 L275.4,103.0 L281.0,102.0 L286.7,102.2 L292.4,101.6 L298.0,101.4 L303.7,101.3 L309.4,101.4 L315.0,100.6 L320.7,100.0 L326.4,100.2 L332.0,99.7 L337.7,100.3 L343.4,98.8 L349.0,98.9 L354.7,99.3 L360.4,98.2 L366.0,98.3 L371.7,97.8 L377.4,97.0 L383.0,98.1 L388.7,97.8 L394.3,96.5 L400.0,97.2 L405.7,96.9 L411.3,97.4 L417.0,95.9 L422.7,96.3 L428.3,96.4 L434.0,95.8 L439.7,95.8 L445.3,96.3 L451.0,96.2 L456.7,95.0 L462.3,95.1 L468.0,94.4 L473.7,95.2 L479.3,93.6 L485.0,94.3 L490.7,93.8 L496.3,93.3 L502.0,93.6 L507.7,93.5 L513.3,94.9 L519.0,93.7 L524.7,93.1 L530.3,92.4 L536.0,92.6 L541.7,93.1 L547.3,91.9 L553.0,92.1 L558.6,91.6 L564.3,92.3 L570.0,90.5 L575.6,93.0 L581.3,91.4 L587.0,90.7 L592.6,91.8 L598.3,90.5 L604.0,90.0 L609.6,90.3"/>
-          <path class="trace-path trace-alt" pathLength="1" d="M36.3,145.9 L36.8,145.9 L37.4,145.9 L38.0,145.9 L38.5,145.9 L39.1,146.0 L39.7,145.9 L40.2,145.9 L40.8,145.9 L41.4,145.9 L41.9,145.9 L42.5,146.0 L43.1,145.9 L43.6,145.8 L44.2,145.3 L44.8,128.8 L45.3,126.9 L45.9,127.4 L46.5,127.2 L47.0,129.9 L47.6,134.4 L48.2,128.1 L48.7,137.6 L49.3,125.0 L49.9,115.4 L50.4,128.5 L51.0,122.4 L51.6,128.2 L52.1,121.9 L52.7,122.2 L53.3,125.8 L53.8,122.2 L54.4,127.8 L55.0,122.2 L55.5,125.5 L56.1,117.6 L56.7,123.5 L57.2,114.6 L57.8,120.9 L58.4,108.3 L58.9,117.1 L59.5,107.2 L60.1,110.5 L60.6,104.1 L61.2,110.5 L61.8,100.4 L62.3,101.2 L62.9,103.9 L63.5,99.1 L64.0,101.5 L64.6,100.9 L65.2,100.1 L65.7,101.3 L66.3,99.0 L66.9,100.2 L67.4,102.7 L68.0,98.3 L68.6,102.5 L69.1,97.7 L69.7,101.3 L70.3,96.8 L70.8,100.3 L71.4,98.2 L72.0,100.2 L72.5,103.4 L73.1,98.1 L73.7,103.3 L77.1,99.7 L82.7,99.5 L88.4,98.6 L94.1,98.0 L99.7,98.2 L105.4,98.2 L111.1,97.8 L116.7,98.4 L122.4,98.0 L128.1,97.8 L133.7,98.4 L139.4,97.8 L145.1,98.4 L150.7,97.2 L156.4,98.5 L162.1,98.4 L167.7,97.5 L173.4,96.9 L179.1,96.6 L184.7,97.7 L190.4,96.7 L196.1,96.6 L201.7,97.5 L207.4,96.0 L213.0,97.0 L218.7,97.7 L224.4,97.5 L230.0,96.6 L235.7,96.7 L241.4,96.8 L247.0,96.7 L252.7,95.9 L258.4,97.4 L264.0,97.3 L269.7,97.5 L275.4,96.5 L281.0,96.8 L286.7,97.9 L292.4,97.5 L298.0,97.5 L303.7,97.7 L309.4,97.1 L315.0,98.1 L320.7,97.8 L326.4,96.6 L332.0,97.4 L337.7,98.1 L343.4,97.5 L349.0,96.8 L354.7,96.8 L360.4,97.4 L366.0,97.6 L371.7,97.9 L377.4,96.9 L383.0,97.9 L388.7,96.7 L394.3,98.1 L400.0,96.5 L405.7,97.7 L411.3,97.8 L417.0,98.2 L422.7,98.0 L428.3,97.5 L434.0,98.2 L439.7,98.0 L445.3,97.5 L451.0,97.5 L456.7,97.6 L462.3,98.0 L468.0,97.5 L473.7,97.7 L479.3,99.4 L485.0,98.1 L490.7,97.0 L496.3,97.7 L502.0,97.4 L507.7,98.7 L513.3,97.5 L519.0,98.8 L524.7,98.7 L530.3,98.4 L536.0,98.6 L541.7,98.3 L547.3,98.8 L553.0,97.9 L558.6,98.6 L564.3,97.6 L570.0,99.1 L575.6,98.2 L581.3,98.4 L587.0,98.9 L592.6,98.4 L598.3,98.4 L604.0,98.9 L609.6,99.0"/>
-          <text class="trace-label trace-key" x="309.8" y="14.5">Bulk 120 &#176;C</text>
-          <text class="trace-label trace-key" x="309.8" y="71.8">Bulk 100 &#176;C</text>
-          <text class="trace-label trace-key trace-alt" x="85.1" y="84.8">Vapor 120 &#176;C</text>
-          <text class="trace-label trace-key trace-alt" x="234.3" y="121.3">Vapor 100 &#176;C</text>
-        </svg>
-        <svg class="trace-narrow" viewBox="0 0 340 200" role="img" aria-label="Conductivity of doped PCBM films recorded while annealing for 3000 seconds, bulk-doped and vapor-doped, at 100 and 120 degrees C. Bulk-doped films settle near 4.6 and 3.6 S/cm, vapor-doped films near 2 S/cm.">
-          <line class="trace-axis" x1="24" y1="176" x2="334" y2="176"></line>
-          <line class="trace-grid" x1="24" y1="113.4" x2="334" y2="113.4"></line>
-          <line class="trace-grid" x1="24" y1="50.7" x2="334" y2="50.7"></line>
-          <text class="trace-label" x="18" y="179" text-anchor="end">0</text>
-          <text class="trace-label" x="18" y="116.4" text-anchor="end">2</text>
-          <text class="trace-label" x="18" y="53.7" text-anchor="end">4</text>
-          <text class="trace-label" x="24" y="193">0</text>
-          <text class="trace-label" x="125.6" y="193" text-anchor="middle">1000</text>
-          <text class="trace-label" x="227.3" y="193" text-anchor="middle">2000</text>
-          <text class="trace-label" x="328.9" y="193" text-anchor="end">3000 s</text>
-          <path class="trace-band" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,176.0 L27.2,176.0 L27.5,176.0 L27.8,176.0 L28.1,176.0 L28.4,175.9 L28.7,175.7 L29.0,174.8 L29.3,172.4 L29.6,166.5 L29.9,158.9 L30.3,149.6 L30.6,134.2 L30.9,123.5 L31.2,115.1 L31.5,97.0 L31.8,97.4 L32.1,88.8 L32.4,78.7 L32.7,79.7 L33.0,69.5 L33.3,73.0 L33.6,68.4 L33.9,62.1 L34.2,62.5 L34.5,60.1 L34.8,62.9 L35.1,61.2 L35.4,63.3 L35.7,64.1 L36.0,58.4 L36.3,64.9 L36.7,59.3 L37.0,60.8 L37.3,60.1 L37.6,66.1 L37.9,61.2 L38.2,58.9 L38.5,63.5 L38.8,60.4 L39.1,62.8 L39.4,61.2 L39.7,61.2 L40.0,61.6 L40.3,56.2 L40.6,65.8 L40.9,61.5 L41.2,59.4 L41.5,64.6 L41.8,56.9 L42.1,61.8 L42.4,60.2 L42.8,62.0 L43.1,63.8 L43.4,55.6 L43.7,59.7 L44.0,61.1 L44.3,61.6 L47.6,59.6 L53.7,58.2 L59.8,57.7 L65.9,55.9 L72.0,56.1 L78.1,54.1 L84.2,52.7 L90.3,52.3 L96.4,52.9 L102.5,51.1 L108.6,51.9 L114.7,51.2 L120.8,52.2 L126.9,50.4 L133.0,50.1 L139.1,49.1 L145.2,49.8 L151.3,50.0 L157.4,49.6 L163.5,48.2 L169.6,48.2 L175.7,48.5 L181.8,49.3 L187.9,48.4 L194.0,48.8 L200.1,48.2 L206.2,47.5 L212.3,49.0 L218.4,47.6 L224.5,47.7 L230.6,48.1 L236.7,46.4 L242.8,47.2 L248.9,49.2 L255.0,47.5 L261.1,48.2 L267.2,46.8 L273.3,47.9 L279.4,47.4 L285.5,47.4 L291.6,47.1 L297.7,49.5 L303.8,47.4 L309.9,46.4 L316.0,47.2 L322.1,46.2 L328.2,47.6 L332.7,48.9 L332.7,77.3 L328.2,77.4 L322.1,75.9 L316.0,76.4 L309.9,75.8 L303.8,76.5 L297.7,79.0 L291.6,76.7 L285.5,76.1 L279.4,76.9 L273.3,76.9 L267.2,76.0 L261.1,77.1 L255.0,77.0 L248.9,78.3 L242.8,76.6 L236.7,75.3 L230.6,77.1 L224.5,76.5 L218.4,76.5 L212.3,78.0 L206.2,76.9 L200.1,77.2 L194.0,78.4 L187.9,77.0 L181.8,78.2 L175.7,77.3 L169.6,77.1 L163.5,76.9 L157.4,78.3 L151.3,78.5 L145.2,78.4 L139.1,77.9 L133.0,78.5 L126.9,78.6 L120.8,80.7 L114.7,79.1 L108.6,79.9 L102.5,79.0 L96.4,80.8 L90.3,80.1 L84.2,80.5 L78.1,81.6 L72.0,82.8 L65.9,82.8 L59.8,84.5 L53.7,84.5 L47.6,85.6 L44.3,86.4 L44.0,86.6 L43.7,85.9 L43.4,82.7 L43.1,88.7 L42.8,87.6 L42.4,86.2 L42.1,87.2 L41.8,82.2 L41.5,91.2 L41.2,83.0 L40.9,88.2 L40.6,89.3 L40.3,83.0 L40.0,88.5 L39.7,84.9 L39.4,88.0 L39.1,87.3 L38.8,86.0 L38.5,89.5 L38.2,84.3 L37.9,86.0 L37.6,90.1 L37.3,87.1 L37.0,84.8 L36.7,85.6 L36.3,89.5 L36.0,83.6 L35.7,90.1 L35.4,85.7 L35.1,90.5 L34.8,88.7 L34.5,88.3 L34.2,89.9 L33.9,87.8 L33.6,96.0 L33.3,95.9 L33.0,96.2 L32.7,102.1 L32.4,101.1 L32.1,109.7 L31.8,115.1 L31.5,117.0 L31.2,129.7 L30.9,137.4 L30.6,143.7 L30.3,155.4 L29.9,163.4 L29.6,169.4 L29.3,173.5 L29.0,175.3 L28.7,175.8 L28.4,176.0 L28.1,176.0 L27.8,176.0 L27.5,176.0 L27.2,176.0 L26.9,176.0 L26.6,176.0 L26.3,176.0 L26.0,176.0 L25.7,176.0 L25.4,176.0 L25.1,176.0 L24.8,176.0 L24.5,176.0 L24.2,176.0Z"/>
-          <path class="trace-band" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,176.0 L27.2,176.0 L27.5,176.0 L27.8,176.0 L28.1,176.0 L28.4,176.0 L28.7,175.8 L29.0,174.4 L29.3,160.4 L29.6,140.6 L29.9,120.6 L30.3,117.2 L30.6,107.4 L30.9,107.0 L31.2,94.4 L31.5,72.3 L31.8,83.1 L32.1,80.8 L32.4,81.4 L32.7,77.3 L33.0,59.5 L33.3,64.2 L33.6,65.5 L33.9,54.5 L34.2,58.7 L34.5,62.8 L34.8,56.5 L35.1,41.2 L35.4,52.7 L35.7,50.1 L36.0,54.8 L36.3,54.2 L36.7,55.5 L37.0,47.1 L37.3,56.6 L37.6,54.0 L37.9,55.2 L38.2,56.6 L38.5,46.4 L38.8,48.5 L39.1,42.4 L39.4,41.9 L39.7,40.3 L40.0,39.0 L40.3,40.5 L40.6,39.1 L40.9,35.8 L41.2,42.1 L41.5,37.2 L41.8,36.4 L42.1,36.8 L42.4,36.9 L42.8,34.6 L43.1,29.8 L43.4,31.6 L43.7,28.8 L44.0,34.1 L44.3,29.6 L47.6,30.6 L53.7,30.4 L59.8,30.0 L65.9,30.5 L72.0,29.3 L78.1,29.3 L84.2,29.1 L90.3,28.4 L96.4,27.4 L102.5,27.9 L108.6,27.8 L114.7,26.9 L120.8,27.0 L126.9,26.6 L133.0,26.6 L139.1,26.1 L145.2,26.3 L151.3,26.1 L157.4,25.7 L163.5,25.5 L169.6,26.3 L175.7,25.9 L181.8,25.8 L187.9,25.7 L194.0,26.1 L200.1,25.7 L206.2,26.5 L212.3,25.8 L218.4,25.3 L224.5,25.5 L230.6,26.1 L236.7,25.2 L242.8,24.9 L248.9,25.4 L255.0,25.8 L261.1,24.8 L267.2,25.8 L273.3,25.4 L279.4,25.5 L285.5,25.1 L291.6,25.4 L297.7,25.5 L303.8,24.8 L309.9,23.9 L316.0,23.5 L322.1,23.4 L328.2,24.7 L332.7,22.9 L332.7,36.1 L328.2,37.7 L322.1,36.4 L316.0,36.8 L309.9,37.3 L303.8,37.7 L297.7,38.4 L291.6,38.3 L285.5,38.0 L279.4,38.5 L273.3,38.5 L267.2,39.0 L261.1,37.9 L255.0,39.0 L248.9,38.5 L242.8,38.0 L236.7,38.5 L230.6,39.4 L224.5,38.9 L218.4,38.6 L212.3,38.9 L206.2,40.0 L200.1,39.2 L194.0,39.6 L187.9,39.3 L181.8,39.4 L175.7,39.5 L169.6,39.9 L163.5,39.3 L157.4,39.4 L151.3,40.0 L145.2,40.0 L139.1,39.8 L133.0,40.5 L126.9,40.5 L120.8,41.0 L114.7,41.0 L108.6,41.8 L102.5,41.9 L96.4,41.6 L90.3,42.4 L84.2,43.2 L78.1,43.4 L72.0,43.5 L65.9,44.6 L59.8,44.4 L53.7,44.9 L47.6,45.4 L44.3,44.8 L44.0,48.2 L43.7,45.2 L43.4,45.6 L43.1,45.4 L42.8,47.9 L42.4,54.1 L42.1,52.0 L41.8,51.4 L41.5,53.3 L41.2,56.7 L40.9,52.2 L40.6,54.1 L40.3,56.6 L40.0,55.7 L39.7,60.4 L39.4,59.2 L39.1,61.3 L38.8,70.2 L38.5,68.6 L38.2,79.5 L37.9,80.4 L37.6,77.6 L37.3,81.5 L37.0,70.6 L36.7,80.8 L36.3,79.9 L36.0,79.7 L35.7,77.1 L35.4,85.7 L35.1,75.2 L34.8,88.3 L34.5,98.7 L34.2,91.7 L33.9,85.3 L33.6,96.3 L33.3,97.6 L33.0,93.3 L32.7,111.1 L32.4,112.0 L32.1,110.2 L31.8,117.0 L31.5,104.1 L31.2,122.5 L30.9,131.3 L30.6,131.0 L30.3,137.1 L29.9,137.2 L29.6,151.8 L29.3,166.5 L29.0,175.4 L28.7,176.0 L28.4,176.0 L28.1,176.0 L27.8,176.0 L27.5,176.0 L27.2,176.0 L26.9,176.0 L26.6,176.0 L26.3,176.0 L26.0,176.0 L25.7,176.0 L25.4,176.0 L25.1,176.0 L24.8,176.0 L24.5,176.0 L24.2,176.0Z"/>
-          <path class="trace-band trace-alt" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,175.9 L27.2,175.9 L27.5,175.8 L27.8,175.5 L28.1,175.0 L28.4,174.6 L28.7,174.2 L29.0,173.7 L29.3,173.2 L29.6,172.4 L29.9,171.4 L30.3,170.6 L30.6,170.2 L30.9,169.5 L31.2,168.8 L31.5,166.8 L31.8,167.1 L32.1,164.6 L32.4,164.4 L32.7,161.8 L33.0,161.9 L33.3,159.2 L33.6,157.4 L33.9,157.2 L34.2,156.4 L34.5,155.9 L34.8,152.6 L35.1,154.4 L35.4,155.5 L35.7,150.6 L36.0,153.7 L36.3,151.4 L36.7,149.9 L37.0,151.6 L37.3,152.5 L37.6,150.4 L37.9,151.9 L38.2,149.0 L38.5,149.1 L38.8,148.1 L39.1,149.5 L39.4,150.2 L39.7,147.6 L40.0,151.9 L40.3,147.9 L40.6,147.1 L40.9,147.7 L41.2,147.0 L41.5,149.3 L41.8,145.9 L42.1,150.2 L42.4,147.2 L42.8,145.3 L43.1,146.7 L43.4,147.3 L43.7,145.2 L44.0,144.3 L44.3,145.4 L47.6,143.4 L53.7,140.1 L59.8,137.4 L65.9,135.3 L72.0,133.2 L78.1,131.8 L84.2,130.6 L90.3,128.7 L96.4,127.2 L102.5,126.1 L108.6,125.2 L114.7,124.1 L120.8,123.2 L126.9,121.9 L133.0,121.1 L139.1,120.4 L145.2,119.1 L151.3,118.7 L157.4,117.4 L163.5,116.6 L169.6,116.4 L175.7,115.2 L181.8,114.8 L187.9,113.9 L194.0,113.4 L200.1,112.4 L206.2,111.6 L212.3,111.9 L218.4,110.5 L224.5,110.5 L230.6,109.8 L236.7,109.5 L242.8,109.3 L248.9,108.6 L255.0,108.0 L261.1,107.4 L267.2,107.0 L273.3,106.2 L279.4,107.2 L285.5,105.5 L291.6,104.8 L297.7,104.1 L303.8,104.2 L309.9,103.1 L316.0,104.0 L322.1,102.9 L328.2,101.8 L332.7,101.9 L332.7,116.0 L328.2,116.0 L322.1,117.0 L316.0,118.1 L309.9,117.0 L303.8,118.0 L297.7,118.0 L291.6,118.6 L285.5,119.1 L279.4,120.9 L273.3,119.7 L267.2,120.4 L261.1,120.7 L255.0,121.0 L248.9,121.6 L242.8,122.3 L236.7,122.4 L230.6,122.5 L224.5,123.4 L218.4,123.1 L212.3,124.4 L206.2,123.9 L200.1,124.7 L194.0,125.6 L187.9,125.8 L181.8,126.6 L175.7,127.0 L169.6,128.1 L163.5,128.1 L157.4,128.9 L151.3,129.9 L145.2,130.2 L139.1,131.2 L133.0,131.8 L126.9,132.5 L120.8,133.8 L114.7,134.5 L108.6,135.4 L102.5,135.8 L96.4,136.7 L90.3,137.9 L84.2,140.4 L78.1,141.1 L72.0,142.4 L65.9,144.3 L59.8,145.9 L53.7,147.9 L47.6,151.0 L44.3,153.1 L44.0,151.3 L43.7,154.0 L43.4,153.9 L43.1,154.7 L42.8,153.0 L42.4,154.2 L42.1,157.3 L41.8,153.5 L41.5,156.3 L41.2,153.7 L40.9,155.8 L40.6,154.1 L40.3,155.0 L40.0,158.1 L39.7,154.6 L39.4,156.9 L39.1,155.9 L38.8,155.7 L38.5,155.9 L38.2,156.0 L37.9,158.0 L37.6,157.1 L37.3,158.4 L37.0,157.6 L36.7,156.9 L36.3,157.3 L36.0,159.5 L35.7,156.6 L35.4,161.1 L35.1,159.7 L34.8,158.7 L34.5,160.9 L34.2,161.5 L33.9,161.8 L33.6,162.3 L33.3,163.4 L33.0,165.4 L32.7,165.6 L32.4,167.6 L32.1,167.6 L31.8,169.2 L31.5,169.4 L31.2,170.7 L30.9,171.2 L30.6,171.8 L30.3,172.0 L29.9,172.7 L29.6,173.3 L29.3,174.0 L29.0,174.4 L28.7,174.9 L28.4,175.1 L28.1,175.3 L27.8,175.7 L27.5,175.9 L27.2,176.0 L26.9,176.0 L26.6,176.0 L26.3,176.0 L26.0,176.0 L25.7,176.0 L25.4,176.0 L25.1,176.0 L24.8,176.0 L24.5,176.0 L24.2,176.0Z"/>
-          <path class="trace-band trace-alt" d="M24.2,175.9 L24.5,175.9 L24.8,175.9 L25.1,175.9 L25.4,175.9 L25.7,175.9 L26.0,175.9 L26.3,175.9 L26.6,175.9 L26.9,175.9 L27.2,175.9 L27.5,175.9 L27.8,175.9 L28.1,175.7 L28.4,174.7 L28.7,144.5 L29.0,140.2 L29.3,140.9 L29.6,138.4 L29.9,145.8 L30.3,151.5 L30.6,142.5 L30.9,159.2 L31.2,137.3 L31.5,126.0 L31.8,145.2 L32.1,136.9 L32.4,144.9 L32.7,136.4 L33.0,136.6 L33.3,142.9 L33.6,137.6 L33.9,146.2 L34.2,139.1 L34.5,143.8 L34.8,134.3 L35.1,143.3 L35.4,130.8 L35.7,140.1 L36.0,122.7 L36.3,134.9 L36.7,122.2 L37.0,125.9 L37.3,117.6 L37.6,124.6 L37.9,112.6 L38.2,114.1 L38.5,116.9 L38.8,111.0 L39.1,114.5 L39.4,113.1 L39.7,112.3 L40.0,114.0 L40.3,111.3 L40.6,113.2 L40.9,116.1 L41.2,111.0 L41.5,115.7 L41.8,109.4 L42.1,114.6 L42.4,109.2 L42.8,112.7 L43.1,111.0 L43.4,113.2 L43.7,116.7 L44.0,111.4 L44.3,117.2 L47.6,112.7 L53.7,111.4 L59.8,111.2 L65.9,111.4 L72.0,111.3 L78.1,111.6 L84.2,111.3 L90.3,111.9 L96.4,110.6 L102.5,109.6 L108.6,109.4 L114.7,109.3 L120.8,110.3 L126.9,110.4 L133.0,109.7 L139.1,109.0 L145.2,110.2 L151.3,110.3 L157.4,110.6 L163.5,110.4 L169.6,110.6 L175.7,110.8 L181.8,109.9 L187.9,110.6 L194.0,109.7 L200.1,110.8 L206.2,110.5 L212.3,110.5 L218.4,110.2 L224.5,111.1 L230.6,111.5 L236.7,111.0 L242.8,110.8 L248.9,110.9 L255.0,111.1 L261.1,111.8 L267.2,111.0 L273.3,110.9 L279.4,111.5 L285.5,112.1 L291.6,111.9 L297.7,112.0 L303.8,111.7 L309.9,111.5 L316.0,111.8 L322.1,112.1 L328.2,112.4 L332.7,112.5 L332.7,126.4 L328.2,126.2 L322.1,125.9 L316.0,125.7 L309.9,125.3 L303.8,125.4 L297.7,125.9 L291.6,125.5 L285.5,126.1 L279.4,125.5 L273.3,124.6 L267.2,124.8 L261.1,125.7 L255.0,125.1 L248.9,124.7 L242.8,124.9 L236.7,125.2 L230.6,125.5 L224.5,124.9 L218.4,124.4 L212.3,124.3 L206.2,124.5 L200.1,124.8 L194.0,123.9 L187.9,124.6 L181.8,124.0 L175.7,125.1 L169.6,124.9 L163.5,125.0 L157.4,124.8 L151.3,124.8 L145.2,124.6 L139.1,123.5 L133.0,123.9 L126.9,124.8 L120.8,124.8 L114.7,123.7 L108.6,123.9 L102.5,124.2 L96.4,124.8 L90.3,125.8 L84.2,125.2 L78.1,125.3 L72.0,125.3 L65.9,125.5 L59.8,125.7 L53.7,126.2 L47.6,127.8 L44.3,132.0 L44.0,125.3 L43.7,132.9 L43.4,128.5 L43.1,126.0 L42.8,129.4 L42.4,124.5 L42.1,129.9 L41.8,126.3 L41.5,131.6 L41.2,126.2 L40.9,131.7 L40.6,128.8 L40.3,127.6 L40.0,130.5 L39.7,129.2 L39.4,130.3 L39.1,130.4 L38.8,128.1 L38.5,133.7 L38.2,130.1 L37.9,129.6 L37.6,142.0 L37.3,133.7 L37.0,140.8 L36.7,136.4 L36.3,147.5 L36.0,138.6 L35.7,151.4 L35.4,145.7 L35.1,154.7 L34.8,149.4 L34.5,158.8 L34.2,155.6 L33.9,161.9 L33.6,157.1 L33.3,160.5 L33.0,158.1 L32.7,157.7 L32.4,164.3 L32.1,158.3 L31.8,164.8 L31.5,152.5 L31.2,164.2 L30.9,172.6 L30.6,166.4 L30.3,172.5 L29.9,167.5 L29.6,168.3 L29.3,166.4 L29.0,165.9 L28.7,166.1 L28.4,175.6 L28.1,175.9 L27.8,176.0 L27.5,176.0 L27.2,176.0 L26.9,176.0 L26.6,176.0 L26.3,176.0 L26.0,176.0 L25.7,176.0 L25.4,176.0 L25.1,176.0 L24.8,176.0 L24.5,176.0 L24.2,176.0Z"/>
-          <path class="trace-path trace-soft" pathLength="1" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,176.0 L27.2,176.0 L27.5,176.0 L27.8,176.0 L28.1,176.0 L28.4,176.0 L28.7,175.8 L29.0,175.1 L29.3,172.9 L29.6,167.9 L29.9,161.1 L30.3,152.5 L30.6,138.9 L30.9,130.5 L31.2,122.4 L31.5,107.0 L31.8,106.2 L32.1,99.3 L32.4,89.9 L32.7,90.9 L33.0,82.9 L33.3,84.5 L33.6,82.2 L33.9,75.0 L34.2,76.2 L34.5,74.2 L34.8,75.8 L35.1,75.9 L35.4,74.5 L35.7,77.1 L36.0,71.0 L36.3,77.2 L36.7,72.5 L37.0,72.8 L37.3,73.6 L37.6,78.1 L37.9,73.6 L38.2,71.6 L38.5,76.5 L38.8,73.2 L39.1,75.1 L39.4,74.6 L39.7,73.0 L40.0,75.0 L40.3,69.6 L40.6,77.5 L40.9,74.8 L41.2,71.2 L41.5,77.9 L41.8,69.5 L42.1,74.5 L42.4,73.2 L42.8,74.8 L43.1,76.3 L43.4,69.1 L43.7,72.8 L44.0,73.8 L44.3,74.0 L47.6,72.6 L53.7,71.3 L59.8,71.1 L65.9,69.3 L72.0,69.5 L78.1,67.9 L84.2,66.6 L90.3,66.2 L96.4,66.8 L102.5,65.0 L108.6,65.9 L114.7,65.2 L120.8,66.5 L126.9,64.5 L133.0,64.3 L139.1,63.5 L145.2,64.1 L151.3,64.2 L157.4,64.0 L163.5,62.5 L169.6,62.7 L175.7,62.9 L181.8,63.8 L187.9,62.7 L194.0,63.6 L200.1,62.7 L206.2,62.2 L212.3,63.5 L218.4,62.1 L224.5,62.1 L230.6,62.6 L236.7,60.9 L242.8,61.9 L248.9,63.8 L255.0,62.3 L261.1,62.7 L267.2,61.4 L273.3,62.4 L279.4,62.1 L285.5,61.7 L291.6,61.9 L297.7,64.2 L303.8,62.0 L309.9,61.1 L316.0,61.8 L322.1,61.1 L328.2,62.5 L332.7,63.1"/>
-          <path class="trace-path" pathLength="1" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,176.0 L27.2,176.0 L27.5,176.0 L27.8,176.0 L28.1,176.0 L28.4,176.0 L28.7,175.9 L29.0,174.9 L29.3,163.5 L29.6,146.2 L29.9,128.9 L30.3,127.1 L30.6,119.2 L30.9,119.2 L31.2,108.5 L31.5,88.2 L31.8,100.1 L32.1,95.5 L32.4,96.7 L32.7,94.2 L33.0,76.4 L33.3,80.9 L33.6,80.9 L33.9,69.9 L34.2,75.2 L34.5,80.7 L34.8,72.4 L35.1,58.2 L35.4,69.2 L35.7,63.6 L36.0,67.2 L36.3,67.0 L36.7,68.1 L37.0,58.8 L37.3,69.0 L37.6,65.8 L37.9,67.8 L38.2,68.1 L38.5,57.5 L38.8,59.4 L39.1,51.9 L39.4,50.5 L39.7,50.3 L40.0,47.3 L40.3,48.5 L40.6,46.6 L40.9,44.0 L41.2,49.4 L41.5,45.3 L41.8,43.9 L42.1,44.4 L42.4,45.5 L42.8,41.3 L43.1,37.6 L43.4,38.6 L43.7,37.0 L44.0,41.1 L44.3,37.2 L47.6,38.0 L53.7,37.6 L59.8,37.2 L65.9,37.5 L72.0,36.4 L78.1,36.4 L84.2,36.2 L90.3,35.4 L96.4,34.5 L102.5,34.9 L108.6,34.8 L114.7,33.9 L120.8,34.0 L126.9,33.5 L133.0,33.6 L139.1,32.9 L145.2,33.2 L151.3,33.0 L157.4,32.5 L163.5,32.4 L169.6,33.1 L175.7,32.7 L181.8,32.6 L187.9,32.5 L194.0,32.9 L200.1,32.4 L206.2,33.2 L212.3,32.3 L218.4,32.0 L224.5,32.2 L230.6,32.7 L236.7,31.9 L242.8,31.4 L248.9,31.9 L255.0,32.4 L261.1,31.3 L267.2,32.4 L273.3,32.0 L279.4,32.0 L285.5,31.5 L291.6,31.9 L297.7,32.0 L303.8,31.2 L309.9,30.6 L316.0,30.2 L322.1,29.9 L328.2,31.2 L332.7,29.5"/>
-          <path class="trace-path trace-alt trace-soft" pathLength="1" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,176.0 L27.2,176.0 L27.5,175.8 L27.8,175.6 L28.1,175.1 L28.4,174.9 L28.7,174.6 L29.0,174.1 L29.3,173.6 L29.6,172.8 L29.9,172.1 L30.3,171.3 L30.6,171.0 L30.9,170.3 L31.2,169.7 L31.5,168.1 L31.8,168.2 L32.1,166.1 L32.4,166.0 L32.7,163.7 L33.0,163.7 L33.3,161.3 L33.6,159.9 L33.9,159.5 L34.2,158.9 L34.5,158.4 L34.8,155.6 L35.1,157.0 L35.4,158.3 L35.7,153.6 L36.0,156.6 L36.3,154.4 L36.7,153.4 L37.0,154.6 L37.3,155.5 L37.6,153.8 L37.9,155.0 L38.2,152.5 L38.5,152.5 L38.8,151.9 L39.1,152.7 L39.4,153.5 L39.7,151.1 L40.0,155.0 L40.3,151.5 L40.6,150.6 L40.9,151.8 L41.2,150.4 L41.5,152.8 L41.8,149.7 L42.1,153.8 L42.4,150.7 L42.8,149.1 L43.1,150.7 L43.4,150.6 L43.7,149.6 L44.0,147.8 L44.3,149.3 L47.6,147.2 L53.7,144.0 L59.8,141.6 L65.9,139.8 L72.0,137.8 L78.1,136.5 L84.2,135.5 L90.3,133.3 L96.4,132.0 L102.5,130.9 L108.6,130.3 L114.7,129.3 L120.8,128.5 L126.9,127.2 L133.0,126.5 L139.1,125.8 L145.2,124.6 L151.3,124.3 L157.4,123.2 L163.5,122.4 L169.6,122.3 L175.7,121.1 L181.8,120.7 L187.9,119.8 L194.0,119.5 L200.1,118.6 L206.2,117.8 L212.3,118.1 L218.4,116.8 L224.5,117.0 L230.6,116.2 L236.7,115.9 L242.8,115.8 L248.9,115.1 L255.0,114.5 L261.1,114.1 L267.2,113.7 L273.3,113.0 L279.4,114.0 L285.5,112.3 L291.6,111.7 L297.7,111.1 L303.8,111.1 L309.9,110.0 L316.0,111.1 L322.1,110.0 L328.2,108.9 L332.7,109.0"/>
-          <path class="trace-path trace-alt" pathLength="1" d="M24.2,175.9 L24.5,175.9 L24.8,175.9 L25.1,175.9 L25.4,175.9 L25.7,175.9 L26.0,175.9 L26.3,175.9 L26.6,175.9 L26.9,175.9 L27.2,175.9 L27.5,175.9 L27.8,175.9 L28.1,175.8 L28.4,175.1 L28.7,155.3 L29.0,153.1 L29.3,153.6 L29.6,153.4 L29.9,156.7 L30.3,162.0 L30.6,154.4 L30.9,165.9 L31.2,150.7 L31.5,139.2 L31.8,155.0 L32.1,147.6 L32.4,154.6 L32.7,147.0 L33.0,147.3 L33.3,151.7 L33.6,147.4 L33.9,154.1 L34.2,147.4 L34.5,151.3 L34.8,141.8 L35.1,149.0 L35.4,138.2 L35.7,145.8 L36.0,130.7 L36.3,141.2 L36.7,129.3 L37.0,133.3 L37.3,125.6 L37.6,133.3 L37.9,121.1 L38.2,122.1 L38.5,125.3 L38.8,119.5 L39.1,122.5 L39.4,121.7 L39.7,120.8 L40.0,122.2 L40.3,119.5 L40.6,121.0 L40.9,123.9 L41.2,118.6 L41.5,123.7 L41.8,117.9 L42.1,122.3 L42.4,116.9 L42.8,121.1 L43.1,118.5 L43.4,120.9 L43.7,124.8 L44.0,118.4 L44.3,124.6 L47.6,120.2 L53.7,118.8 L59.8,118.5 L65.9,118.4 L72.0,118.3 L78.1,118.4 L84.2,118.2 L90.3,118.9 L96.4,117.7 L102.5,116.9 L108.6,116.7 L114.7,116.5 L120.8,117.6 L126.9,117.6 L133.0,116.8 L139.1,116.3 L145.2,117.4 L151.3,117.5 L157.4,117.7 L163.5,117.7 L169.6,117.7 L175.7,118.0 L181.8,116.9 L187.9,117.6 L194.0,116.8 L200.1,117.8 L206.2,117.5 L212.3,117.4 L218.4,117.3 L224.5,118.0 L230.6,118.5 L236.7,118.1 L242.8,117.9 L248.9,117.8 L255.0,118.1 L261.1,118.7 L267.2,117.9 L273.3,117.8 L279.4,118.5 L285.5,119.1 L291.6,118.7 L297.7,119.0 L303.8,118.6 L309.9,118.4 L316.0,118.8 L322.1,119.0 L328.2,119.3 L332.7,119.5"/>
-          <text class="trace-label trace-key" x="171.4" y="17.8">Bulk 120 &#176;C</text>
-          <text class="trace-label trace-key" x="171.4" y="86.7">Bulk 100 &#176;C</text>
-          <text class="trace-label trace-key trace-alt" x="50.4" y="102.4">Vapor 120 &#176;C</text>
-          <text class="trace-label trace-key trace-alt" x="130.7" y="146.2">Vapor 100 &#176;C</text>
-        </svg>
-      </div>
-      <p class="trace-caption">&sigma; (S cm&#8315;&sup1;) recorded live while annealing, one point every 3 s, on <a href="#project">the rig I built</a>: PCBM doped with N-DMBI-H in bulk or from vapor. Real data, RSC Advances 2026 (Fig. 5, on OSF).</p>
+    <h1 class="name hero-anim d2"><em>Federico</em> <strong>Ferrari</strong></h1>
+    <div class="hero-split">
+    <div class="hero-main">
+      <p class="eyebrow hero-brief hero-anim d3">In brief</p>
+      <p class="hero-sub hero-anim d3">
+        I develop and characterize <strong>thin-film processes</strong> &mdash; deposition, patterning, doping &mdash; and
+        build the <strong>test setups</strong> that close the loop: vary the process, measure, relate the results
+        statistically, set the next experiment. Seven years of cleanroom and lab work on semiconductor films and
+        devices, and a PhD in Applied Physics from Groningen.
+      </p>
+      <p class="hero-sub hero-anim d3">
+        Along the way I showed that mixing time alone shifts the conductivity of n-doped films by orders of magnitude,
+        developed a way to dope them without vacuum, and built an automated rig that measures four regions of a sample
+        at once instead of one. Most recently, at AilumiQ in Taipei, I fabricated photodiode stacks for short-wave
+        infrared detectors and built the first version of a high-speed optoelectronic test bench.
+      </p>
+      <div class="now-badge hero-anim d3"><span class="dot" aria-hidden="true"></span> PhD defense 8 Feb 2027 &middot; in Taipei, open to relocation &middot; EU citizen, no sponsorship needed in Taiwan</div>
     </div>
+      <div class="slideshow hero-anim d3" id="slideshow" role="region" aria-roledescription="carousel" aria-label="Highlights from my projects" tabindex="0">
+        <div class="slides">
+          <figure class="slide is-on" data-cap="The conductivity rig I designed and built, on its rotational stage. A pogo-pin head contacts four measurement regions at once, above a Peltier stage with copper heat pipes." data-link="#project"><img src="img/rig/rig-final.jpg" alt="The finished conductivity rig on a rotational stage" style="object-position:50% 60%;"></figure>
+          <figure class="slide" data-cap="GIWAXS of an annealed 2,5-PDEG-2 film, the one that looks like Giotto's starry ceiling. The sharp spots come from a highly crystalline, low-symmetry triclinic lattice." data-link="#regiochemistry"><img src="img/giwaxs/25-undoped.webp" alt="GIWAXS diffractogram of an annealed 2,5-PDEG-2 film" style="object-position:50% 50%;" loading="lazy"></figure>
+          <figure class="slide plot" data-cap="Electron-only diodes of the three PDEG-2 isomers, as cast: current against voltage, data as dots and space-charge-limited fits as dashed lines. The fits give each film its electron mobility." data-link="#regiochemistry"><svg class="slide-svg" viewBox="0 0 400 400" role="img" aria-label="Current density against voltage for electron-only diodes of 2,5-, 3,5- and 3,4-PDEG-2, with space-charge-limited fits"><line class="sp-grid" x1="78.0" y1="22" x2="78.0" y2="326"/><text class="sp-tick" x="78.0" y="347" text-anchor="middle">0</text><line class="sp-grid" x1="160.7" y1="22" x2="160.7" y2="326"/><text class="sp-tick" x="160.7" y="347" text-anchor="middle">0.5</text><line class="sp-grid" x1="243.4" y1="22" x2="243.4" y2="326"/><text class="sp-tick" x="243.4" y="347" text-anchor="middle">1.0</text><line class="sp-grid" x1="326.1" y1="22" x2="326.1" y2="326"/><text class="sp-tick" x="326.1" y="347" text-anchor="middle">1.5</text><line class="sp-grid" x1="78" y1="326.0" x2="384" y2="326.0"/><text class="sp-tick" x="70" y="330.5" text-anchor="end">10<tspan class="sp-sup" dy="-7">0</tspan></text><line class="sp-grid" x1="78" y1="255.3" x2="384" y2="255.3"/><text class="sp-tick" x="70" y="259.8" text-anchor="end">10<tspan class="sp-sup" dy="-7">1</tspan></text><line class="sp-grid" x1="78" y1="184.6" x2="384" y2="184.6"/><text class="sp-tick" x="70" y="189.1" text-anchor="end">10<tspan class="sp-sup" dy="-7">2</tspan></text><line class="sp-grid" x1="78" y1="113.9" x2="384" y2="113.9"/><text class="sp-tick" x="70" y="118.4" text-anchor="end">10<tspan class="sp-sup" dy="-7">3</tspan></text><line class="sp-grid" x1="78" y1="43.2" x2="384" y2="43.2"/><text class="sp-tick" x="70" y="47.7" text-anchor="end">10<tspan class="sp-sup" dy="-7">4</tspan></text><path class="sp-axis" d="M78 22V326H384"/><text class="sp-lab" x="231" y="378" text-anchor="middle">V − V<tspan class="sp-sub" dy="4">BI</tspan><tspan dy="-4"> − V</tspan><tspan class="sp-sub" dy="4">R</tspan><tspan dy="-4"> (V)</tspan></text><text class="sp-lab" transform="translate(24 174) rotate(-90)" text-anchor="middle">J (A m⁻²)</text><polyline points="84.6,288.4 87.9,263.5 91.2,245.9 94.5,232.2 97.8,221.0 101.2,211.5 104.5,203.3 107.8,196.1 111.1,189.6 114.4,183.8 117.7,178.4 121.0,173.5 124.3,169.0 127.6,164.7 130.9,160.8 134.2,157.0 137.5,153.5 140.9,150.2 144.2,147.0 147.5,144.1 150.8,141.2 154.1,138.5 157.4,135.9 160.7,133.3 164.0,130.9 167.3,128.6 170.6,126.4 173.9,124.2 177.2,122.2 180.6,120.1 183.9,118.2 187.2,116.3 190.5,114.5 193.8,112.7 197.1,111.0 200.4,109.3 203.7,107.6 207.0,106.0 210.3,104.5 213.6,103.0 216.9,101.5 220.2,100.0 223.6,98.6 226.9,97.3 230.2,95.9 233.5,94.6 236.8,93.3 240.1,92.0 243.4,90.8 246.7,89.6 250.0,88.4 253.3,87.2 256.6,86.1 259.9,84.9 263.3,83.8 266.6,82.7 269.9,81.7 273.2,80.6 276.5,79.6 279.8,78.6 283.1,77.6 286.4,76.6 289.7,75.6 293.0,74.7 296.3,73.7 299.6,72.8 303.0,71.9 306.3,71.0 309.6,70.1 312.9,69.3 316.2,68.4 319.5,67.5 322.8,66.7 326.1,65.9 329.4,65.1 332.7,64.3 336.0,63.5 339.3,62.7 342.6,61.9 346.0,61.2 349.3,60.4 352.6,59.7 355.9,58.9 359.2,58.2 362.5,57.5 365.8,56.8 369.1,56.1 372.4,55.4 375.7,54.7 379.0,54.0 382.3,53.3" fill="none" style="stroke:#CC3311" stroke-width="1.8" stroke-dasharray="6 4"/><circle cx="84.9" cy="260.6" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="92.4" cy="234.1" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="99.3" cy="212.2" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="105.7" cy="195.5" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="111.5" cy="182.6" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="117.2" cy="172.7" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="122.4" cy="164.3" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="127.4" cy="157.2" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="132.2" cy="151.3" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="136.9" cy="146.0" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="141.4" cy="141.4" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="145.9" cy="137.3" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="150.2" cy="133.6" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="154.5" cy="130.2" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="158.6" cy="127.1" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="162.7" cy="124.3" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="166.8" cy="121.6" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="170.7" cy="119.1" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="174.6" cy="116.8" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="178.5" cy="114.6" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="182.3" cy="112.5" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="186.0" cy="110.5" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="189.7" cy="108.7" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="193.4" cy="106.9" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="197.0" cy="105.2" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="200.6" cy="103.6" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="204.1" cy="102.1" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="207.6" cy="100.6" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="211.1" cy="99.2" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="214.5" cy="97.8" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="217.9" cy="96.4" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="221.2" cy="95.2" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="224.6" cy="93.9" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="228.0" cy="92.8" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="231.4" cy="91.7" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="234.6" cy="90.5" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="237.9" cy="89.5" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="241.1" cy="88.4" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="244.6" cy="87.4" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="248.2" cy="86.5" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="251.3" cy="85.6" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="255.0" cy="84.7" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="259.6" cy="84.0" r="2.6" style="fill:#CC3311" class="sp-dot"/><circle cx="263.6" cy="83.3" r="2.6" style="fill:#CC3311" class="sp-dot"/><polyline points="81.6,309.4 84.9,269.7 88.3,245.7 91.6,228.6 94.9,215.2 98.2,204.2 101.5,194.9 104.8,186.8 108.1,179.6 111.4,173.2 114.7,167.4 118.0,162.1 121.3,157.3 124.6,152.7 128.0,148.5 131.3,144.6 134.6,140.9 137.9,137.4 141.2,134.1 144.5,131.0 147.8,128.0 151.1,125.1 154.4,122.4 157.7,119.8 161.0,117.3 164.3,114.9 167.6,112.6 171.0,110.4 174.3,108.2 177.6,106.2 180.9,104.2 184.2,102.2 187.5,100.3 190.8,98.5 194.1,96.7 197.4,95.0 200.7,93.3 204.0,91.7 207.3,90.1 210.7,88.5 214.0,87.0 217.3,85.6 220.6,84.1 223.9,82.7 227.2,81.3 230.5,80.0 233.8,78.7 237.1,77.4 240.4,76.1 243.7,74.9 247.0,73.7 250.4,72.5 253.7,71.3 257.0,70.2 260.3,69.0 263.6,67.9 266.9,66.9 270.2,65.8 273.5,64.7 276.8,63.7 280.1,62.7 283.4,61.7 286.7,60.7 290.0,59.7 293.4,58.8 296.7,57.9 300.0,56.9 303.3,56.0 306.6,55.1 309.9,54.3 313.2,53.4 316.5,52.5 319.8,51.7 323.1,50.8 326.4,50.0 329.7,49.2 333.1,48.4 336.4,47.6 339.7,46.8 343.0,46.1 346.3,45.3 349.6,44.6 352.9,43.8 356.2,43.1 359.5,42.4 362.8,41.6 366.1,40.9 369.4,40.2 372.8,39.5 376.1,38.8 379.4,38.2 382.7,37.5" fill="none" style="stroke:#0077BB" stroke-width="1.8" stroke-dasharray="6 4"/><circle cx="78.5" cy="218.1" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="85.0" cy="208.4" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="91.4" cy="198.3" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="97.7" cy="188.1" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="104.0" cy="178.1" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="110.1" cy="168.5" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="116.2" cy="159.6" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="122.0" cy="151.3" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="127.8" cy="143.8" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="133.4" cy="137.0" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="139.0" cy="130.9" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="144.4" cy="125.4" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="149.7" cy="120.4" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="155.0" cy="115.8" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="160.2" cy="111.7" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="165.3" cy="107.9" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="170.4" cy="104.4" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="175.5" cy="101.2" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="180.5" cy="98.3" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="185.4" cy="95.4" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="190.4" cy="92.8" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="195.3" cy="90.4" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="200.1" cy="88.1" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="204.9" cy="85.9" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="209.7" cy="83.8" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="214.4" cy="81.8" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="219.1" cy="79.8" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="223.8" cy="78.0" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="228.5" cy="76.3" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="233.1" cy="74.6" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="237.7" cy="73.0" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="242.2" cy="71.4" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="246.7" cy="69.9" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="251.3" cy="68.5" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="255.8" cy="67.1" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="260.3" cy="65.8" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="264.7" cy="64.5" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="269.2" cy="63.3" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="273.7" cy="62.1" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="278.1" cy="60.9" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="282.4" cy="59.8" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="286.9" cy="58.7" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="291.4" cy="57.7" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="295.8" cy="56.7" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="300.0" cy="55.6" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="304.3" cy="54.5" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="308.4" cy="53.5" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="312.7" cy="52.6" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="316.8" cy="51.6" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="321.1" cy="50.7" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="325.4" cy="49.9" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="329.3" cy="48.9" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="332.9" cy="47.9" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="337.0" cy="47.0" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="341.2" cy="46.2" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="345.0" cy="45.3" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="348.4" cy="44.3" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="353.2" cy="43.8" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="357.4" cy="43.0" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="362.2" cy="42.5" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="367.3" cy="42.1" r="2.6" style="fill:#0077BB" class="sp-dot"/><circle cx="371.4" cy="41.4" r="2.6" style="fill:#0077BB" class="sp-dot"/><polyline points="83.3,308.6 88.3,268.0 93.2,243.7 98.2,226.4 103.1,212.9 108.1,201.9 113.1,192.5 118.0,184.4 123.0,177.2 128.0,170.8 132.9,164.9 137.9,159.6 142.8,154.7 147.8,150.2 152.8,146.0 157.7,142.0 162.7,138.3 167.6,134.8 172.6,131.5 177.6,128.4 182.5,125.4 187.5,122.6 192.5,119.8 197.4,117.2 202.4,114.7 207.3,112.3 212.3,110.0 217.3,107.8 222.2,105.6 227.2,103.6 232.2,101.6 237.1,99.6 242.1,97.7 247.0,95.9 252.0,94.1 257.0,92.4 261.9,90.7 266.9,89.1 271.9,87.5 276.8,85.9 281.8,84.4 286.7,82.9 291.7,81.5 296.7,80.1 301.6,78.7 306.6,77.4 311.6,76.0 316.5,74.8 321.5,73.5 326.4,72.2 331.4,71.0 336.4,69.8 341.3,68.7 346.3,67.5 351.2,66.4 356.2,65.3 361.2,64.2 366.1,63.1 371.1,62.1 376.1,61.1 381.0,60.1" fill="none" style="stroke:#009988" stroke-width="1.8" stroke-dasharray="6 4"/><circle cx="78.8" cy="288.5" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="88.5" cy="254.9" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="98.1" cy="225.2" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="107.4" cy="202.5" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="116.4" cy="185.8" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="125.2" cy="172.8" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="133.8" cy="162.4" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="142.2" cy="153.7" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="150.4" cy="146.3" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="158.6" cy="139.9" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="166.5" cy="134.2" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="174.3" cy="129.0" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="182.0" cy="124.3" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="189.6" cy="120.1" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="197.1" cy="116.2" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="204.4" cy="112.6" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="211.6" cy="109.3" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="218.8" cy="106.1" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="225.8" cy="103.2" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="232.8" cy="100.4" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="239.6" cy="97.8" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="246.4" cy="95.4" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="253.0" cy="93.0" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="259.6" cy="90.8" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="266.2" cy="88.6" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="272.5" cy="86.6" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="279.0" cy="84.6" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="285.3" cy="82.8" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="291.4" cy="81.0" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="297.5" cy="79.2" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="303.6" cy="77.6" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="309.6" cy="76.0" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="315.5" cy="74.4" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="321.5" cy="72.9" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="327.3" cy="71.4" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="332.9" cy="70.0" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="338.7" cy="68.7" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="344.3" cy="67.3" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="349.8" cy="66.0" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="355.2" cy="64.8" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="360.7" cy="63.6" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="366.1" cy="62.4" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="371.4" cy="61.2" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="376.7" cy="60.1" r="2.6" style="fill:#009988" class="sp-dot"/><circle cx="96" cy="39" r="4.5" style="fill:#CC3311"/><text class="sp-key" x="108" y="44">2,5-PDEG-2</text><circle cx="96" cy="61" r="4.5" style="fill:#0077BB"/><text class="sp-key" x="108" y="66">3,5-PDEG-2</text><circle cx="96" cy="83" r="4.5" style="fill:#009988"/><text class="sp-key" x="108" y="88">3,4-PDEG-2</text><text class="sp-note" x="378" y="314" text-anchor="end">dots: data · dashed: SCLC fit</text></svg></figure>
+          <figure class="slide fit" data-cap="Conductivity of the three PDEG-2 isomers against N-DMBI doping. Where the glycol chain sits sets the peak: about 8 S/cm for 3,5-PDEG-2, more than a hundred times lower for 2,5-PDEG-2." data-link="#regiochemistry"><img src="img/slides/thesis-2-3b.webp" alt="Conductivity against doping concentration for 2,5-, 3,5- and 3,4-PDEG-2, on a log scale" style="object-position:50% 50%;" loading="lazy"></figure>
+          <figure class="slide fit" data-cap="Where the rig started: hand sketches of the substrate, the linear and rotary stages, and how they stack up on top of each other." data-link="#project"><img src="img/rig/rig-sketch-clean.jpg" alt="Hand sketches of the substrate, the linear and rotary stages" style="object-position:50% 50%;" loading="lazy"></figure>
+          <figure class="slide" data-cap="Vapor doping on a hot plate: two 30 x 30 mm samples, each with its 11 electrode pairs, held in glass dishes. No vacuum chamber involved." data-link="#publications"><img src="img/slides/vapor-dishes.jpg" alt="Two square samples with H-shaped electrodes inside glass dishes on a hot plate" style="object-position:50% 50%;" loading="lazy"></figure>
+          <figure class="slide fit" data-cap="Conductivity of PCBM films after different times in the vapor of N-DMBI-H or TDAE, whose structure is drawn in the plot. N-DMBI-H passes 1 S/cm within 25 minutes; TDAE takes two hours to reach 0.01 S/cm." data-link="#publications"><img src="img/slides/thesis-s4-2.webp" alt="Conductivity of PCBM against vapor exposure time for N-DMBI-H and TDAE" style="object-position:50% 50%;" loading="lazy"></figure>
+          <figure class="slide fit" data-cap="Resistance mapped across a 30 x 30 mm vapor-doped film, one value per electrode pair. The larger substrate and its 11 electrode pairs show how evenly the vapor dopes the film." data-link="#publications"><img src="img/slides/spatial-map.jpg" alt="Map of resistance values over a 30 by 30 mm substrate" style="object-position:50% 50%;" loading="lazy"></figure>
+          <figure class="slide" data-cap="AFM topography of a PDEG-2 film, 5 x 5 µm. Morphology was one of the properties that changed with where the glycol chain sits on the fullerene." data-link="#regiochemistry"><img src="img/slides/afm.jpg" alt="AFM topography of a fullerene-derivative film" style="object-position:50% 50%;" loading="lazy"></figure>
+          <figure class="slide fit" data-cap="Film thickness of the three isomers tracked by ellipsometry over a 2.5 °C/min ramp. As cast, each one kinks at its own transition temperatures; after an hour at 150 °C all three simply expand." data-link="#regiochemistry"><img src="img/slides/thesis-s2-13.webp" alt="Relative thickness change of 2,5-, 3,5- and 3,4-PDEG-2 films against temperature, as cast and annealed" style="object-position:50% 50%;" loading="lazy"></figure>
+          <figure class="slide" data-cap="The pogo-pin head above a sample in its frame, copper heat pipes below. Spring-loaded pins press onto the electrodes of all four regions at once." data-link="#project"><img src="img/rig/rig-close.jpg" alt="Close-up of the pogo-pin head above a sample, with copper heat pipes" style="object-position:50% 40%;" loading="lazy"></figure>
+          <figure class="slide plot" data-cap="The rig at work: resistance between five electrode pairs of one film, logged together as the stage cools from 147 to 44 °C. All five rise together, by a factor of about 1.8." data-link="#project"><svg class="slide-svg" viewBox="0 0 400 400" role="img" aria-label="Resistance of five electrode pairs on one film rising as the stage cools from 147 to 44 degrees C"><line class="sp-grid" x1="78.0" y1="22" x2="78.0" y2="326"/><text class="sp-tick" x="78.0" y="347" text-anchor="middle">40</text><line class="sp-grid" x1="133.6" y1="22" x2="133.6" y2="326"/><text class="sp-tick" x="133.6" y="347" text-anchor="middle">60</text><line class="sp-grid" x1="189.3" y1="22" x2="189.3" y2="326"/><text class="sp-tick" x="189.3" y="347" text-anchor="middle">80</text><line class="sp-grid" x1="244.9" y1="22" x2="244.9" y2="326"/><text class="sp-tick" x="244.9" y="347" text-anchor="middle">100</text><line class="sp-grid" x1="300.5" y1="22" x2="300.5" y2="326"/><text class="sp-tick" x="300.5" y="347" text-anchor="middle">120</text><line class="sp-grid" x1="356.2" y1="22" x2="356.2" y2="326"/><text class="sp-tick" x="356.2" y="347" text-anchor="middle">140</text><line class="sp-grid" x1="78" y1="326.0" x2="384" y2="326.0"/><text class="sp-tick" x="70" y="330.5" text-anchor="end">20</text><line class="sp-grid" x1="78" y1="270.7" x2="384" y2="270.7"/><text class="sp-tick" x="70" y="275.2" text-anchor="end">40</text><line class="sp-grid" x1="78" y1="215.5" x2="384" y2="215.5"/><text class="sp-tick" x="70" y="220.0" text-anchor="end">60</text><line class="sp-grid" x1="78" y1="160.2" x2="384" y2="160.2"/><text class="sp-tick" x="70" y="164.7" text-anchor="end">80</text><line class="sp-grid" x1="78" y1="104.9" x2="384" y2="104.9"/><text class="sp-tick" x="70" y="109.4" text-anchor="end">100</text><line class="sp-grid" x1="78" y1="49.6" x2="384" y2="49.6"/><text class="sp-tick" x="70" y="54.1" text-anchor="end">120</text><path class="sp-axis" d="M78 22V326H384"/><text class="sp-lab" x="231" y="378" text-anchor="middle">Stage temperature (°C)</text><text class="sp-lab" transform="translate(24 174) rotate(-90)" text-anchor="middle">Resistance (kΩ)</text><path d="M375.2 297.9h0M372.5 297.2h0M367.2 296.8h0M363.4 296.8h0M363.5 297.2h0M366.2 297.8h0M369.6 298.4h0M372.4 299.0h0M375.2 299.0h0M375.1 298.6h0M370.5 297.8h0M365.5 297.7h0M366.0 298.1h0M367.8 298.4h0M365.3 297.7h0M358.2 296.8h0M348.9 295.7h0M339.9 294.5h0M331.7 293.6h0M324.8 292.9h0M320.0 292.4h0M320.2 293.0h0M323.4 293.3h0M323.0 292.8h0M315.4 291.6h0M312.8 291.6h0M316.2 292.5h0M321.8 293.2h0M324.4 293.0h0M321.7 292.5h0M317.2 292.0h0M313.2 291.5h0M307.9 290.7h0M301.9 289.8h0M295.7 288.8h0M289.8 287.9h0M283.9 287.0h0M278.5 286.2h0M273.5 285.3h0M268.2 284.5h0M262.8 283.7h0M261.0 283.8h0M263.7 284.5h0M269.8 284.9h0M269.0 284.3h0M265.6 283.6h0M261.7 283.1h0M259.4 283.1h0M262.3 283.9h0M269.6 285.4h0M274.9 285.3h0M275.2 284.9h0M272.2 284.2h0M268.2 283.5h0M263.8 282.8h0M259.9 282.4h0M258.9 282.7h0M265.9 284.2h0M274.4 285.2h0M278.0 285.0h0M276.0 284.3h0M271.9 283.7h0M268.7 283.7h0M268.5 284.0h0M268.4 283.7h0M266.5 283.1h0M263.1 282.4h0M259.1 281.8h0M255.3 281.1h0M251.2 280.4h0M247.2 279.7h0M243.8 279.0h0M240.6 278.4h0M237.2 277.8h0M233.6 277.2h0M231.3 276.6h0M229.8 276.1h0M227.6 275.7h0M225.5 275.2h0M221.6 274.4h0M219.5 274.0h0M217.7 273.6h0M215.7 273.2h0M214.0 272.8h0M212.6 272.5h0M211.3 272.1h0M210.2 271.8h0M209.1 271.5h0M207.9 271.0h0M207.0 270.6h0M205.9 270.3h0M205.0 270.1h0M203.8 269.9h0M208.7 269.9h0M217.6 270.4h0M222.7 271.7h0M223.7 271.7h0M222.7 271.5h0M220.9 271.2h0M219.1 270.8h0M217.5 265.2h0M214.8 268.2h0M213.6 268.5h0M212.6 268.8h0M211.5 268.6h0M210.4 268.4h0M208.6 268.1h0M206.1 268.1h0M203.7 267.9h0M202.3 267.6h0M200.9 267.4h0M199.3 267.1h0M197.7 266.8h0M196.2 266.5h0M195.1 266.2h0M193.6 265.9h0M192.0 265.6h0M190.6 265.3h0M189.4 265.1h0M188.0 264.8h0M186.9 264.5h0M185.7 264.2h0M184.2 264.0h0M182.9 263.7h0M181.7 263.4h0M180.7 263.1h0M179.4 262.8h0M178.1 262.5h0M177.2 262.2h0M176.1 262.0h0M175.4 261.7h0M174.7 261.3h0M173.7 261.1h0M172.6 260.8h0M171.7 260.6h0M170.7 260.3h0M169.8 260.1h0M168.9 259.8h0M168.0 259.6h0M167.1 259.4h0M166.3 259.2h0M165.5 258.9h0M164.8 258.7h0M163.9 258.5h0M163.1 258.3h0M162.4 258.1h0M161.7 257.9h0M161.1 257.7h0M160.3 257.5h0M159.6 257.3h0M158.9 257.1h0M158.1 256.6h0M157.4 256.6h0M156.8 256.1h0M156.1 256.0h0M155.3 255.9h0M154.7 255.6h0M154.3 255.3h0M153.8 255.3h0M153.2 255.1h0M152.7 255.0h0M151.9 254.8h0M151.1 254.7h0M150.5 254.5h0M150.1 254.3h0M149.7 254.2h0M149.3 254.0h0M149.3 254.0h0M149.5 254.1h0M149.7 254.0h0M150.2 253.6h0M150.1 253.8h0M149.6 253.6h0M149.1 253.2h0M148.5 253.1h0M133.5 247.9h0M133.1 247.9h0M132.8 248.0h0M132.5 247.6h0M132.1 247.5h0M131.6 247.3h0M131.2 247.3h0M131.0 247.7h0M130.1 246.8h0M129.8 247.3h0M129.5 246.6h0M129.2 246.9h0M129.0 246.5h0M128.6 246.6h0M128.1 246.4h0M127.7 246.3h0M127.3 245.6h0M127.0 245.5h0M126.7 245.5h0M126.4 245.6h0M126.1 245.5h0M125.8 245.4h0M125.4 245.2h0M125.1 245.1h0M124.8 245.0h0M124.5 244.9h0M124.1 244.7h0M123.9 244.6h0M123.6 244.5h0M123.2 243.9h0M122.9 244.0h0M122.7 243.9h0M122.3 243.7h0M122.0 243.6h0M121.7 243.3h0M121.5 243.7h0M121.1 243.7h0M120.7 243.5h0M120.4 243.4h0M120.2 243.3h0M120.0 242.7h0M119.7 242.5h0M119.3 242.5h0M119.1 242.9h0M118.7 242.8h0M118.5 242.7h0M118.3 242.5h0M118.0 242.1h0M117.7 242.0h0M117.4 241.9h0M117.2 241.8h0M116.9 241.9h0M116.6 241.2h0M116.3 241.1h0M116.1 241.0h0M115.9 241.2h0M115.7 241.1h0M115.4 241.0h0M115.1 240.7h0M114.8 240.6h0M114.5 240.7h0M114.2 240.6h0M113.9 240.4h0M113.7 240.3h0M113.5 239.9h0M113.1 239.7h0M113.0 239.8h0M112.8 239.7h0M112.5 239.5h0M112.3 239.3h0M112.0 239.2h0M111.8 239.2h0M111.6 239.2h0M111.3 239.1h0M111.1 238.9h0M110.8 238.8h0M110.6 238.7h0M110.3 238.2h0M110.1 238.1h0M109.9 238.3h0M109.7 238.2h0M109.4 238.1h0M109.1 237.9h0M108.8 237.5h0M108.6 237.5h0M108.4 237.5h0M108.2 237.5h0M108.0 237.4h0M107.8 237.3h0M107.5 237.1h0M107.2 236.7h0M107.0 236.6h0M106.9 236.7h0M106.7 236.6h0M106.5 236.6h0M106.1 236.5h0M105.9 236.4h0M105.7 236.3h0M105.5 236.2h0M105.4 236.1h0M105.2 235.7h0M105.0 235.5h0M104.7 235.5h0M104.6 235.3h0M104.3 235.2h0M104.1 235.1h0M103.9 235.0h0M103.7 234.9h0M103.4 234.8h0M103.0 234.6h0M102.7 234.8h0M102.6 234.8h0M102.4 234.7h0M102.2 234.6h0M101.9 234.6h0M101.7 234.5h0M101.6 234.5h0M101.2 234.4h0M101.0 234.4h0M100.8 234.3h0M100.5 234.2h0M100.3 234.1h0M100.2 234.0h0M100.0 233.9h0M99.8 233.8h0M99.6 233.7h0M99.4 233.3h0M99.2 233.3h0M99.0 232.9h0M98.8 233.1h0M98.4 233.0h0M98.3 233.0h0M98.1 232.9h0M97.8 232.8h0M97.6 232.6h0M97.1 232.4h0M97.0 232.3h0M96.8 231.8h0M96.6 231.7h0M96.3 231.6h0M96.1 231.5h0M95.9 231.5h0M95.6 231.4h0M95.3 231.3h0M95.2 231.0h0M95.0 230.9h0M94.8 230.8h0M94.6 230.6h0M94.4 230.5h0M94.2 230.4h0M93.9 230.2h0M93.6 230.6h0M93.5 230.7h0M93.4 230.6h0M93.1 230.5h0M92.8 230.4h0M92.7 230.2h0M92.5 229.8h0M92.2 229.7h0M92.0 229.8h0M91.9 229.3h0M91.7 229.5h0M91.4 229.4h0M91.1 229.0h0M90.9 229.0h0M90.7 229.0h0M90.5 228.9h0M90.2 228.8h0M90.0 228.8h0" fill="none" style="stroke:#4B6A92" stroke-width="3.4" stroke-linecap="round" opacity="0.85"/><path d="M375.3 248.2h0M372.1 247.0h0M366.9 246.3h0M363.2 246.4h0M363.7 247.2h0M366.4 248.1h0M369.9 249.1h0M372.7 250.1h0M375.5 250.5h0M374.9 249.5h0M370.0 247.9h0M365.2 247.9h0M366.2 248.8h0M367.9 249.0h0M364.9 247.6h0M357.4 246.0h0M348.1 244.0h0M339.1 242.1h0M331.0 240.5h0M324.2 239.5h0M319.7 238.9h0M320.5 240.1h0M323.6 240.4h0M322.9 239.3h0M314.9 237.2h0M312.8 237.6h0M316.8 239.3h0M322.2 240.2h0M324.4 239.9h0M321.3 238.9h0M316.8 237.9h0M312.8 236.9h0M307.3 235.4h0M301.4 233.9h0M295.2 232.3h0M289.3 230.7h0M283.4 229.1h0M278.0 227.7h0M273.0 226.4h0M267.8 224.8h0M262.4 223.9h0M261.0 224.1h0M264.1 225.5h0M270.0 225.6h0M268.8 224.5h0M265.3 223.4h0M261.4 222.5h0M259.3 222.7h0M262.8 224.6h0M270.3 226.8h0M275.2 226.4h0M275.0 225.4h0M272.0 224.3h0M267.8 223.2h0M263.5 221.7h0M259.5 221.3h0M259.0 222.1h0M266.7 225.2h0M275.1 226.4h0M278.0 225.8h0M275.8 224.5h0M271.5 223.4h0M268.5 223.5h0M268.6 224.1h0M268.3 223.6h0M266.4 222.4h0M262.7 221.3h0M258.8 220.1h0M255.0 218.9h0M250.8 217.8h0M246.9 216.7h0M243.5 215.5h0M240.3 214.5h0M237.0 213.4h0M233.3 212.4h0M231.2 211.5h0M229.6 210.6h0M227.5 209.8h0M225.3 209.0h0M221.5 207.7h0M219.3 206.9h0M217.5 206.2h0M215.5 205.6h0M213.9 205.1h0M212.5 204.5h0M211.2 203.9h0M210.1 203.3h0M209.0 202.8h0M207.9 201.8h0M206.9 201.4h0M205.8 200.8h0M204.9 200.5h0M203.7 200.0h0M209.5 200.6h0M218.4 202.7h0M222.9 203.7h0M223.7 203.5h0M222.5 203.2h0M220.7 202.7h0M219.0 202.1h0M217.3 196.7h0M214.6 200.3h0M213.6 201.0h0M212.5 201.2h0M211.5 201.2h0M210.3 201.0h0M208.4 200.3h0M205.8 200.2h0M203.6 200.0h0M202.2 199.4h0M200.8 198.9h0M199.2 198.5h0M197.6 197.9h0M196.1 197.7h0M195.0 197.2h0M193.4 196.8h0M191.9 196.3h0M190.5 195.8h0M189.3 195.4h0M187.9 194.9h0M186.8 194.4h0M185.6 194.0h0M184.1 193.5h0M182.8 193.1h0M181.6 192.6h0M180.6 192.1h0M179.3 191.7h0M178.1 191.2h0M177.1 190.8h0M176.0 190.3h0M175.4 189.9h0M174.6 189.4h0M173.6 189.0h0M172.6 188.6h0M171.6 188.2h0M170.6 187.8h0M169.7 187.4h0M168.9 186.9h0M168.0 186.7h0M167.0 186.3h0M166.2 185.9h0M165.5 185.5h0M164.7 185.2h0M163.9 184.9h0M163.1 184.5h0M162.3 184.1h0M161.6 183.8h0M161.0 183.5h0M160.3 183.2h0M159.5 182.8h0M158.8 182.5h0M158.0 182.0h0M157.4 181.7h0M156.8 181.1h0M156.0 180.9h0M155.2 180.7h0M154.7 180.4h0M154.2 180.0h0M153.7 179.8h0M153.1 179.6h0M152.6 179.3h0M151.8 179.0h0M151.0 178.8h0M150.5 178.6h0M150.0 178.2h0M149.6 178.0h0M149.3 177.7h0M149.3 177.7h0M149.6 177.9h0M149.7 177.8h0M150.2 177.7h0M150.1 177.5h0M149.5 177.3h0M149.0 177.0h0M148.4 176.7h0M133.5 168.5h0M133.1 168.2h0M132.8 168.1h0M132.4 167.9h0M132.0 167.6h0M131.6 167.4h0M131.2 167.2h0M130.9 167.1h0M130.1 166.6h0M129.7 166.4h0M129.5 166.3h0M129.2 166.0h0M129.0 165.7h0M128.6 165.5h0M128.1 165.1h0M127.6 165.0h0M127.3 164.8h0M127.0 164.6h0M126.7 164.3h0M126.3 164.2h0M126.0 164.0h0M125.7 163.7h0M125.4 163.5h0M125.0 163.3h0M124.7 163.1h0M124.4 162.9h0M124.1 162.7h0M123.9 162.5h0M123.6 162.3h0M123.2 162.0h0M122.9 161.8h0M122.6 161.7h0M122.2 161.4h0M121.9 161.2h0M121.7 161.1h0M121.4 160.9h0M121.1 160.7h0M120.7 160.5h0M120.4 160.3h0M120.2 160.1h0M119.9 159.9h0M119.7 159.7h0M119.3 159.5h0M119.0 159.3h0M118.7 159.1h0M118.5 158.9h0M118.2 158.7h0M118.0 158.5h0M117.6 158.2h0M117.4 158.1h0M117.1 157.9h0M116.9 157.8h0M116.5 157.6h0M116.3 157.4h0M116.1 157.2h0M115.9 157.0h0M115.6 156.8h0M115.4 156.7h0M115.1 156.5h0M114.8 156.3h0M114.5 156.1h0M114.2 155.9h0M113.9 155.8h0M113.7 155.6h0M113.4 155.4h0M113.1 155.2h0M112.9 155.0h0M112.7 154.9h0M112.5 154.7h0M112.3 154.5h0M112.0 154.4h0M111.8 154.2h0M111.5 154.0h0M111.3 153.9h0M111.1 153.7h0M110.8 153.5h0M110.5 153.3h0M110.3 153.1h0M110.1 152.9h0M109.9 152.8h0M109.7 152.6h0M109.4 152.4h0M109.1 152.3h0M108.8 152.0h0M108.6 151.8h0M108.4 151.7h0M108.2 151.5h0M108.0 151.4h0M107.8 151.2h0M107.5 151.0h0M107.2 150.9h0M107.0 150.7h0M106.8 150.5h0M106.6 150.4h0M106.4 150.2h0M106.1 150.0h0M105.9 149.8h0M105.7 149.7h0M105.5 149.5h0M105.4 149.4h0M105.2 149.2h0M104.9 149.1h0M104.7 148.9h0M104.6 148.7h0M104.3 148.6h0M104.1 148.4h0M103.9 148.3h0M103.6 148.1h0M103.4 148.0h0M102.9 147.7h0M102.6 147.6h0M102.6 147.3h0M102.4 147.3h0M102.2 147.1h0M101.9 146.9h0M101.7 146.8h0M101.5 146.6h0M101.2 146.3h0M101.0 146.1h0M100.8 146.0h0M100.5 145.9h0M100.3 145.7h0M100.1 145.6h0M100.0 145.4h0M99.8 145.3h0M99.6 145.1h0M99.4 145.0h0M99.2 144.8h0M99.0 144.6h0M98.7 144.5h0M98.4 144.3h0M98.3 144.2h0M98.1 144.0h0M97.8 143.8h0M97.6 143.7h0M97.1 143.3h0M97.0 143.1h0M96.8 143.0h0M96.6 142.8h0M96.3 142.7h0M96.1 142.4h0M95.9 142.3h0M95.5 142.1h0M95.3 141.9h0M95.2 141.7h0M95.0 141.6h0M94.8 141.4h0M94.6 141.3h0M94.4 141.1h0M94.2 141.0h0M93.9 140.8h0M93.6 140.6h0M93.5 140.4h0M93.4 140.2h0M93.1 140.1h0M92.8 139.9h0M92.6 139.7h0M92.4 139.6h0M92.2 139.4h0M92.0 139.2h0M91.9 139.0h0M91.7 139.0h0M91.4 138.6h0M91.1 138.5h0M90.9 138.3h0M90.7 138.2h0M90.5 138.0h0M90.2 137.9h0M90.0 137.7h0" fill="none" style="stroke:#009988" stroke-width="3.4" stroke-linecap="round" opacity="0.85"/><path d="M375.4 265.4h0M371.8 264.5h0M366.7 263.9h0M363.1 264.0h0M363.8 264.5h0M366.5 265.2h0M370.0 265.9h0M372.8 266.6h0M375.6 267.0h0M374.8 266.2h0M369.7 264.9h0M365.1 264.9h0M366.3 265.6h0M368.0 265.6h0M364.6 264.6h0M357.1 263.2h0M347.7 261.6h0M338.7 260.1h0M330.7 258.8h0M324.0 257.9h0M319.5 257.4h0M320.6 258.4h0M323.8 258.6h0M322.8 257.8h0M314.6 256.0h0M312.8 256.3h0M317.0 257.7h0M322.5 258.6h0M324.4 258.3h0M321.1 257.4h0M316.7 256.5h0M312.7 255.6h0M307.1 254.4h0M301.2 253.1h0M295.0 251.7h0M289.1 250.3h0M283.1 249.1h0M277.8 247.9h0M272.9 246.7h0M267.6 245.4h0M262.3 244.6h0M261.0 244.8h0M264.3 246.0h0M270.0 246.2h0M268.6 245.2h0M265.1 244.3h0M261.2 243.5h0M259.2 243.6h0M263.0 245.4h0M270.7 247.2h0M275.3 246.9h0M274.9 246.1h0M271.8 245.1h0M267.6 244.2h0M263.3 243.2h0M259.4 242.7h0M259.1 243.3h0M267.2 246.1h0M275.4 247.2h0M278.1 246.7h0M275.7 245.5h0M271.3 244.5h0M268.4 244.6h0M268.6 245.1h0M268.3 244.6h0M266.3 243.7h0M262.6 242.6h0M258.6 241.6h0M254.8 240.8h0M250.7 239.7h0M246.7 238.6h0M243.4 237.6h0M240.2 236.7h0M236.8 235.7h0M233.1 234.9h0M231.2 234.1h0M229.5 233.4h0M227.4 232.8h0M225.2 232.1h0M221.4 230.9h0M219.2 230.3h0M217.5 229.7h0M215.4 229.2h0M213.8 228.7h0M212.4 228.2h0M211.2 227.7h0M210.1 227.3h0M209.0 226.9h0M207.8 226.1h0M206.9 225.7h0M205.8 225.3h0M204.9 225.0h0M203.6 224.7h0M209.9 225.6h0M218.7 227.8h0M223.0 228.3h0M223.7 228.1h0M222.5 227.7h0M220.6 227.2h0M218.9 226.7h0M217.3 224.7h0M214.4 224.6h0M213.6 224.9h0M212.4 224.8h0M211.4 224.6h0M210.2 224.4h0M208.4 223.9h0M205.7 223.4h0M203.5 223.0h0M202.2 222.7h0M200.7 222.3h0M199.1 221.9h0M197.5 221.5h0M196.0 221.1h0M195.0 220.6h0M193.4 220.2h0M191.8 219.8h0M190.5 219.3h0M189.2 218.9h0M187.8 218.5h0M186.8 218.1h0M185.5 217.7h0M184.0 217.2h0M182.7 216.8h0M181.5 216.4h0M180.6 216.0h0M179.2 215.5h0M178.0 215.1h0M177.1 214.7h0M176.0 214.4h0M175.4 214.0h0M174.6 213.6h0M173.6 213.2h0M172.5 212.8h0M171.6 212.4h0M170.6 212.1h0M169.6 211.7h0M168.8 211.4h0M167.9 211.1h0M167.0 210.7h0M166.2 210.4h0M165.4 210.1h0M164.7 209.8h0M163.8 209.4h0M163.0 209.2h0M162.3 208.9h0M161.6 208.6h0M161.0 208.3h0M160.2 208.0h0M159.5 207.7h0M158.8 207.4h0M158.0 207.0h0M157.3 206.7h0M156.7 206.2h0M156.0 206.0h0M155.2 205.8h0M154.6 205.5h0M154.2 205.2h0M153.7 205.0h0M153.1 204.8h0M152.6 204.6h0M151.7 204.4h0M151.0 204.1h0M150.4 203.9h0M150.0 203.7h0M149.6 203.5h0M149.3 203.2h0M149.3 203.3h0M149.6 203.4h0M149.7 203.4h0M150.2 203.2h0M150.0 202.9h0M149.5 202.7h0M149.0 202.6h0M148.4 202.4h0M133.5 195.4h0M133.0 195.2h0M132.8 195.1h0M132.4 194.8h0M132.0 194.6h0M131.5 194.5h0M131.2 194.3h0M130.9 194.1h0M130.1 193.7h0M129.7 193.6h0M129.4 193.4h0M129.2 193.3h0M128.9 193.1h0M128.6 192.9h0M128.1 192.7h0M127.6 192.5h0M127.3 192.3h0M127.0 192.2h0M126.7 192.0h0M126.3 191.8h0M126.0 191.6h0M125.7 191.5h0M125.4 191.2h0M125.0 191.1h0M124.7 191.0h0M124.4 190.8h0M124.1 190.6h0M123.9 190.5h0M123.6 190.3h0M123.2 190.1h0M122.9 189.9h0M122.6 189.8h0M122.2 189.5h0M121.9 189.4h0M121.7 189.3h0M121.4 189.1h0M121.1 188.9h0M120.7 188.7h0M120.4 188.6h0M120.2 188.5h0M119.9 188.3h0M119.7 188.1h0M119.3 187.9h0M119.0 187.8h0M118.7 187.6h0M118.5 187.4h0M118.2 187.3h0M117.9 187.1h0M117.6 186.9h0M117.4 186.8h0M117.1 186.6h0M116.9 186.4h0M116.5 186.3h0M116.2 186.1h0M116.1 186.0h0M115.9 185.9h0M115.6 185.7h0M115.3 185.6h0M115.1 185.4h0M114.8 185.3h0M114.5 185.1h0M114.1 184.9h0M113.9 184.8h0M113.7 184.6h0M113.4 184.5h0M113.1 184.3h0M112.9 184.2h0M112.7 184.0h0M112.5 183.9h0M112.3 183.8h0M112.0 183.6h0M111.8 183.5h0M111.5 183.3h0M111.3 183.2h0M111.0 183.1h0M110.8 182.9h0M110.5 182.7h0M110.3 182.5h0M110.1 182.4h0M109.9 182.2h0M109.7 182.1h0M109.4 181.9h0M109.1 181.8h0M108.8 181.6h0M108.6 181.4h0M108.4 181.3h0M108.2 181.3h0M108.0 181.2h0M107.8 181.1h0M107.5 180.9h0M107.2 180.8h0M107.0 180.7h0M106.8 180.6h0M106.6 180.5h0M106.4 180.4h0M106.1 180.2h0M105.9 180.0h0M105.7 179.9h0M105.5 179.7h0M105.4 179.6h0M105.2 179.5h0M104.9 179.3h0M104.7 179.2h0M104.6 179.1h0M104.3 178.9h0M104.0 178.8h0M103.9 178.8h0M103.6 178.7h0M103.3 178.5h0M102.9 178.1h0M102.6 178.0h0M102.6 177.8h0M102.4 177.7h0M102.2 177.6h0M101.9 177.4h0M101.7 177.3h0M101.5 177.2h0M101.2 177.1h0M100.9 176.9h0M100.7 176.8h0M100.5 176.7h0M100.3 176.6h0M100.1 176.4h0M100.0 176.3h0M99.8 176.2h0M99.6 176.1h0M99.3 176.0h0M99.2 175.8h0M99.0 175.6h0M98.7 175.6h0M98.4 175.4h0M98.3 175.3h0M98.1 175.2h0M97.8 174.9h0M97.6 174.9h0M97.1 174.4h0M96.9 174.4h0M96.8 174.2h0M96.6 174.0h0M96.3 173.9h0M96.1 173.8h0M95.8 173.6h0M95.5 173.4h0M95.3 173.3h0M95.2 173.2h0M95.0 173.0h0M94.8 172.9h0M94.6 172.8h0M94.4 172.7h0M94.2 172.5h0M93.8 172.4h0M93.6 172.2h0M93.5 172.1h0M93.3 172.0h0M93.1 171.8h0M92.8 171.6h0M92.6 171.5h0M92.4 171.3h0M92.2 171.1h0M92.0 171.0h0M91.9 170.8h0M91.7 170.9h0M91.4 170.7h0M91.1 170.5h0M90.8 170.2h0M90.7 170.1h0M90.5 170.0h0M90.2 169.8h0M90.0 169.8h0" fill="none" style="stroke:#7B5EA7" stroke-width="3.4" stroke-linecap="round" opacity="0.85"/><path d="M375.4 196.7h0M371.6 195.1h0M366.4 195.0h0M362.9 195.3h0M363.9 196.3h0M366.7 197.4h0M370.1 198.8h0M372.9 199.9h0M375.8 200.6h0M374.6 199.3h0M369.5 197.4h0M365.0 197.5h0M366.4 198.6h0M368.0 198.7h0M364.3 197.0h0M356.6 194.7h0M347.2 192.2h0M338.4 189.8h0M330.3 187.6h0M323.7 186.2h0M319.3 185.4h0M320.7 186.8h0M323.9 187.4h0M322.7 186.1h0M314.4 183.2h0M312.8 183.7h0M317.3 185.8h0M322.7 187.1h0M324.5 186.7h0M320.8 185.4h0M316.5 183.9h0M312.5 182.5h0M306.8 180.7h0M300.9 178.7h0M294.8 176.5h0M288.8 174.4h0M282.8 172.5h0M277.6 170.7h0M272.7 168.8h0M267.3 166.9h0M262.1 165.7h0M261.0 165.8h0M264.5 166.6h0M270.1 166.9h0M268.5 165.5h0M265.0 164.1h0M261.0 162.8h0M259.2 163.9h0M263.3 166.6h0M271.1 169.4h0M275.5 169.0h0M274.8 167.8h0M271.7 166.2h0M267.4 164.6h0M263.1 161.9h0M259.2 161.0h0M259.1 162.1h0M267.5 166.0h0M275.8 164.0h0M278.1 167.5h0M275.6 165.5h0M271.1 163.9h0M268.3 164.5h0M268.7 165.4h0M268.2 164.7h0M266.2 163.2h0M262.4 161.7h0M258.5 160.1h0M254.6 158.7h0M250.5 157.1h0M246.5 155.6h0M243.3 154.1h0M240.0 152.8h0M236.7 151.5h0M233.0 150.2h0M231.1 149.1h0M229.4 148.0h0M227.3 146.9h0M225.1 145.8h0M221.3 144.0h0M219.2 143.0h0M217.4 142.1h0M215.4 141.4h0M213.7 140.5h0M212.4 139.7h0M211.1 138.9h0M210.0 138.3h0M208.9 137.6h0M207.8 130.8h0M206.8 130.0h0M205.7 129.9h0M204.9 129.8h0M203.6 129.4h0M210.3 129.4h0M219.1 132.6h0M223.1 133.8h0M223.6 133.3h0M222.4 132.8h0M220.5 132.2h0M218.8 131.6h0M217.2 127.3h0M214.3 133.3h0M213.6 132.6h0M212.4 132.3h0M211.4 132.0h0M210.2 131.6h0M208.3 130.5h0M205.6 130.1h0M203.4 129.7h0M202.1 129.1h0M200.6 128.9h0M199.0 128.1h0M197.4 127.7h0M196.0 127.1h0M194.9 126.5h0M193.3 125.7h0M191.7 125.2h0M190.4 124.5h0M189.1 123.8h0M187.8 123.3h0M186.7 122.6h0M185.5 122.0h0M183.9 121.4h0M182.7 120.8h0M181.4 120.2h0M180.6 119.5h0M179.2 119.1h0M178.0 118.0h0M177.0 117.6h0M175.9 117.0h0M175.4 116.5h0M174.5 115.8h0M173.5 115.3h0M172.5 114.7h0M171.5 114.1h0M170.5 113.7h0M169.6 113.3h0M168.8 112.6h0M167.9 112.1h0M167.0 111.5h0M166.2 111.1h0M165.4 110.8h0M164.6 110.3h0M163.8 109.6h0M163.0 109.2h0M162.3 108.7h0M161.6 108.2h0M160.9 107.7h0M160.2 107.3h0M159.5 106.8h0M158.8 106.4h0M158.0 105.9h0M157.3 105.6h0M156.7 104.1h0M155.9 103.8h0M155.2 103.3h0M154.6 103.5h0M154.2 102.9h0M153.7 102.5h0M153.1 102.1h0M152.6 102.0h0M151.7 101.5h0M151.0 101.5h0M150.4 101.0h0M150.0 100.6h0M149.6 100.3h0M149.3 100.5h0M149.3 100.6h0M149.6 100.6h0M149.7 100.6h0M150.3 100.4h0M150.0 100.1h0M149.5 100.1h0M149.0 101.6h0M148.4 101.3h0M133.5 89.9h0M133.0 90.5h0M132.7 91.4h0M132.4 91.2h0M132.0 88.9h0M131.5 89.7h0M131.2 88.3h0M130.9 87.8h0M130.0 89.7h0M129.7 89.5h0M129.4 89.0h0M129.1 88.6h0M128.9 89.1h0M128.6 88.2h0M128.1 87.6h0M127.6 87.0h0M127.3 88.5h0M127.0 87.0h0M126.7 85.9h0M126.3 85.3h0M126.0 85.1h0M125.7 87.0h0M125.4 86.8h0M125.0 86.5h0M124.7 86.7h0M124.4 85.6h0M124.1 81.6h0M123.9 81.8h0M123.5 82.5h0M123.2 82.4h0M122.9 83.4h0M122.6 81.5h0M122.2 82.9h0M121.9 83.4h0M121.7 75.6h0M121.4 79.6h0M121.0 74.9h0M120.6 78.3h0M120.4 80.5h0M120.1 81.3h0M119.9 83.0h0M119.6 83.0h0M119.3 82.6h0M119.0 81.8h0M118.7 81.5h0M118.5 80.0h0M118.2 78.8h0M117.9 79.1h0M117.6 78.8h0M117.4 79.9h0M117.1 80.0h0M116.9 79.8h0M116.5 79.7h0M116.2 79.5h0M116.1 77.5h0M115.9 79.3h0M115.6 79.0h0M115.3 78.8h0M115.1 78.5h0M114.8 78.3h0M114.5 74.4h0M114.1 75.6h0M113.9 75.6h0M113.7 74.9h0M113.4 74.7h0M113.1 75.7h0M112.9 75.3h0M112.7 75.1h0M112.5 72.0h0M112.2 71.6h0M112.0 73.3h0M111.8 73.3h0M111.5 70.6h0M111.3 70.2h0M111.0 72.0h0M110.8 72.2h0M110.5 69.2h0M110.3 72.1h0M110.1 71.5h0M109.9 71.1h0M109.7 73.3h0M109.4 72.9h0M109.0 73.1h0M108.7 71.2h0M108.6 68.4h0M108.4 71.8h0M108.2 69.9h0M108.0 70.8h0M107.8 72.2h0M107.4 67.1h0M107.1 67.1h0M107.0 66.9h0M106.8 66.4h0M106.6 70.0h0M106.4 66.3h0M106.1 69.8h0M105.9 69.3h0M105.7 69.1h0M105.5 70.6h0M105.3 65.0h0M105.2 68.0h0M104.9 64.4h0M104.7 64.0h0M104.5 67.8h0M104.3 65.4h0M104.0 67.9h0M103.9 67.6h0M103.6 59.7h0M103.3 62.0h0M102.9 62.7h0M102.6 65.0h0M102.6 63.8h0M102.4 64.5h0M102.1 64.6h0M101.9 64.9h0M101.7 62.6h0M101.5 62.0h0M101.1 61.4h0M100.9 63.0h0M100.7 62.5h0M100.5 62.7h0M100.3 61.8h0M100.1 61.0h0M99.9 61.4h0M99.8 61.8h0M99.6 61.3h0M99.3 59.7h0M99.2 60.2h0M99.0 59.0h0M98.7 55.5h0M98.4 58.5h0M98.3 57.1h0M98.0 55.7h0M97.8 55.4h0M97.6 55.2h0M97.1 54.6h0M96.9 58.4h0M96.8 54.1h0M96.5 55.2h0M96.3 55.5h0M96.0 55.3h0M95.8 53.2h0M95.5 53.0h0M95.3 56.7h0M95.2 56.4h0M95.0 56.1h0M94.7 55.7h0M94.5 57.9h0M94.4 51.7h0M94.1 54.1h0M93.8 54.7h0M93.6 55.4h0M93.5 55.2h0M93.3 55.4h0M93.0 54.3h0M92.8 54.1h0M92.6 53.7h0M92.4 52.2h0M92.2 49.5h0M92.0 49.2h0M91.8 51.3h0M91.6 51.2h0M91.3 50.9h0M91.0 53.2h0M90.8 53.0h0M90.7 52.4h0M90.5 52.0h0M90.2 47.6h0M89.9 48.6h0" fill="none" style="stroke:#C9A227" stroke-width="3.4" stroke-linecap="round" opacity="0.85"/><path d="M375.5 276.8h0M371.4 275.9h0M366.2 275.5h0M362.8 275.6h0M364.0 276.2h0M366.8 276.8h0M370.3 277.4h0M373.0 278.0h0M375.9 277.8h0M374.5 277.2h0M369.2 276.2h0M364.8 276.5h0M366.5 277.0h0M368.1 277.0h0M364.1 276.1h0M356.3 274.9h0M346.9 273.6h0M338.0 272.4h0M330.0 271.3h0M323.5 270.6h0M319.2 270.3h0M320.9 271.1h0M324.0 271.3h0M322.6 270.5h0M314.2 269.0h0M312.8 269.5h0M317.5 270.6h0M322.9 271.1h0M324.5 270.8h0M320.6 270.0h0M316.3 269.3h0M312.3 268.6h0M306.6 267.6h0M300.7 266.6h0M294.5 265.4h0M288.6 264.3h0M282.6 263.3h0M277.4 262.2h0M272.5 261.3h0M267.1 260.3h0M261.9 259.6h0M261.0 259.8h0M264.8 260.9h0M270.2 260.7h0M268.4 259.9h0M264.8 259.2h0M260.8 258.5h0M259.2 258.8h0M263.6 260.5h0M271.4 261.9h0M275.6 261.5h0M274.8 260.8h0M271.5 260.0h0M267.2 259.2h0M262.9 258.1h0M259.1 257.7h0M259.2 258.7h0M267.9 260.9h0M276.1 261.2h0M278.1 260.9h0M275.4 260.0h0M270.8 259.1h0M268.2 259.3h0M268.8 259.7h0M268.2 259.3h0M266.1 258.4h0M262.2 257.7h0M258.3 257.0h0M254.5 256.1h0M250.3 255.3h0M246.4 254.5h0M243.1 253.5h0M239.9 252.8h0M236.6 252.0h0M232.8 251.4h0M231.1 250.7h0M229.3 250.1h0M227.2 249.6h0M225.0 249.0h0M221.2 247.9h0M219.1 247.4h0M217.3 247.1h0M215.3 246.6h0M213.7 246.0h0M212.3 245.6h0M211.1 245.2h0M210.0 244.8h0M208.9 244.2h0M207.7 243.3h0M206.8 243.0h0M205.7 242.8h0M204.8 242.6h0M203.5 242.3h0M210.7 243.4h0M219.5 244.9h0M223.2 245.2h0M223.6 245.0h0M222.3 244.6h0M220.5 244.2h0M218.8 243.7h0M217.1 239.4h0M214.1 241.7h0M213.6 241.6h0M212.3 241.5h0M211.4 241.2h0M210.1 241.1h0M208.2 240.3h0M205.5 240.3h0M203.4 239.9h0M202.1 239.6h0M200.6 239.3h0M199.0 238.9h0M197.4 238.5h0M195.9 238.3h0M194.9 237.8h0M193.2 237.5h0M191.7 237.1h0M190.4 236.7h0M189.1 236.4h0M187.7 236.0h0M186.7 235.7h0M185.4 235.3h0M183.8 234.9h0M182.6 234.6h0M181.4 234.2h0M180.5 233.8h0M179.1 233.4h0M177.9 233.0h0M177.0 232.8h0M175.9 232.5h0M175.4 232.1h0M174.5 231.6h0M173.5 231.5h0M172.4 231.0h0M171.5 230.7h0M170.5 230.5h0M169.6 230.1h0M168.8 229.8h0M167.8 229.6h0M166.9 229.3h0M166.1 229.0h0M165.3 228.7h0M164.6 228.4h0M163.8 228.1h0M163.0 227.9h0M162.3 227.6h0M161.5 227.3h0M160.9 227.1h0M160.2 226.8h0M159.5 226.6h0M158.7 226.3h0M157.9 226.0h0M157.3 225.7h0M156.7 225.4h0M155.9 225.2h0M155.1 224.9h0M154.6 224.6h0M154.2 224.4h0M153.7 224.2h0M153.1 224.1h0M152.6 223.8h0M151.6 223.7h0M151.0 223.5h0M150.4 223.3h0M150.0 223.0h0M149.6 222.9h0M149.3 222.7h0M149.3 222.7h0M149.6 222.8h0M149.7 222.7h0M150.3 222.6h0M150.0 222.4h0M149.5 222.1h0M148.9 221.9h0M148.4 221.8h0M133.4 215.3h0M133.0 215.2h0M132.7 215.0h0M132.4 214.8h0M132.0 214.7h0M131.5 214.5h0M131.2 214.4h0M130.9 214.3h0M130.0 214.0h0M129.7 213.8h0M129.4 213.6h0M129.1 213.4h0M128.9 213.2h0M128.6 213.2h0M128.1 212.9h0M127.6 212.7h0M127.3 212.6h0M127.0 212.4h0M126.7 212.2h0M126.3 212.0h0M126.0 212.0h0M125.7 211.8h0M125.4 211.7h0M125.0 211.5h0M124.7 211.4h0M124.4 211.1h0M124.1 211.0h0M123.9 210.8h0M123.5 210.6h0M123.1 210.5h0M122.9 210.3h0M122.6 210.2h0M122.2 210.0h0M121.9 209.8h0M121.7 209.8h0M121.4 209.6h0M121.0 209.5h0M120.6 209.4h0M120.4 209.2h0M120.1 209.0h0M119.9 208.9h0M119.6 208.7h0M119.3 208.6h0M119.0 208.5h0M118.7 208.4h0M118.4 208.2h0M118.2 208.0h0M117.9 207.9h0M117.6 207.7h0M117.4 207.6h0M117.1 207.5h0M116.9 207.3h0M116.5 207.1h0M116.2 207.0h0M116.1 206.9h0M115.8 206.8h0M115.6 206.6h0M115.3 206.5h0M115.1 206.3h0M114.8 206.2h0M114.4 206.0h0M114.1 205.9h0M113.9 205.7h0M113.7 205.5h0M113.4 205.5h0M113.1 205.3h0M112.9 205.2h0M112.7 205.1h0M112.4 204.9h0M112.2 204.8h0M112.0 204.6h0M111.7 204.6h0M111.5 204.4h0M111.3 204.3h0M111.0 204.2h0M110.8 204.0h0M110.5 203.9h0M110.3 203.7h0M110.1 203.6h0M109.9 203.5h0M109.7 203.3h0M109.4 203.2h0M109.0 203.0h0M108.7 202.9h0M108.6 202.8h0M108.4 202.7h0M108.2 202.6h0M108.0 202.5h0M107.7 202.3h0M107.4 202.1h0M107.1 202.0h0M107.0 201.9h0M106.8 201.8h0M106.6 201.7h0M106.4 201.6h0M106.1 201.4h0M105.9 201.3h0M105.7 201.2h0M105.5 201.1h0M105.3 200.9h0M105.1 200.7h0M104.9 200.6h0M104.7 200.5h0M104.5 200.4h0M104.2 200.3h0M104.0 200.2h0M103.8 200.0h0M103.6 200.0h0M103.3 199.8h0M102.9 199.7h0M102.6 199.6h0M102.5 199.5h0M102.4 199.4h0M102.1 199.2h0M101.9 199.1h0M101.7 199.0h0M101.5 198.8h0M101.1 198.6h0M100.9 198.5h0M100.7 198.4h0M100.5 198.3h0M100.3 198.2h0M100.1 198.1h0M99.9 198.0h0M99.8 197.9h0M99.5 197.6h0M99.3 197.6h0M99.2 197.4h0M99.0 197.3h0M98.6 197.2h0M98.4 197.0h0M98.2 197.0h0M98.0 196.8h0M97.8 196.7h0M97.6 196.6h0M97.1 196.3h0M96.9 196.2h0M96.8 196.0h0M96.5 195.9h0M96.2 195.7h0M96.0 195.7h0M95.8 195.6h0M95.4 195.4h0M95.3 195.2h0M95.1 195.1h0M95.0 195.0h0M94.7 194.8h0M94.5 194.7h0M94.3 194.5h0M94.1 194.4h0M93.8 194.3h0M93.6 194.2h0M93.5 194.1h0M93.3 194.0h0M93.0 193.8h0M92.8 193.6h0M92.6 193.5h0M92.4 193.3h0M92.2 193.2h0M91.9 193.1h0M91.8 193.0h0M91.6 192.8h0M91.3 192.7h0M91.0 192.6h0M90.8 192.4h0M90.7 192.3h0M90.4 192.2h0M90.1 192.1h0M89.9 192.0h0" fill="none" style="stroke:#6E6E6E" stroke-width="3.4" stroke-linecap="round" opacity="0.85"/><text class="sp-note" x="378" y="40" text-anchor="end">← cooling</text><text class="sp-note" x="378" y="58" text-anchor="end">5 electrode pairs, one film</text></svg></figure>
+          <figure class="slide" data-cap="Indexed GIWAXS of an annealed 3,5-PDEG-2 film, each label a Miller index. It points to a tetragonal cell of alternating fullerene and glycol layers, the packing in-plane transport likes best." data-link="#regiochemistry"><img src="img/giwaxs/35-undoped-indexed.webp" alt="Indexed GIWAXS diffractogram of a 3,5-PDEG-2 film" style="object-position:50% 50%;" loading="lazy"></figure>
+          <button class="slide-btn prev" type="button" aria-label="Previous picture">&lsaquo;</button>
+          <button class="slide-btn next" type="button" aria-label="Next picture">&rsaquo;</button>
+        </div>
+        <div class="slide-bar"><p class="slide-cap" aria-live="polite"></p><div class="slide-dots"></div></div>
+      </div>
+    </div>
+
 
     <div class="instrument-strip hero-anim d4">
       <span><b>Process —</b> PVD (thermal, sputter, e&#8209;beam) · spin coating · photolithography · dry etch · lift&#8209;off</span>
@@ -752,179 +787,158 @@
   </div>
 </header>
 
-<section id="about">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">About me</p>
-      <h2>How I got here</h2>
-    </div>
-    <div class="about-side">
-    <div class="about-text">
-    <h3 data-place="0">Why science</h3>
-    <p>
-      Growing up watching popular science channels, I discovered the joy of learning something unexpected and
-      understanding something counterintuitive. Curiosity became my inner compass but, instead of pointing in one
-      direction, it made everything interesting. That is why I chose to study Materials Science in Padova: being in the
-      middle between chemistry, physics and even biology, it was for me the program that allowed me to keep exploring
-      wide but also in depth.
-    </p>
-
-    <h3 data-place="1">Why research</h3>
-    <p>
-      After the bachelor I really wanted to see research up close, and maybe contribute to it. I ended up at KAUST, which
-      felt like a playground for scientists: the facilities were brand new, and access to all kinds of equipment enabled a
-      great deal of creative freedom. I joined the Organic Bioelectronics Lab, and that's where I first got familiar with
-      thin-film deposition and lithography, and built my first automated setup.
-    </p>
-    <p data-place="2">
-      Once that period ended, my itch to go into depth was stronger than ever, so I decided to do a PhD in Groningen, in a group led by a physicist, starting with
-      <a href="#regiochemistry">how moving a glycol chain around a fullerene changes its properties</a>.
-    </p>
-    <p>
-      <strong>Thin films and semiconductor devices are my core expertise</strong>: physical vapor deposition (thermal
-      evaporation, sputtering, e-beam), spin coating, photolithography, dry etching and surface preparation, followed by
-      structural and electrical characterization. I run process development as a closed loop: vary the process variables
-      systematically, measure, relate the results statistically in Python, and set the next experiment. That is how we
-      found that <a href="https://doi.org/10.1021/acsami.6c09341" target="_blank" rel="noopener">mixing time alone shifts
-      conductivity by orders of magnitude</a>, and how I developed
-      <a href="https://doi.org/10.1039/d6ra05776d" target="_blank" rel="noopener">a vacuum-free doping process</a>.
-    </p>
-
-    <h3>Why engineering</h3>
-    <p>
-      During my PhD I was often limited by my experimental setups: I couldn't study what I felt was important in the right
-      way. That's when I realized that <strong>to become the scientist I wanted to be, I first needed to become a good
-      engineer</strong>.
-    </p>
-    <p>
-      Also, I just enjoy the process of translating an idea into something concrete, rather than just data. And each
-      feature you decide to implement requires you to learn something new, so I got to learn about electronics, firmware,
-      mechanics and a bit of fluidics too! <a href="#project">The conductivity rig below</a> came out of that.
-    </p>
-    </div>
-    <figure class="places">
-      <div class="paper-plot places-map" id="places-map" role="img" aria-label="Map of where Federico studied, lived and worked: Padova, KAUST, Groningen and Taipei"></div>
-      <div class="mol-tip place-tip" hidden><img alt="" hidden><span class="n"></span><span class="v"></span></div>
-      <figcaption class="project-cap">Hover or tap a city for the details.</figcaption>
-    </figure>
-    </div>
-  </div>
-</section>
-
 <section id="experience">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Experience &amp; Education</p>
       <h2>Lab work and studies, in order</h2>
     </div>
-    <div class="timeline">
+    <div class="exp-grid">
+    <div class="exp-main">
+      <details class="story" id="story">
+        <summary><span class="story-title">The reasons behind each move</span><span class="story-hint">why science, why research, why engineering</span></summary>
+      <div class="about-text">
+      <h3>Why science</h3>
+      <p>
+        Growing up watching popular science channels, I discovered the joy of learning something unexpected and
+        understanding something counterintuitive. Curiosity became my inner compass but, instead of pointing in one
+        direction, it made everything interesting. That is why I chose to study Materials Science in Padova: being in the
+        middle between chemistry, physics and even biology, it was for me the program that allowed me to keep exploring
+        wide but also in depth.
+      </p>
 
-      <div class="entry">
-        <div class="entry-date">Aug 2026 — Oct 2026</div>
-        <div>
-          <h3>Mechatronics &amp; SWIR Device Integration Engineer</h3>
-          <span class="org">AilumiQ, Taipei, Taiwan</span>
-          <ul>
-            <li>Fabricated photodiode and test stacks for short-wave infrared (SWIR) photodetectors &mdash; spin coating and thermal evaporation in a glovebox &mdash; and wrote the SOP for the evaporator.</li>
-            <li>Built the first iteration of a high-speed optoelectronic test bench and designed a reliability rig for 85&nbsp;&deg;C ageing.</li>
-          </ul>
-        </div>
+      <h3>Why research</h3>
+      <p>
+        After the bachelor I really wanted to see research up close, and maybe contribute to it. I ended up at KAUST, which
+        felt like a playground for scientists: the facilities were brand new, and access to all kinds of equipment enabled a
+        great deal of creative freedom. I joined the Organic Bioelectronics Lab, and that's where I first got familiar with
+        thin-film deposition and lithography, and built my first automated setup.
+      </p>
+      <p>
+        Once that period ended, my itch to go into depth was stronger than ever, so I decided to do a PhD in Groningen, in a group led by a physicist, starting with
+        <a href="#regiochemistry">how moving a glycol chain around a fullerene changes its properties</a>.
+      </p>
+      <p>
+        <strong>Thin films and semiconductor devices are my core expertise</strong>: physical vapor deposition (thermal
+        evaporation, sputtering, e-beam), spin coating, photolithography, dry etching and surface preparation, followed by
+        structural and electrical characterization. I run process development as a closed loop: vary the process variables
+        systematically, measure, relate the results statistically in Python, and set the next experiment. That is how we
+        found that <a href="https://doi.org/10.1021/acsami.6c09341" target="_blank" rel="noopener">mixing time alone shifts
+        conductivity by orders of magnitude</a>, and how I developed
+        <a href="https://doi.org/10.1039/d6ra05776d" target="_blank" rel="noopener">a vacuum-free doping process</a>.
+      </p>
+
+      <h3>Why engineering</h3>
+      <p>
+        During my PhD I was often limited by my experimental setups: I couldn't study what I felt was important in the right
+        way. That's when I realized that <strong>to become the scientist I wanted to be, I first needed to become a good
+        engineer</strong>.
+      </p>
+      <p>
+        Also, I just enjoy the process of translating an idea into something concrete, rather than just data. And each
+        feature you decide to implement requires you to learn something new, so I got to learn about electronics, firmware,
+        mechanics and a bit of fluidics too! <a href="#project">The conductivity rig below</a> came out of that.
+      </p>
       </div>
+      </details>
+      <div class="timeline-tools"><button class="plot-tab" type="button" id="expand-all">Expand all</button></div>
+      <div class="timeline">
 
-      <div class="entry">
-        <div class="entry-date">Sep 2021 — Jul 2026</div>
-        <div>
-          <h3>PhD Researcher</h3>
-          <span class="org">Zernike Institute for Advanced Materials, University of Groningen, The Netherlands</span>
-          <p class="degree">PhD in Applied Physics &middot; defense 8 February 2027</p>
-          <p class="thesis">Thesis: Electronic properties of doped organic semiconductors — supervised by Prof. L.J.A. Koster</p>
-          <ul>
-            <li>Process development for doped organic semiconductor films: varied doping route, mixing time, annealing and deposition conditions systematically and related conductivity, dielectric and morphological response back to them; showed that mixing time alone shifts conductivity by orders of magnitude.</li>
-            <li>Developed a low-temperature, ambient-air deposition process for a molecular n-dopant that removed the need for nitrogen or vacuum while reaching high conductivities.</li>
-            <li>Redesigned the sample fabrication flow and its PVD shadow masks &mdash; evaluating waterjet, CNC and EDM routes with the mechanical workshop &mdash; for better yield, alignment and encapsulation stability.</li>
-            <li>Characterized films by GIWAXS, AFM and ellipsometry; fabricated transistors, diodes and MIS capacitors for electrical validation (I-V, impedance spectroscopy, Mott&ndash;Schottky, SCLC).</li>
-            <li>Designed and built an automated, temperature-dependent conductivity rig measuring four regions per sample instead of one.</li>
-            <li>Ran COMSOL simulations with Innovation Lab GmbH for scalable manufacturing of printed thermoelectric generators; wrote SOPs and trained colleagues on cleanroom and glovebox tools.</li>
-          </ul>
+        <div class="entry" data-place="3">
+          <div class="entry-date">Aug 2026 — Oct 2026</div>
+          <div>
+            <details class="entry-body">
+            <summary><h3>Mechatronics &amp; SWIR Device Integration Engineer</h3>
+            <span class="org">AilumiQ, Taipei, Taiwan</span></summary>
+              <ul>
+                <li>Fabricated photodiode and test stacks for short-wave infrared (SWIR) photodetectors &mdash; spin coating and thermal evaporation in a glovebox &mdash; and wrote the SOP for the evaporator.</li>
+                <li>Built the first iteration of a high-speed optoelectronic test bench and designed a reliability rig for 85&nbsp;&deg;C ageing.</li>
+              </ul>
+            </details>
+          </div>
         </div>
-      </div>
 
-      <div class="entry">
-        <div class="entry-date">2021 — 2026</div>
-        <div>
-          <h3>Project Supervisor</h3>
-          <span class="org">University of Groningen</span>
-          <ul>
-            <li>Supervised MSc and BSc projects on process optimization and measurement accuracy, mentoring students in experimental design and data analysis.</li>
-          </ul>
+        <div class="entry" data-place="2">
+          <div class="entry-date">Sep 2021 — Jul 2026</div>
+          <div>
+            <details class="entry-body">
+            <summary><h3>PhD Researcher</h3>
+            <span class="org">Zernike Institute for Advanced Materials, University of Groningen, The Netherlands</span>
+            <span class="degree">PhD in Applied Physics &middot; defense 8 February 2027</span></summary>
+              <p class="thesis">Thesis: Electronic properties of doped organic semiconductors — supervised by Prof. L.J.A. Koster</p>
+              <ul>
+                <li>Process development for doped organic semiconductor films: varied doping route, mixing time, annealing and deposition conditions systematically and related conductivity, dielectric and morphological response back to them; showed that <a href="https://doi.org/10.1021/acsami.6c09341" target="_blank" rel="noopener" title="ACS Applied Materials &amp; Interfaces, 2026">mixing time alone shifts conductivity by orders of magnitude</a>.</li>
+                <li>Developed a <a href="https://doi.org/10.1039/d6ra05776d" target="_blank" rel="noopener" title="RSC Advances, 2026">low-temperature, ambient-air deposition process</a> for a molecular n-dopant that removed the need for nitrogen or vacuum while reaching high conductivities.</li>
+                <li>Redesigned the sample fabrication flow and its PVD shadow masks &mdash; evaluating waterjet, CNC and EDM routes with the mechanical workshop &mdash; for better yield, alignment and encapsulation stability.</li>
+                <li>Characterized films by <a href="https://doi.org/10.1002/aelm.202500287" target="_blank" rel="noopener" title="Advanced Electronic Materials, 2026">GIWAXS, AFM and ellipsometry</a>; fabricated transistors, diodes and MIS capacitors for electrical validation (I-V, impedance spectroscopy, Mott&ndash;Schottky, SCLC).</li>
+                <li>Designed and built an automated, temperature-dependent conductivity rig measuring four regions per sample instead of one.</li>
+                <li>Ran COMSOL simulations with Innovation Lab GmbH for scalable manufacturing of <a href="https://doi.org/10.1002/admt.202302058" target="_blank" rel="noopener" title="Advanced Materials Technologies, 2024">printed thermoelectric generators</a>; wrote SOPs and trained colleagues on cleanroom and glovebox tools.</li>
+              </ul>
+            </details>
+          </div>
         </div>
-      </div>
 
-      <div class="entry">
-        <div class="entry-date">2019 — 2021</div>
-        <div>
-          <h3>Master's Thesis Researcher</h3>
-          <span class="org">Organic Bioelectronics Laboratory, KAUST, Saudi Arabia</span>
-          <p class="degree">M.Sc. in Bioengineering (Biosensors &amp; Bioelectronics)</p>
-          <p class="thesis">Thesis: Ionic transport in organic mixed ionic-electronic conductors — supervised by Prof. S. Inal</p>
-          <ul>
-            <li>Built and validated a custom setup coupling optical and electrochemical measurements to characterize ionic mobility in organic semiconductors, with a Python analysis pipeline behind it.</li>
-            <li>Functionalized and characterized OECT-based biosensors for dopamine detection.</li>
-            <li>Ran full lithographic fabrication of organic electrochemical transistors — 2 masks/development steps, 3 surface activations, 4 spin-coating steps, one etch, one sputter/lift-off.</li>
-          </ul>
+        <div class="entry" data-place="2">
+          <div class="entry-date">2021 — 2026</div>
+          <div>
+            <details class="entry-body">
+            <summary><h3>Project Supervisor</h3>
+            <span class="org">University of Groningen</span></summary>
+              <ul>
+                <li>Supervised MSc and BSc projects on process optimization and measurement accuracy, mentoring students in experimental design and data analysis.</li>
+              </ul>
+            </details>
+          </div>
         </div>
-      </div>
 
-      <div class="entry">
-        <div class="entry-date">May — Jul 2019</div>
-        <div>
-          <h3>Visiting Research Student (VSRP)</h3>
-          <span class="org">KAUST Solar Center</span>
-          <ul>
-            <li>Fabricated perovskite solar cells and nanogap RF Schottky diodes; characterized the diodes by I-V and improved device performance through systematic troubleshooting.</li>
-          </ul>
+        <div class="entry" data-place="1">
+          <div class="entry-date">2019 — 2021</div>
+          <div>
+            <details class="entry-body">
+            <summary><h3>Master's Thesis Researcher</h3>
+            <span class="org">Organic Bioelectronics Laboratory, KAUST, Saudi Arabia</span>
+            <span class="degree">M.Sc. in Bioengineering (Biosensors &amp; Bioelectronics)</span></summary>
+              <p class="thesis">Thesis: Ionic transport in organic mixed ionic-electronic conductors — supervised by Prof. S. Inal</p>
+              <ul>
+                <li>Built and validated a custom setup coupling optical and electrochemical measurements to characterize ionic mobility in organic semiconductors, with a Python analysis pipeline behind it.</li>
+                <li>Functionalized and characterized OECT-based biosensors for dopamine detection.</li>
+                <li>Ran full lithographic fabrication of organic electrochemical transistors — 2 masks/development steps, 3 surface activations, 4 spin-coating steps, one etch, one sputter/lift-off.</li>
+              </ul>
+            </details>
+          </div>
         </div>
-      </div>
 
-      <div class="entry">
-        <div class="entry-date">2015 — 2018</div>
-        <div>
-          <h3>B.Sc. in Materials Science</h3>
-          <span class="org">University of Padova, Italy</span>
-          <p class="degree">Final score: 109/110</p>
+        <div class="entry" data-place="1">
+          <div class="entry-date">May — Jul 2019</div>
+          <div>
+            <details class="entry-body">
+            <summary><h3>Visiting Research Student (VSRP)</h3>
+            <span class="org">KAUST Solar Center</span></summary>
+              <ul>
+                <li>Fabricated perovskite solar cells and <a href="https://doi.org/10.1002/adma.202108524" target="_blank" rel="noopener" title="Advanced Materials, 2022">nanogap RF Schottky diodes</a>; characterized the diodes by I-V and improved device performance through systematic troubleshooting.</li>
+              </ul>
+            </details>
+          </div>
         </div>
-      </div>
 
+        <div class="entry" data-place="0">
+          <div class="entry-date">2015 — 2018</div>
+          <div>
+            <h3>B.Sc. in Materials Science</h3>
+            <span class="org">University of Padova, Italy</span>
+            <p class="degree">Final score: 109/110</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <figure class="places">
+      <div class="paper-plot places-map" id="places-map" role="img" aria-label="Map of where Federico studied, lived and worked: Padova, KAUST, Groningen and Taipei"></div>
+      <div class="mol-tip place-tip" hidden><img alt="" hidden><span class="n"></span><span class="v"></span></div>
+      <figcaption class="project-cap">Hover or tap a city for the details; hovering an entry in the list lights up where it happened.</figcaption>
+    </figure>
     </div>
 
-    <div class="two-col exp-extra">
-      <div>
-        <div class="mini-head">Awards &amp; Fellowships</div>
-        <div class="award">
-          <div class="t">Marie Curie Early-Stage Researcher</div>
-          <div class="d">2021 – 2025 · EU-funded research training program</div>
-        </div>
-        <div class="award">
-          <div class="t">KAUST Master's Scholarship</div>
-          <div class="d">2019 – 2021 · Full academic scholarship with stipend</div>
-        </div>
-        <div class="mini-head" style="margin-top:30px;">Training</div>
-        <div class="award">
-          <div class="t">NanoIC European Spring School on Advanced CMOS, imec</div>
-          <div class="d">March 2026 · patterning, process integration, metrology, reliability of advanced logic</div>
-        </div>
-        <div class="award">
-          <div class="t">ASML Masterclass for PhD Students</div>
-          <div class="d">2025 · lithography systems and the semiconductor equipment industry</div>
-        </div>
-      </div>
-      <div>
-        <div class="mini-head">Languages</div>
-        <div class="lang-row"><span>Italian</span><span class="level">native</span></div>
-        <div class="lang-row"><span>English</span><span class="level">fluent</span></div>
-        <div class="lang-row"><span>Portuguese</span><span class="level">intermediate</span></div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -934,66 +948,83 @@
       <p class="eyebrow">Projects</p>
       <h2>Building the rig I wished I had</h2>
     </div>
-    <figure class="project-hero">
-      <img src="img/rig/rig-final.jpg" width="1050" height="1400" alt="The finished conductivity rig on a rotational stage, with copper heat pipes, a heat sink and a pogo-pin head above the sample">
-      <figcaption>The finished rig, mounted on a rotational stage &mdash; four measurement regions, heat-sunk and automated.</figcaption>
-    </figure>
-    <p>
-      The rig started from a frustration with how we prepared and measured samples. Our standard device layout
-      wasted a lot of expensive substrate: most of the materials I worked with were either costly or synthesized
-      by organic chemists in batches under 100&nbsp;mg, yet the layout gave us only two regions to measure
-      conductivity and one for the Seebeck coefficient. On top of that, every device was measured one at a time
-      on a probe station &mdash; repetitive and slow, despite the layout having stayed the same for years.
-    </p>
-    <p>
-      So I redesigned the shadow mask used to pattern the electrodes &mdash; trying waterjet cutting, CNC milling,
-      and spark erosion along the way &mdash; and built a rig around it that would let me measure more of a sample,
-      automatically.
-    </p>
-
-
-    <p>
-      The clearest case for it came from the vapor-doping paper: I wanted to see whether the distribution of
-      dopant changed the kinetics of activation, which meant annealing a sample while recording its conductivity
-      &mdash; pressing a button every two minutes for several hours, for one device per run. The new setup
-      automates that measurement and reads four regions at once, so a run that used to return a single data
-      point now returns four.
-    </p>
-
-    <div class="project-gallery">
-      <figure>
-        <img src="img/rig/rig-sketch.jpg" alt="Hand sketches of the substrate, the linear and rotary stages and how they stack up" style="object-position:50% 20%;">
-        <figcaption>First sketches: substrate, stages, and how they stack up</figcaption>
+    <div class="rig-split">
+    <div class="rig-text">
+      <p>
+        The rig started from a frustration with how we prepared and measured samples. Our standard device layout
+        wasted a lot of expensive substrate: most of the materials I worked with were either costly or synthesized
+        by organic chemists in batches under 100&nbsp;mg, yet the layout gave us only two regions to measure
+        conductivity and one for the Seebeck coefficient. On top of that, every device was measured one at a time
+        on a probe station &mdash; repetitive and slow, despite the layout having stayed the same for years.
+      </p>
+      <p>
+        So I redesigned the shadow mask used to pattern the electrodes &mdash; trying waterjet cutting, CNC milling,
+        and spark erosion along the way &mdash; and built a rig around it that would let me measure more of a sample,
+        automatically.
+      </p>
+      <p>
+        The clearest case for it came from the vapor-doping paper: I wanted to see whether the distribution of
+        dopant changed the kinetics of activation, which meant annealing a sample while recording its conductivity
+        &mdash; pressing a button every two minutes for several hours, for one device per run. The new setup
+        automates that measurement and reads four regions at once, so a run that used to return a single data
+        point now returns four.
+      </p>
+    </div>
+    <div class="rig-parts">
+      <p class="plot-title parts-title">The parts I designed along the way</p>
+      <div class="parts" id="parts">
+        <button class="part" type="button" data-part="holder"><img src="img/parts/holder.webp" width="520" height="520" alt="" loading="lazy"><span>Peltier holder with heat-sink fins</span></button>
+        <button class="part" type="button" data-part="plate"><img src="img/parts/plate.webp" width="520" height="520" alt="" loading="lazy"><span>Substrate plate with pogo-pin holes</span></button>
+        <button class="part" type="button" data-part="plate-v10"><img src="img/parts/plate-v10.webp" width="520" height="520" alt="" loading="lazy"><span>Substrate plate, earlier version</span></button>
+        <button class="part" type="button" data-part="toggle-adapter"><img src="img/parts/toggle-adapter.webp" width="520" height="520" alt="" loading="lazy"><span>Toggle-clamp adapter</span></button>
+        <button class="part" type="button" data-part="clamp-adapter"><img src="img/parts/clamp-adapter.webp" width="520" height="520" alt="" loading="lazy"><span>Clamp adapter</span></button>
+        <button class="part" type="button" data-part="feedthrough"><img src="img/parts/feedthrough.webp" width="520" height="520" alt="" loading="lazy"><span>Glove box feedthrough</span></button>
+        <button class="part" type="button" data-part="bracket"><img src="img/parts/bracket.webp" width="520" height="520" alt="" loading="lazy"><span>Bracket</span></button>
+        <button class="part" type="button" data-part="converter"><img src="img/parts/converter.webp" width="520" height="520" alt="" loading="lazy"><span>15 x 15 to 30 x 30 mm converter</span></button>
+        <button class="part" type="button" data-part="masks-4pp"><img src="img/parts/masks-4pp.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow masks for four-point probe</span></button>
+        <button class="part" type="button" data-part="mask-vd"><img src="img/parts/mask-vd.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow mask for vapor doping, 30 x 30 mm</span></button>
+        <button class="part" type="button" data-part="mask-tlm"><img src="img/parts/mask-tlm.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow mask, 30 x 30 mm, transmission line</span></button>
+        <button class="part" type="button" data-part="mask-127"><img src="img/parts/mask-127.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow mask 1.27 mm, five slots</span></button>
+      </div>
+      <p class="project-cap" id="parts-cap">Click a part to turn it around.</p>
+    </div>
+    </div>
+    <div class="rig-result">
+      <figure class="project-hero">
+        <img src="img/rig/rig-final.jpg" width="1050" height="1400" alt="The finished conductivity rig on a rotational stage, with copper heat pipes, a heat sink and a pogo-pin head above the sample">
+        <figcaption>The finished rig, mounted on a rotational stage &mdash; four measurement regions, heat-sunk and automated.</figcaption>
       </figure>
-      <figure>
-        <img src="img/rig/rig-mask.jpg" alt="A metal shadow mask with several electrode patterns">
-        <figcaption>A shadow mask from the redesign</figcaption>
-      </figure>
-      <figure>
-        <img src="img/rig/rig-first.jpg" alt="An early version of the rig with a toggle clamp, pogo pins and a finned aluminium holder">
-        <figcaption>An early version: toggle clamp, pogo pins, finned holder</figcaption>
-      </figure>
-      <figure>
-        <img src="img/rig/rig-close.jpg" alt="Close-up of the pogo-pin head above a sample in its frame, with copper heat pipes below" style="object-position:50% 40%;">
-        <figcaption>The pogo-pin head above a sample, heat pipes below</figcaption>
+      <figure class="rig-trace" id="rig-trace">
+        <p class="plot-title">Conductivity while annealing</p>
+        <div class="trace">
+      <svg class="trace-narrow" viewBox="0 0 340 200" role="img" aria-label="Conductivity of doped PCBM films recorded while annealing for 3000 seconds, bulk-doped and vapor-doped, at 100 and 120 degrees C. Bulk-doped films settle near 4.6 and 3.6 S/cm, vapor-doped films near 2 S/cm.">
+        <line class="trace-axis" x1="24" y1="176" x2="334" y2="176"></line>
+        <line class="trace-grid" x1="24" y1="113.4" x2="334" y2="113.4"></line>
+        <line class="trace-grid" x1="24" y1="50.7" x2="334" y2="50.7"></line>
+        <text class="trace-label" x="18" y="179" text-anchor="end">0</text>
+        <text class="trace-label" x="18" y="116.4" text-anchor="end">2</text>
+        <text class="trace-label" x="18" y="53.7" text-anchor="end">4</text>
+        <text class="trace-label" x="24" y="193">0</text>
+        <text class="trace-label" x="125.6" y="193" text-anchor="middle">1000</text>
+        <text class="trace-label" x="227.3" y="193" text-anchor="middle">2000</text>
+        <text class="trace-label" x="328.9" y="193" text-anchor="end">3000 s</text>
+        <path class="trace-band" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,176.0 L27.2,176.0 L27.5,176.0 L27.8,176.0 L28.1,176.0 L28.4,175.9 L28.7,175.7 L29.0,174.8 L29.3,172.4 L29.6,166.5 L29.9,158.9 L30.3,149.6 L30.6,134.2 L30.9,123.5 L31.2,115.1 L31.5,97.0 L31.8,97.4 L32.1,88.8 L32.4,78.7 L32.7,79.7 L33.0,69.5 L33.3,73.0 L33.6,68.4 L33.9,62.1 L34.2,62.5 L34.5,60.1 L34.8,62.9 L35.1,61.2 L35.4,63.3 L35.7,64.1 L36.0,58.4 L36.3,64.9 L36.7,59.3 L37.0,60.8 L37.3,60.1 L37.6,66.1 L37.9,61.2 L38.2,58.9 L38.5,63.5 L38.8,60.4 L39.1,62.8 L39.4,61.2 L39.7,61.2 L40.0,61.6 L40.3,56.2 L40.6,65.8 L40.9,61.5 L41.2,59.4 L41.5,64.6 L41.8,56.9 L42.1,61.8 L42.4,60.2 L42.8,62.0 L43.1,63.8 L43.4,55.6 L43.7,59.7 L44.0,61.1 L44.3,61.6 L47.6,59.6 L53.7,58.2 L59.8,57.7 L65.9,55.9 L72.0,56.1 L78.1,54.1 L84.2,52.7 L90.3,52.3 L96.4,52.9 L102.5,51.1 L108.6,51.9 L114.7,51.2 L120.8,52.2 L126.9,50.4 L133.0,50.1 L139.1,49.1 L145.2,49.8 L151.3,50.0 L157.4,49.6 L163.5,48.2 L169.6,48.2 L175.7,48.5 L181.8,49.3 L187.9,48.4 L194.0,48.8 L200.1,48.2 L206.2,47.5 L212.3,49.0 L218.4,47.6 L224.5,47.7 L230.6,48.1 L236.7,46.4 L242.8,47.2 L248.9,49.2 L255.0,47.5 L261.1,48.2 L267.2,46.8 L273.3,47.9 L279.4,47.4 L285.5,47.4 L291.6,47.1 L297.7,49.5 L303.8,47.4 L309.9,46.4 L316.0,47.2 L322.1,46.2 L328.2,47.6 L332.7,48.9 L332.7,77.3 L328.2,77.4 L322.1,75.9 L316.0,76.4 L309.9,75.8 L303.8,76.5 L297.7,79.0 L291.6,76.7 L285.5,76.1 L279.4,76.9 L273.3,76.9 L267.2,76.0 L261.1,77.1 L255.0,77.0 L248.9,78.3 L242.8,76.6 L236.7,75.3 L230.6,77.1 L224.5,76.5 L218.4,76.5 L212.3,78.0 L206.2,76.9 L200.1,77.2 L194.0,78.4 L187.9,77.0 L181.8,78.2 L175.7,77.3 L169.6,77.1 L163.5,76.9 L157.4,78.3 L151.3,78.5 L145.2,78.4 L139.1,77.9 L133.0,78.5 L126.9,78.6 L120.8,80.7 L114.7,79.1 L108.6,79.9 L102.5,79.0 L96.4,80.8 L90.3,80.1 L84.2,80.5 L78.1,81.6 L72.0,82.8 L65.9,82.8 L59.8,84.5 L53.7,84.5 L47.6,85.6 L44.3,86.4 L44.0,86.6 L43.7,85.9 L43.4,82.7 L43.1,88.7 L42.8,87.6 L42.4,86.2 L42.1,87.2 L41.8,82.2 L41.5,91.2 L41.2,83.0 L40.9,88.2 L40.6,89.3 L40.3,83.0 L40.0,88.5 L39.7,84.9 L39.4,88.0 L39.1,87.3 L38.8,86.0 L38.5,89.5 L38.2,84.3 L37.9,86.0 L37.6,90.1 L37.3,87.1 L37.0,84.8 L36.7,85.6 L36.3,89.5 L36.0,83.6 L35.7,90.1 L35.4,85.7 L35.1,90.5 L34.8,88.7 L34.5,88.3 L34.2,89.9 L33.9,87.8 L33.6,96.0 L33.3,95.9 L33.0,96.2 L32.7,102.1 L32.4,101.1 L32.1,109.7 L31.8,115.1 L31.5,117.0 L31.2,129.7 L30.9,137.4 L30.6,143.7 L30.3,155.4 L29.9,163.4 L29.6,169.4 L29.3,173.5 L29.0,175.3 L28.7,175.8 L28.4,176.0 L28.1,176.0 L27.8,176.0 L27.5,176.0 L27.2,176.0 L26.9,176.0 L26.6,176.0 L26.3,176.0 L26.0,176.0 L25.7,176.0 L25.4,176.0 L25.1,176.0 L24.8,176.0 L24.5,176.0 L24.2,176.0Z"/>
+        <path class="trace-band" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,176.0 L27.2,176.0 L27.5,176.0 L27.8,176.0 L28.1,176.0 L28.4,176.0 L28.7,175.8 L29.0,174.4 L29.3,160.4 L29.6,140.6 L29.9,120.6 L30.3,117.2 L30.6,107.4 L30.9,107.0 L31.2,94.4 L31.5,72.3 L31.8,83.1 L32.1,80.8 L32.4,81.4 L32.7,77.3 L33.0,59.5 L33.3,64.2 L33.6,65.5 L33.9,54.5 L34.2,58.7 L34.5,62.8 L34.8,56.5 L35.1,41.2 L35.4,52.7 L35.7,50.1 L36.0,54.8 L36.3,54.2 L36.7,55.5 L37.0,47.1 L37.3,56.6 L37.6,54.0 L37.9,55.2 L38.2,56.6 L38.5,46.4 L38.8,48.5 L39.1,42.4 L39.4,41.9 L39.7,40.3 L40.0,39.0 L40.3,40.5 L40.6,39.1 L40.9,35.8 L41.2,42.1 L41.5,37.2 L41.8,36.4 L42.1,36.8 L42.4,36.9 L42.8,34.6 L43.1,29.8 L43.4,31.6 L43.7,28.8 L44.0,34.1 L44.3,29.6 L47.6,30.6 L53.7,30.4 L59.8,30.0 L65.9,30.5 L72.0,29.3 L78.1,29.3 L84.2,29.1 L90.3,28.4 L96.4,27.4 L102.5,27.9 L108.6,27.8 L114.7,26.9 L120.8,27.0 L126.9,26.6 L133.0,26.6 L139.1,26.1 L145.2,26.3 L151.3,26.1 L157.4,25.7 L163.5,25.5 L169.6,26.3 L175.7,25.9 L181.8,25.8 L187.9,25.7 L194.0,26.1 L200.1,25.7 L206.2,26.5 L212.3,25.8 L218.4,25.3 L224.5,25.5 L230.6,26.1 L236.7,25.2 L242.8,24.9 L248.9,25.4 L255.0,25.8 L261.1,24.8 L267.2,25.8 L273.3,25.4 L279.4,25.5 L285.5,25.1 L291.6,25.4 L297.7,25.5 L303.8,24.8 L309.9,23.9 L316.0,23.5 L322.1,23.4 L328.2,24.7 L332.7,22.9 L332.7,36.1 L328.2,37.7 L322.1,36.4 L316.0,36.8 L309.9,37.3 L303.8,37.7 L297.7,38.4 L291.6,38.3 L285.5,38.0 L279.4,38.5 L273.3,38.5 L267.2,39.0 L261.1,37.9 L255.0,39.0 L248.9,38.5 L242.8,38.0 L236.7,38.5 L230.6,39.4 L224.5,38.9 L218.4,38.6 L212.3,38.9 L206.2,40.0 L200.1,39.2 L194.0,39.6 L187.9,39.3 L181.8,39.4 L175.7,39.5 L169.6,39.9 L163.5,39.3 L157.4,39.4 L151.3,40.0 L145.2,40.0 L139.1,39.8 L133.0,40.5 L126.9,40.5 L120.8,41.0 L114.7,41.0 L108.6,41.8 L102.5,41.9 L96.4,41.6 L90.3,42.4 L84.2,43.2 L78.1,43.4 L72.0,43.5 L65.9,44.6 L59.8,44.4 L53.7,44.9 L47.6,45.4 L44.3,44.8 L44.0,48.2 L43.7,45.2 L43.4,45.6 L43.1,45.4 L42.8,47.9 L42.4,54.1 L42.1,52.0 L41.8,51.4 L41.5,53.3 L41.2,56.7 L40.9,52.2 L40.6,54.1 L40.3,56.6 L40.0,55.7 L39.7,60.4 L39.4,59.2 L39.1,61.3 L38.8,70.2 L38.5,68.6 L38.2,79.5 L37.9,80.4 L37.6,77.6 L37.3,81.5 L37.0,70.6 L36.7,80.8 L36.3,79.9 L36.0,79.7 L35.7,77.1 L35.4,85.7 L35.1,75.2 L34.8,88.3 L34.5,98.7 L34.2,91.7 L33.9,85.3 L33.6,96.3 L33.3,97.6 L33.0,93.3 L32.7,111.1 L32.4,112.0 L32.1,110.2 L31.8,117.0 L31.5,104.1 L31.2,122.5 L30.9,131.3 L30.6,131.0 L30.3,137.1 L29.9,137.2 L29.6,151.8 L29.3,166.5 L29.0,175.4 L28.7,176.0 L28.4,176.0 L28.1,176.0 L27.8,176.0 L27.5,176.0 L27.2,176.0 L26.9,176.0 L26.6,176.0 L26.3,176.0 L26.0,176.0 L25.7,176.0 L25.4,176.0 L25.1,176.0 L24.8,176.0 L24.5,176.0 L24.2,176.0Z"/>
+        <path class="trace-band trace-alt" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,175.9 L27.2,175.9 L27.5,175.8 L27.8,175.5 L28.1,175.0 L28.4,174.6 L28.7,174.2 L29.0,173.7 L29.3,173.2 L29.6,172.4 L29.9,171.4 L30.3,170.6 L30.6,170.2 L30.9,169.5 L31.2,168.8 L31.5,166.8 L31.8,167.1 L32.1,164.6 L32.4,164.4 L32.7,161.8 L33.0,161.9 L33.3,159.2 L33.6,157.4 L33.9,157.2 L34.2,156.4 L34.5,155.9 L34.8,152.6 L35.1,154.4 L35.4,155.5 L35.7,150.6 L36.0,153.7 L36.3,151.4 L36.7,149.9 L37.0,151.6 L37.3,152.5 L37.6,150.4 L37.9,151.9 L38.2,149.0 L38.5,149.1 L38.8,148.1 L39.1,149.5 L39.4,150.2 L39.7,147.6 L40.0,151.9 L40.3,147.9 L40.6,147.1 L40.9,147.7 L41.2,147.0 L41.5,149.3 L41.8,145.9 L42.1,150.2 L42.4,147.2 L42.8,145.3 L43.1,146.7 L43.4,147.3 L43.7,145.2 L44.0,144.3 L44.3,145.4 L47.6,143.4 L53.7,140.1 L59.8,137.4 L65.9,135.3 L72.0,133.2 L78.1,131.8 L84.2,130.6 L90.3,128.7 L96.4,127.2 L102.5,126.1 L108.6,125.2 L114.7,124.1 L120.8,123.2 L126.9,121.9 L133.0,121.1 L139.1,120.4 L145.2,119.1 L151.3,118.7 L157.4,117.4 L163.5,116.6 L169.6,116.4 L175.7,115.2 L181.8,114.8 L187.9,113.9 L194.0,113.4 L200.1,112.4 L206.2,111.6 L212.3,111.9 L218.4,110.5 L224.5,110.5 L230.6,109.8 L236.7,109.5 L242.8,109.3 L248.9,108.6 L255.0,108.0 L261.1,107.4 L267.2,107.0 L273.3,106.2 L279.4,107.2 L285.5,105.5 L291.6,104.8 L297.7,104.1 L303.8,104.2 L309.9,103.1 L316.0,104.0 L322.1,102.9 L328.2,101.8 L332.7,101.9 L332.7,116.0 L328.2,116.0 L322.1,117.0 L316.0,118.1 L309.9,117.0 L303.8,118.0 L297.7,118.0 L291.6,118.6 L285.5,119.1 L279.4,120.9 L273.3,119.7 L267.2,120.4 L261.1,120.7 L255.0,121.0 L248.9,121.6 L242.8,122.3 L236.7,122.4 L230.6,122.5 L224.5,123.4 L218.4,123.1 L212.3,124.4 L206.2,123.9 L200.1,124.7 L194.0,125.6 L187.9,125.8 L181.8,126.6 L175.7,127.0 L169.6,128.1 L163.5,128.1 L157.4,128.9 L151.3,129.9 L145.2,130.2 L139.1,131.2 L133.0,131.8 L126.9,132.5 L120.8,133.8 L114.7,134.5 L108.6,135.4 L102.5,135.8 L96.4,136.7 L90.3,137.9 L84.2,140.4 L78.1,141.1 L72.0,142.4 L65.9,144.3 L59.8,145.9 L53.7,147.9 L47.6,151.0 L44.3,153.1 L44.0,151.3 L43.7,154.0 L43.4,153.9 L43.1,154.7 L42.8,153.0 L42.4,154.2 L42.1,157.3 L41.8,153.5 L41.5,156.3 L41.2,153.7 L40.9,155.8 L40.6,154.1 L40.3,155.0 L40.0,158.1 L39.7,154.6 L39.4,156.9 L39.1,155.9 L38.8,155.7 L38.5,155.9 L38.2,156.0 L37.9,158.0 L37.6,157.1 L37.3,158.4 L37.0,157.6 L36.7,156.9 L36.3,157.3 L36.0,159.5 L35.7,156.6 L35.4,161.1 L35.1,159.7 L34.8,158.7 L34.5,160.9 L34.2,161.5 L33.9,161.8 L33.6,162.3 L33.3,163.4 L33.0,165.4 L32.7,165.6 L32.4,167.6 L32.1,167.6 L31.8,169.2 L31.5,169.4 L31.2,170.7 L30.9,171.2 L30.6,171.8 L30.3,172.0 L29.9,172.7 L29.6,173.3 L29.3,174.0 L29.0,174.4 L28.7,174.9 L28.4,175.1 L28.1,175.3 L27.8,175.7 L27.5,175.9 L27.2,176.0 L26.9,176.0 L26.6,176.0 L26.3,176.0 L26.0,176.0 L25.7,176.0 L25.4,176.0 L25.1,176.0 L24.8,176.0 L24.5,176.0 L24.2,176.0Z"/>
+        <path class="trace-band trace-alt" d="M24.2,175.9 L24.5,175.9 L24.8,175.9 L25.1,175.9 L25.4,175.9 L25.7,175.9 L26.0,175.9 L26.3,175.9 L26.6,175.9 L26.9,175.9 L27.2,175.9 L27.5,175.9 L27.8,175.9 L28.1,175.7 L28.4,174.7 L28.7,144.5 L29.0,140.2 L29.3,140.9 L29.6,138.4 L29.9,145.8 L30.3,151.5 L30.6,142.5 L30.9,159.2 L31.2,137.3 L31.5,126.0 L31.8,145.2 L32.1,136.9 L32.4,144.9 L32.7,136.4 L33.0,136.6 L33.3,142.9 L33.6,137.6 L33.9,146.2 L34.2,139.1 L34.5,143.8 L34.8,134.3 L35.1,143.3 L35.4,130.8 L35.7,140.1 L36.0,122.7 L36.3,134.9 L36.7,122.2 L37.0,125.9 L37.3,117.6 L37.6,124.6 L37.9,112.6 L38.2,114.1 L38.5,116.9 L38.8,111.0 L39.1,114.5 L39.4,113.1 L39.7,112.3 L40.0,114.0 L40.3,111.3 L40.6,113.2 L40.9,116.1 L41.2,111.0 L41.5,115.7 L41.8,109.4 L42.1,114.6 L42.4,109.2 L42.8,112.7 L43.1,111.0 L43.4,113.2 L43.7,116.7 L44.0,111.4 L44.3,117.2 L47.6,112.7 L53.7,111.4 L59.8,111.2 L65.9,111.4 L72.0,111.3 L78.1,111.6 L84.2,111.3 L90.3,111.9 L96.4,110.6 L102.5,109.6 L108.6,109.4 L114.7,109.3 L120.8,110.3 L126.9,110.4 L133.0,109.7 L139.1,109.0 L145.2,110.2 L151.3,110.3 L157.4,110.6 L163.5,110.4 L169.6,110.6 L175.7,110.8 L181.8,109.9 L187.9,110.6 L194.0,109.7 L200.1,110.8 L206.2,110.5 L212.3,110.5 L218.4,110.2 L224.5,111.1 L230.6,111.5 L236.7,111.0 L242.8,110.8 L248.9,110.9 L255.0,111.1 L261.1,111.8 L267.2,111.0 L273.3,110.9 L279.4,111.5 L285.5,112.1 L291.6,111.9 L297.7,112.0 L303.8,111.7 L309.9,111.5 L316.0,111.8 L322.1,112.1 L328.2,112.4 L332.7,112.5 L332.7,126.4 L328.2,126.2 L322.1,125.9 L316.0,125.7 L309.9,125.3 L303.8,125.4 L297.7,125.9 L291.6,125.5 L285.5,126.1 L279.4,125.5 L273.3,124.6 L267.2,124.8 L261.1,125.7 L255.0,125.1 L248.9,124.7 L242.8,124.9 L236.7,125.2 L230.6,125.5 L224.5,124.9 L218.4,124.4 L212.3,124.3 L206.2,124.5 L200.1,124.8 L194.0,123.9 L187.9,124.6 L181.8,124.0 L175.7,125.1 L169.6,124.9 L163.5,125.0 L157.4,124.8 L151.3,124.8 L145.2,124.6 L139.1,123.5 L133.0,123.9 L126.9,124.8 L120.8,124.8 L114.7,123.7 L108.6,123.9 L102.5,124.2 L96.4,124.8 L90.3,125.8 L84.2,125.2 L78.1,125.3 L72.0,125.3 L65.9,125.5 L59.8,125.7 L53.7,126.2 L47.6,127.8 L44.3,132.0 L44.0,125.3 L43.7,132.9 L43.4,128.5 L43.1,126.0 L42.8,129.4 L42.4,124.5 L42.1,129.9 L41.8,126.3 L41.5,131.6 L41.2,126.2 L40.9,131.7 L40.6,128.8 L40.3,127.6 L40.0,130.5 L39.7,129.2 L39.4,130.3 L39.1,130.4 L38.8,128.1 L38.5,133.7 L38.2,130.1 L37.9,129.6 L37.6,142.0 L37.3,133.7 L37.0,140.8 L36.7,136.4 L36.3,147.5 L36.0,138.6 L35.7,151.4 L35.4,145.7 L35.1,154.7 L34.8,149.4 L34.5,158.8 L34.2,155.6 L33.9,161.9 L33.6,157.1 L33.3,160.5 L33.0,158.1 L32.7,157.7 L32.4,164.3 L32.1,158.3 L31.8,164.8 L31.5,152.5 L31.2,164.2 L30.9,172.6 L30.6,166.4 L30.3,172.5 L29.9,167.5 L29.6,168.3 L29.3,166.4 L29.0,165.9 L28.7,166.1 L28.4,175.6 L28.1,175.9 L27.8,176.0 L27.5,176.0 L27.2,176.0 L26.9,176.0 L26.6,176.0 L26.3,176.0 L26.0,176.0 L25.7,176.0 L25.4,176.0 L25.1,176.0 L24.8,176.0 L24.5,176.0 L24.2,176.0Z"/>
+        <path class="trace-path trace-soft" pathLength="1" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,176.0 L27.2,176.0 L27.5,176.0 L27.8,176.0 L28.1,176.0 L28.4,176.0 L28.7,175.8 L29.0,175.1 L29.3,172.9 L29.6,167.9 L29.9,161.1 L30.3,152.5 L30.6,138.9 L30.9,130.5 L31.2,122.4 L31.5,107.0 L31.8,106.2 L32.1,99.3 L32.4,89.9 L32.7,90.9 L33.0,82.9 L33.3,84.5 L33.6,82.2 L33.9,75.0 L34.2,76.2 L34.5,74.2 L34.8,75.8 L35.1,75.9 L35.4,74.5 L35.7,77.1 L36.0,71.0 L36.3,77.2 L36.7,72.5 L37.0,72.8 L37.3,73.6 L37.6,78.1 L37.9,73.6 L38.2,71.6 L38.5,76.5 L38.8,73.2 L39.1,75.1 L39.4,74.6 L39.7,73.0 L40.0,75.0 L40.3,69.6 L40.6,77.5 L40.9,74.8 L41.2,71.2 L41.5,77.9 L41.8,69.5 L42.1,74.5 L42.4,73.2 L42.8,74.8 L43.1,76.3 L43.4,69.1 L43.7,72.8 L44.0,73.8 L44.3,74.0 L47.6,72.6 L53.7,71.3 L59.8,71.1 L65.9,69.3 L72.0,69.5 L78.1,67.9 L84.2,66.6 L90.3,66.2 L96.4,66.8 L102.5,65.0 L108.6,65.9 L114.7,65.2 L120.8,66.5 L126.9,64.5 L133.0,64.3 L139.1,63.5 L145.2,64.1 L151.3,64.2 L157.4,64.0 L163.5,62.5 L169.6,62.7 L175.7,62.9 L181.8,63.8 L187.9,62.7 L194.0,63.6 L200.1,62.7 L206.2,62.2 L212.3,63.5 L218.4,62.1 L224.5,62.1 L230.6,62.6 L236.7,60.9 L242.8,61.9 L248.9,63.8 L255.0,62.3 L261.1,62.7 L267.2,61.4 L273.3,62.4 L279.4,62.1 L285.5,61.7 L291.6,61.9 L297.7,64.2 L303.8,62.0 L309.9,61.1 L316.0,61.8 L322.1,61.1 L328.2,62.5 L332.7,63.1"/>
+        <path class="trace-path" pathLength="1" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,176.0 L27.2,176.0 L27.5,176.0 L27.8,176.0 L28.1,176.0 L28.4,176.0 L28.7,175.9 L29.0,174.9 L29.3,163.5 L29.6,146.2 L29.9,128.9 L30.3,127.1 L30.6,119.2 L30.9,119.2 L31.2,108.5 L31.5,88.2 L31.8,100.1 L32.1,95.5 L32.4,96.7 L32.7,94.2 L33.0,76.4 L33.3,80.9 L33.6,80.9 L33.9,69.9 L34.2,75.2 L34.5,80.7 L34.8,72.4 L35.1,58.2 L35.4,69.2 L35.7,63.6 L36.0,67.2 L36.3,67.0 L36.7,68.1 L37.0,58.8 L37.3,69.0 L37.6,65.8 L37.9,67.8 L38.2,68.1 L38.5,57.5 L38.8,59.4 L39.1,51.9 L39.4,50.5 L39.7,50.3 L40.0,47.3 L40.3,48.5 L40.6,46.6 L40.9,44.0 L41.2,49.4 L41.5,45.3 L41.8,43.9 L42.1,44.4 L42.4,45.5 L42.8,41.3 L43.1,37.6 L43.4,38.6 L43.7,37.0 L44.0,41.1 L44.3,37.2 L47.6,38.0 L53.7,37.6 L59.8,37.2 L65.9,37.5 L72.0,36.4 L78.1,36.4 L84.2,36.2 L90.3,35.4 L96.4,34.5 L102.5,34.9 L108.6,34.8 L114.7,33.9 L120.8,34.0 L126.9,33.5 L133.0,33.6 L139.1,32.9 L145.2,33.2 L151.3,33.0 L157.4,32.5 L163.5,32.4 L169.6,33.1 L175.7,32.7 L181.8,32.6 L187.9,32.5 L194.0,32.9 L200.1,32.4 L206.2,33.2 L212.3,32.3 L218.4,32.0 L224.5,32.2 L230.6,32.7 L236.7,31.9 L242.8,31.4 L248.9,31.9 L255.0,32.4 L261.1,31.3 L267.2,32.4 L273.3,32.0 L279.4,32.0 L285.5,31.5 L291.6,31.9 L297.7,32.0 L303.8,31.2 L309.9,30.6 L316.0,30.2 L322.1,29.9 L328.2,31.2 L332.7,29.5"/>
+        <path class="trace-path trace-alt trace-soft" pathLength="1" d="M24.2,176.0 L24.5,176.0 L24.8,176.0 L25.1,176.0 L25.4,176.0 L25.7,176.0 L26.0,176.0 L26.3,176.0 L26.6,176.0 L26.9,176.0 L27.2,176.0 L27.5,175.8 L27.8,175.6 L28.1,175.1 L28.4,174.9 L28.7,174.6 L29.0,174.1 L29.3,173.6 L29.6,172.8 L29.9,172.1 L30.3,171.3 L30.6,171.0 L30.9,170.3 L31.2,169.7 L31.5,168.1 L31.8,168.2 L32.1,166.1 L32.4,166.0 L32.7,163.7 L33.0,163.7 L33.3,161.3 L33.6,159.9 L33.9,159.5 L34.2,158.9 L34.5,158.4 L34.8,155.6 L35.1,157.0 L35.4,158.3 L35.7,153.6 L36.0,156.6 L36.3,154.4 L36.7,153.4 L37.0,154.6 L37.3,155.5 L37.6,153.8 L37.9,155.0 L38.2,152.5 L38.5,152.5 L38.8,151.9 L39.1,152.7 L39.4,153.5 L39.7,151.1 L40.0,155.0 L40.3,151.5 L40.6,150.6 L40.9,151.8 L41.2,150.4 L41.5,152.8 L41.8,149.7 L42.1,153.8 L42.4,150.7 L42.8,149.1 L43.1,150.7 L43.4,150.6 L43.7,149.6 L44.0,147.8 L44.3,149.3 L47.6,147.2 L53.7,144.0 L59.8,141.6 L65.9,139.8 L72.0,137.8 L78.1,136.5 L84.2,135.5 L90.3,133.3 L96.4,132.0 L102.5,130.9 L108.6,130.3 L114.7,129.3 L120.8,128.5 L126.9,127.2 L133.0,126.5 L139.1,125.8 L145.2,124.6 L151.3,124.3 L157.4,123.2 L163.5,122.4 L169.6,122.3 L175.7,121.1 L181.8,120.7 L187.9,119.8 L194.0,119.5 L200.1,118.6 L206.2,117.8 L212.3,118.1 L218.4,116.8 L224.5,117.0 L230.6,116.2 L236.7,115.9 L242.8,115.8 L248.9,115.1 L255.0,114.5 L261.1,114.1 L267.2,113.7 L273.3,113.0 L279.4,114.0 L285.5,112.3 L291.6,111.7 L297.7,111.1 L303.8,111.1 L309.9,110.0 L316.0,111.1 L322.1,110.0 L328.2,108.9 L332.7,109.0"/>
+        <path class="trace-path trace-alt" pathLength="1" d="M24.2,175.9 L24.5,175.9 L24.8,175.9 L25.1,175.9 L25.4,175.9 L25.7,175.9 L26.0,175.9 L26.3,175.9 L26.6,175.9 L26.9,175.9 L27.2,175.9 L27.5,175.9 L27.8,175.9 L28.1,175.8 L28.4,175.1 L28.7,155.3 L29.0,153.1 L29.3,153.6 L29.6,153.4 L29.9,156.7 L30.3,162.0 L30.6,154.4 L30.9,165.9 L31.2,150.7 L31.5,139.2 L31.8,155.0 L32.1,147.6 L32.4,154.6 L32.7,147.0 L33.0,147.3 L33.3,151.7 L33.6,147.4 L33.9,154.1 L34.2,147.4 L34.5,151.3 L34.8,141.8 L35.1,149.0 L35.4,138.2 L35.7,145.8 L36.0,130.7 L36.3,141.2 L36.7,129.3 L37.0,133.3 L37.3,125.6 L37.6,133.3 L37.9,121.1 L38.2,122.1 L38.5,125.3 L38.8,119.5 L39.1,122.5 L39.4,121.7 L39.7,120.8 L40.0,122.2 L40.3,119.5 L40.6,121.0 L40.9,123.9 L41.2,118.6 L41.5,123.7 L41.8,117.9 L42.1,122.3 L42.4,116.9 L42.8,121.1 L43.1,118.5 L43.4,120.9 L43.7,124.8 L44.0,118.4 L44.3,124.6 L47.6,120.2 L53.7,118.8 L59.8,118.5 L65.9,118.4 L72.0,118.3 L78.1,118.4 L84.2,118.2 L90.3,118.9 L96.4,117.7 L102.5,116.9 L108.6,116.7 L114.7,116.5 L120.8,117.6 L126.9,117.6 L133.0,116.8 L139.1,116.3 L145.2,117.4 L151.3,117.5 L157.4,117.7 L163.5,117.7 L169.6,117.7 L175.7,118.0 L181.8,116.9 L187.9,117.6 L194.0,116.8 L200.1,117.8 L206.2,117.5 L212.3,117.4 L218.4,117.3 L224.5,118.0 L230.6,118.5 L236.7,118.1 L242.8,117.9 L248.9,117.8 L255.0,118.1 L261.1,118.7 L267.2,117.9 L273.3,117.8 L279.4,118.5 L285.5,119.1 L291.6,118.7 L297.7,119.0 L303.8,118.6 L309.9,118.4 L316.0,118.8 L322.1,119.0 L328.2,119.3 L332.7,119.5"/>
+        <text class="trace-label trace-key" x="171.4" y="17.8">Bulk 120 &#176;C</text>
+        <text class="trace-label trace-key" x="171.4" y="86.7">Bulk 100 &#176;C</text>
+        <text class="trace-label trace-key trace-alt" x="50.4" y="102.4">Vapor 120 &#176;C</text>
+        <text class="trace-label trace-key trace-alt" x="130.7" y="146.2">Vapor 100 &#176;C</text>
+      </svg>
+        </div>
+        <figcaption class="trace-caption">&sigma; (S cm&#8315;&sup1;) recorded by the rig while annealing, one point every 3 s: PCBM doped with N-DMBI-H in bulk or from vapor, at 100 and 120 &#176;C. RSC Advances 2026, Fig. 5 &middot; <a href="https://doi.org/10.17605/OSF.IO/ZU2P8" target="_blank" rel="noopener">data on OSF</a>.</figcaption>
       </figure>
     </div>
-    <p class="plot-title">The parts I designed along the way</p>
-    <div class="parts" id="parts">
-      <button class="part" type="button" data-part="holder"><img src="img/parts/holder.webp" width="520" height="520" alt="" loading="lazy"><span>Peltier holder with heat-sink fins</span></button>
-      <button class="part" type="button" data-part="plate"><img src="img/parts/plate.webp" width="520" height="520" alt="" loading="lazy"><span>Substrate plate with pogo-pin holes</span></button>
-      <button class="part" type="button" data-part="plate-v10"><img src="img/parts/plate-v10.webp" width="520" height="520" alt="" loading="lazy"><span>Substrate plate, earlier version</span></button>
-      <button class="part" type="button" data-part="toggle-adapter"><img src="img/parts/toggle-adapter.webp" width="520" height="520" alt="" loading="lazy"><span>Toggle-clamp adapter</span></button>
-      <button class="part" type="button" data-part="clamp-adapter"><img src="img/parts/clamp-adapter.webp" width="520" height="520" alt="" loading="lazy"><span>Clamp adapter</span></button>
-      <button class="part" type="button" data-part="feedthrough"><img src="img/parts/feedthrough.webp" width="520" height="520" alt="" loading="lazy"><span>Glove box feedthrough</span></button>
-      <button class="part" type="button" data-part="bracket"><img src="img/parts/bracket.webp" width="520" height="520" alt="" loading="lazy"><span>Bracket</span></button>
-      <button class="part" type="button" data-part="converter"><img src="img/parts/converter.webp" width="520" height="520" alt="" loading="lazy"><span>15 x 15 to 30 x 30 mm converter</span></button>
-      <button class="part" type="button" data-part="masks-4pp"><img src="img/parts/masks-4pp.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow masks for four-point probe</span></button>
-      <button class="part" type="button" data-part="mask-vd"><img src="img/parts/mask-vd.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow mask for vapor doping, 30 x 30 mm</span></button>
-      <button class="part" type="button" data-part="mask-tlm"><img src="img/parts/mask-tlm.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow mask, 30 x 30 mm, transmission line</span></button>
-      <button class="part" type="button" data-part="mask-127"><img src="img/parts/mask-127.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow mask 1.27 mm, five slots</span></button>
-    </div>
-    <p class="project-cap" id="parts-cap">Click a part to turn it around.</p>
     <dialog class="part-view" id="part-view" aria-label="3D view of a part">
       <div class="part-plot" id="part-plot"></div>
       <div class="part-bar"><span id="part-name"></span><button class="plot-tab" type="button" id="part-close">Close</button></div>
@@ -1252,6 +1283,34 @@
       </div>
     </div>
     <p class="trace-caption" style="margin-top:26px;">Presented at E-MRS Spring Meeting, 2024</p>
+    <div class="two-col exp-extra">
+      <div>
+        <div class="mini-head">Awards &amp; Fellowships</div>
+        <div class="award">
+          <div class="t">Marie Curie Early-Stage Researcher</div>
+          <div class="d">2021 – 2025 · EU-funded research training program</div>
+        </div>
+        <div class="award">
+          <div class="t">KAUST Master's Scholarship</div>
+          <div class="d">2019 – 2021 · Full academic scholarship with stipend</div>
+        </div>
+        <div class="mini-head" style="margin-top:30px;">Training</div>
+        <div class="award">
+          <div class="t">NanoIC European Spring School on Advanced CMOS, imec</div>
+          <div class="d">March 2026 · patterning, process integration, metrology, reliability of advanced logic</div>
+        </div>
+        <div class="award">
+          <div class="t">ASML Masterclass for PhD Students</div>
+          <div class="d">2025 · lithography systems and the semiconductor equipment industry</div>
+        </div>
+      </div>
+      <div>
+        <div class="mini-head">Languages</div>
+        <div class="lang-row"><span>Italian</span><span class="level">native</span></div>
+        <div class="lang-row"><span>English</span><span class="level">fluent</span></div>
+        <div class="lang-row"><span>Portuguese</span><span class="level">intermediate</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1527,8 +1586,9 @@
 </script>
 <script>
 (function(){
-  // About me map: where I studied, lived and worked, in order.
-  // Hovering a city shows its details and, for the universities, the logo (files in img/logos/).
+  // Experience map: where I studied, lived and worked, in order. The route draws itself the first time the map
+  // comes into view. Hovering a city shows its details and, for the universities, the logo (files in img/logos/);
+  // hovering an entry in the list lights up its city (data-place on each .entry, an index into P).
   var div = document.getElementById('places-map');
   if (!div || typeof Plotly === 'undefined') return;
   var P = [
@@ -1541,18 +1601,8 @@
   var css = function(n){ return cs.getPropertyValue(n).trim(); };
   var mono = 'IBM Plex Mono, monospace';
   var col = function(k){ return P.map(function(p){ return p[k]; }); };
-  // On wide screens the map follows the text: data-place marks where the story moves on,
-  // and the end of the text brings the route to the last stop. Narrow screens show the whole route.
-  var wide = window.matchMedia('(min-width:761px)');
-  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var marks = Array.prototype.slice.call(document.querySelectorAll('#about [data-place]'));
-  var story = document.querySelector('.about-text');
-  function stop(){
-    if (!wide.matches || story.getBoundingClientRect().bottom < window.innerHeight * 0.6) return P.length - 1;
-    var s = 0, line = window.innerHeight * 0.45;
-    marks.forEach(function(m){ if (m.getBoundingClientRect().top < line) s = +m.getAttribute('data-place'); });
-    return s;
-  }
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var last = P.length - 1;
   // a point along the great circle, so the growing line stays on its final arc
   function between(a, b, f){
     var r = Math.PI / 180;
@@ -1562,19 +1612,29 @@
     return {lat:Math.asin(x[2]) / r, lon:Math.atan2(x[1], x[0]) / r};
   }
   function route(s){
+    s = Math.max(0, Math.min(last, s));   // easing can overshoot either end by a rounding error
     var done = Math.floor(s), pts = P.slice(0, done + 1);
     if (s > done && done + 1 < P.length) pts.push(between(P[done], P[done + 1], s - done));
     return {lat:pts.map(function(p){ return p.lat; }), lon:pts.map(function(p){ return p.lon; })};
   }
-  function pins(s){
-    var here = wide.matches ? s : -1, reached = wide.matches ? s : P.length - 1;
+  // cities reached so far are lit; the current one (or the one an entry points at) is the largest
+  function pins(s, focus){
+    var reached = Math.floor(s + 1e-9), here = focus === null ? reached : focus;
     return {
       size:P.map(function(p, i){ return i === here ? 15 : i <= reached ? 10 : 8; }),
-      color:P.map(function(p, i){ return i <= reached ? css('--accent') : css('--line-strong'); }),
+      color:P.map(function(p, i){ return i <= reached || i === here ? css('--accent') : css('--line-strong'); }),
       text:P.map(function(p, i){ return i === here ? css('--ink') : i <= reached ? css('--ink-soft') : css('--ink-faint'); })
     };
   }
-  var shown = stop(), drawn = shown, start = route(shown), look = pins(shown);
+  // Plotly letterboxes the map to its ranges, so fit the box around the four cities to the panel's shape
+  function ranges(){
+    var a = div.clientWidth / div.clientHeight;
+    var latH = Math.max(46, 136 * 0.85 / a), lonW = Math.max(136, latH * a / 0.85);
+    var latC = latH > 80 ? 25 : 37;
+    return {lon:[61 - lonW / 2, 61 + lonW / 2], lat:[latC - latH / 2, latC + latH / 2]};
+  }
+  var drawn = calm ? last : 0, lit = Math.floor(drawn), focus = null;
+  var start = route(drawn), look = pins(drawn, null), box = ranges();
   var traces = [
     {type:'scattergeo', mode:'lines', lat:start.lat, lon:start.lon, hoverinfo:'skip',
      line:{color:css('--accent2'), width:1.5, dash:'dot'}},
@@ -1584,18 +1644,20 @@
      marker:{size:look.size, color:look.color, line:{color:css('--surface'), width:2}},
      hoverinfo:'none'}
   ];
-  // Plotly letterboxes the map to its ranges, so size the latitude span to the panel's shape.
-  var lonSpan = [-7, 129], latH = (lonSpan[1] - lonSpan[0]) * 0.85 / (div.clientWidth / div.clientHeight);
-  var latC = latH > 80 ? 25 : 31;
   var layout = {
     paper_bgcolor:'rgba(0,0,0,0)', margin:{l:0, r:0, t:0, b:0}, showlegend:false, dragmode:false,
     font:{family:mono, size:11, color:css('--ink-soft')},
-    geo:{projection:{type:'natural earth'}, lonaxis:{range:lonSpan}, lataxis:{range:[latC - latH / 2, latC + latH / 2]}, bgcolor:'rgba(0,0,0,0)',
+    geo:{projection:{type:'natural earth'}, lonaxis:{range:box.lon}, lataxis:{range:box.lat}, bgcolor:'rgba(0,0,0,0)',
          showland:true, landcolor:css('--line'), showocean:true, oceancolor:css('--surface'),
          showcountries:true, countrycolor:css('--line-strong'), countrywidth:0.5,
          showcoastlines:false, showlakes:false, showframe:false}
   };
   Plotly.newPlot(div, traces, layout, {displayModeBar:false, responsive:true, scrollZoom:false});
+  var resized = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(resized);
+    resized = setTimeout(function(){ var b = ranges(); Plotly.relayout(div, {'geo.lonaxis.range':b.lon, 'geo.lataxis.range':b.lat}); }, 200);
+  });
 
   // ---- hover card ----
   var fig = div.closest('.places'), tip = fig.querySelector('.place-tip');
@@ -1618,36 +1680,47 @@
   });
   div.on('plotly_unhover', function(){ tip.hidden = true; });
 
-  // ---- follow the text ----
-  var frame = 0, ticking = false;
+  // ---- the route, drawn once when the map comes into view ----
+  function paint(){
+    var l = pins(drawn, focus);
+    Plotly.restyle(div, {'marker.size':[l.size], 'marker.color':[l.color], 'textfont.color':[l.text]}, [1]);
+  }
   function setRoute(s){
     var r = route(s);
     drawn = s;
     Plotly.restyle(div, {lat:[r.lat], lon:[r.lon]}, [0]);
+    if (Math.floor(s + 1e-9) !== lit) { lit = Math.floor(s + 1e-9); paint(); }
   }
-  function drawTo(to){
-    cancelAnimationFrame(frame);
-    var from = drawn, dur = Math.min(1100, 550 * Math.abs(to - from));
-    if (calm.matches || !dur) { setRoute(to); return; }
-    var t0 = performance.now(), last = 0;
-    frame = requestAnimationFrame(function step(now){
+  function play(){
+    var t0 = performance.now(), dur = 800 * last, stamp = 0;
+    requestAnimationFrame(function step(now){
       var k = Math.min(1, (now - t0) / dur);
-      if (now - last > 40 || k === 1) { last = now; setRoute(from + (to - from) * k * (2 - k)); }
-      if (k < 1) frame = requestAnimationFrame(step);
+      if (now - stamp > 40 || k === 1) { stamp = now; setRoute(last * k * (2 - k)); }
+      if (k < 1) requestAnimationFrame(step);
     });
   }
-  function update(){
-    ticking = false;
-    var s = stop(), look = pins(s);
-    if (s === shown && arguments[0] !== true) return;
-    shown = s;
-    Plotly.restyle(div, {'marker.size':[look.size], 'marker.color':[look.color], 'textfont.color':[look.text]}, [1]);
-    drawTo(s);
+  if (!calm) {
+    if ('IntersectionObserver' in window) {
+      var seen = new IntersectionObserver(function(entries){
+        if (!entries[0].isIntersecting) return;
+        seen.disconnect();
+        play();
+      }, {threshold:0.5});
+      seen.observe(div);
+    } else {
+      setRoute(last);
+    }
   }
-  window.addEventListener('scroll', function(){
-    if (!ticking) { ticking = true; requestAnimationFrame(function(){ update(); }); }
-  }, {passive:true});
-  wide.addEventListener('change', function(){ update(true); });
+
+  // ---- entries in the list point at their city ----
+  [].forEach.call(document.querySelectorAll('.entry[data-place]'), function(el){
+    var on = function(){ focus = +el.getAttribute('data-place'); paint(); };
+    var off = function(){ focus = null; paint(); };
+    el.addEventListener('mouseenter', on);
+    el.addEventListener('mouseleave', off);
+    el.addEventListener('focusin', on);
+    el.addEventListener('focusout', off);
+  });
 })();
 </script>
 <script>
@@ -1688,6 +1761,109 @@
   document.getElementById('part-close').addEventListener('click', function(){ dlg.close(); });
   dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
   dlg.addEventListener('close', function(){ ticket++; Plotly.purge(plot); });
+})();
+</script>
+<script>
+(function(){
+  // Slideshow: fades every few seconds; hovering or focusing pauses it, and a click hands control to the visitor.
+  var root = document.getElementById('slideshow');
+  if (!root) return;
+  var slides = [].slice.call(root.querySelectorAll('.slide')), cap = root.querySelector('.slide-cap'), dots = root.querySelector('.slide-dots');
+  var at = 0, timer = null, held = false, seen = true;
+  // beside In brief the cards stand in a column; once the layout stacks, they line up side by side
+  var tall = window.matchMedia('(min-width: 861px)');
+  function axis(){ root.classList.toggle('vertical', tall.matches); }
+  axis();
+  tall.addEventListener('change', function(){ axis(); go(at); });
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  slides.forEach(function(s, k){
+    s.addEventListener('click', function(){ if (k !== at) { go(k); stop(); } });
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Picture ' + (k + 1) + ' of ' + slides.length);
+    b.addEventListener('click', function(){ go(k); stop(); });
+    dots.appendChild(b);
+  });
+  function go(k){
+    at = (k + slides.length) % slides.length;
+    var len = slides.length;
+    slides.forEach(function(s, n){
+      var d = ((n - at) % len + len + Math.floor(len / 2)) % len - Math.floor(len / 2);   // -3 ... 4, nearest way round
+      var far = Math.abs(d);
+      s.classList.toggle('is-on', d === 0);
+      s.setAttribute('aria-hidden', d !== 0);
+      var size = far === 0 ? 1 : far === 1 ? 0.8 : 0.64;
+      s.style.transform = tall.matches
+        ? 'translate(-50%, calc(-50% + ' + (d * 38) + '%)) scale(' + size + ')'
+        : 'translateX(calc(-50% + ' + (d * 42) + '%)) scale(' + size + ')';
+      s.style.opacity = far === 0 ? 1 : far === 1 ? 0.55 : far === 2 && !tall.matches ? 0.2 : 0;
+      s.style.zIndex = 4 - far;
+      s.style.filter = far ? 'saturate(0.6)' : '';
+      s.style.pointerEvents = far <= 1 ? '' : 'none';
+    });
+    [].forEach.call(dots.children, function(b, n){ b.classList.toggle('on', n === at); });
+    var s = slides[at];
+    cap.textContent = s.getAttribute('data-cap') + ' ';
+    if (s.getAttribute('data-link')) {
+      var a = document.createElement('a');
+      a.href = s.getAttribute('data-link');
+      a.textContent = 'More \u2192';
+      cap.appendChild(a);
+    }
+  }
+  function stop(){ clearInterval(timer); timer = null; }
+  root.querySelector('.prev').addEventListener('click', function(){ go(at - 1); stop(); });
+  root.querySelector('.next').addEventListener('click', function(){ go(at + 1); stop(); });
+  root.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); go(at + 1); stop(); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(at - 1); stop(); }
+  });
+  root.addEventListener('mouseenter', function(){ held = true; });
+  root.addEventListener('mouseleave', function(){ held = false; });
+  root.addEventListener('focusin', function(){ held = true; });
+  root.addEventListener('focusout', function(){ held = false; });
+  var x0 = null;
+  root.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+  root.addEventListener('touchend', function(e){
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 40) { go(at + (dx < 0 ? 1 : -1)); stop(); }
+    x0 = null;
+  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){ seen = entries[0].isIntersecting; }).observe(root);
+  }
+  go(0);
+  if (!calm) timer = setInterval(function(){ if (!held && seen && !document.hidden) go(at + 1); }, 5500);
+})();
+</script>
+<script>
+(function(){
+  // One button opens or closes every experience entry at once.
+  var btn = document.getElementById('expand-all');
+  if (!btn) return;
+  var items = [].slice.call(document.querySelectorAll('.entry-body'));
+  function sync(){ btn.textContent = items.every(function(d){ return d.open; }) ? 'Collapse all' : 'Expand all'; }
+  btn.addEventListener('click', function(){
+    var open = !items.every(function(d){ return d.open; });
+    items.forEach(function(d){ d.open = open; });
+    sync();
+  });
+  items.forEach(function(d){ d.addEventListener('toggle', sync); });
+})();
+</script>
+<script>
+(function(){
+  // The annealing chart beside the rig photo draws its traces the first time it comes into view.
+  var fig = document.getElementById('rig-trace');
+  if (!fig) return;
+  if (!('IntersectionObserver' in window)) { fig.classList.add('seen'); return; }
+  var io = new IntersectionObserver(function(e){
+    if (!e[0].isIntersecting) return;
+    fig.classList.add('seen');
+    io.disconnect();
+  }, {threshold:0.4});
+  io.observe(fig);
 })();
 </script>
 </body></html>
