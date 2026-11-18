@@ -1,4 +1,4 @@
-<!doctype html><html data-theme="light"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#F5F5F5;color:#222222}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style>
+<!doctype html><html data-theme="dark"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#F5F5F5;color:#222222}:root[data-theme=dark] body{background:#1F2023;color:#F2F2F2}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style><script>(function(){var t=null;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light")t="dark";document.documentElement.setAttribute("data-theme",t)})();</script>
 <title>Federico Ferrari</title>
 <meta name="description" content="Portfolio of Federico Ferrari — PhD in Applied Physics working on thin-film process development, device characterization and test automation: PVD, lithography, doped organic semiconductors and automated measurement rigs.">
 <meta property="og:title" content="Federico Ferrari">
@@ -28,37 +28,38 @@
     --accent2-soft:rgba(75,106,146,0.12);
     --shadow: 0 1px 2px rgba(34,34,34,0.04), 0 8px 24px -12px rgba(34,34,34,0.10);
   }
+  /* dark: the palette of the "GIWAXS illustration" canvas (charcoal, teal, grain greys, gold) */
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#1F1411;
-      --surface:#2A1C18;
-      --ink:#F7E9E4;
-      --ink-soft:#C9B2AA;
-      --ink-faint:#94807A;
-      --line:#3B2A25;
-      --line-strong:#523B34;
-      --accent:#F0784A;
-      --accent-ink:#F79B78;
-      --accent-soft:rgba(240,120,74,0.15);
-      --accent2:#93B3DA;
-      --accent2-soft:rgba(147,179,218,0.15);
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.55);
+      --bg:#1F2023;
+      --surface:#2A2B2F;
+      --ink:#F2F2F2;
+      --ink-soft:#C9C9C9;
+      --ink-faint:#9A9A9A;
+      --line:#33474B;
+      --line-strong:#2E5C64;
+      --accent:#7CC6D2;
+      --accent-ink:#A9D3DA;
+      --accent-soft:rgba(124,198,210,0.14);
+      --accent2:#FFC23D;
+      --accent2-soft:rgba(255,194,61,0.14);
+      --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 12px 28px -14px rgba(0,0,0,0.6);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#1F1411;
-    --surface:#2A1C18;
-    --ink:#F7E9E4;
-    --ink-soft:#C9B2AA;
-    --ink-faint:#94807A;
-    --line:#3B2A25;
-    --line-strong:#523B34;
-    --accent:#F0784A;
-    --accent-ink:#F79B78;
-    --accent-soft:rgba(240,120,74,0.15);
-    --accent2:#93B3DA;
-    --accent2-soft:rgba(147,179,218,0.15);
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.55);
+    --bg:#1F2023;
+    --surface:#2A2B2F;
+    --ink:#F2F2F2;
+    --ink-soft:#C9C9C9;
+    --ink-faint:#9A9A9A;
+    --line:#33474B;
+    --line-strong:#2E5C64;
+    --accent:#7CC6D2;
+    --accent-ink:#A9D3DA;
+    --accent-soft:rgba(124,198,210,0.14);
+    --accent2:#FFC23D;
+    --accent2-soft:rgba(255,194,61,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 12px 28px -14px rgba(0,0,0,0.6);
   }
 
   *{box-sizing:border-box;}
@@ -133,6 +134,24 @@
     transition:color .15s ease, border-color .15s ease;
   }
   .nav-links a:hover, .nav-links a:focus-visible{ color:var(--ink); border-color:var(--accent); }
+  .nav-right{ display:flex; align-items:center; gap:20px; }
+  .theme-toggle{
+    flex:none; width:36px; height:36px; padding:0; margin:-6px 0;
+    display:grid; place-items:center;
+    background:transparent; color:var(--ink-soft);
+    border:1px solid var(--line); border-radius:50%;
+    cursor:pointer; transition:color .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover, .theme-toggle:focus-visible{ color:var(--accent); border-color:var(--accent); }
+  .theme-toggle svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+  .theme-toggle .i-sun, :root[data-theme="dark"] .theme-toggle .i-moon{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .i-sun{ display:block; }
+  @media (max-width:640px){
+    .nav-inner{ flex-wrap:wrap; row-gap:6px; }
+    .nav-right{ display:contents; }
+    .theme-toggle{ order:2; }
+    .nav-links{ order:3; width:100%; gap:4px 18px; }
+  }
 
   /* ---------- Hero ---------- */
   header.hero{
@@ -400,7 +419,9 @@
     border-radius:6px;
     padding:5px 10px;
     white-space:nowrap;
+    max-width:100%;
   }
+  @media (max-width:480px){ .chip{ white-space:normal; } }
   @media (max-width:600px){
     .spec-row{ grid-template-columns:1fr; gap:10px; }
   }
@@ -619,8 +640,11 @@
   .gx-cap{ margin-top:10px; font-family:"IBM Plex Mono", monospace; font-size:0.76rem; color:var(--ink-faint); line-height:1.45; }
   img{ mix-blend-mode:multiply; }
   .project-hero img, .slide img, .preview-thumb{ mix-blend-mode:normal; }
-  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) img{ mix-blend-mode:normal; filter:brightness(.85); } }
-  :root[data-theme="dark"] img{ mix-blend-mode:normal; filter:brightness(.85); }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) img{ mix-blend-mode:normal; filter:brightness(.88); } }
+  :root[data-theme="dark"] img{ mix-blend-mode:normal; filter:brightness(.88); }
+  /* line drawings on white (the molecules) turn light-on-dark; logos sit on a light chip */
+  :root[data-theme="dark"] img.ink, :root[data-theme="dark"] .mol-tip:not(.place-tip) img{ filter:invert(1) hue-rotate(180deg) brightness(.9); mix-blend-mode:screen; }
+  :root[data-theme="dark"] .place-tip img{ filter:none; background:#F2F2F2; padding:4px 6px; border-radius:4px; }
   .pub-extra{ margin-top:2px; }
   .pub-extra a{
     font-family:"IBM Plex Mono", monospace;
@@ -702,15 +726,39 @@
 <nav>
   <div class="nav-inner">
     <a class="nav-name" href="#top">Federico Ferrari</a>
-    <div class="nav-links">
-      <a href="#experience">Experience</a>
-      <a href="#project">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#publications">Publications</a>
-      <a href="#contact">Contact</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#experience">Experience</a>
+        <a href="#project">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#publications">Publications</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      </button>
     </div>
   </div>
 </nav>
+<script>
+(function(){
+  // Dark by default; light if the visitor picked it (saved). Charts redraw on 'themechange'.
+  var root = document.documentElement, btn = document.querySelector('.theme-toggle');
+  function label(){
+    var t = root.getAttribute('data-theme') === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    btn.setAttribute('aria-label', t); btn.title = t;
+  }
+  function set(t, keep){
+    root.setAttribute('data-theme', t);
+    if (keep) { try { localStorage.setItem('theme', t); } catch (e) {} }
+    label();
+    document.dispatchEvent(new CustomEvent('themechange', {detail:t}));
+  }
+  label();
+  btn.addEventListener('click', function(){ set(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true); });
+})();
+</script>
 
 <header class="hero" id="top">
   <div class="hero-grid" aria-hidden="true"></div>
@@ -1046,7 +1094,7 @@
     </p>
     <div class="paper-figs">
       <figure>
-        <img src="img/molecules/pdeg2-isomers.png" width="856" height="352" alt="Chemical structures of the three PDEG-2 regioisomers: 2,5, 3,5 and 3,4">
+        <img class="ink" src="img/molecules/pdeg2-isomers.png" width="856" height="352" alt="Chemical structures of the three PDEG-2 regioisomers: 2,5, 3,5 and 3,4">
         <figcaption>Three ways to hang the same two chains off a fullerene: 2,5-, 3,5- and 3,4-PDEG-2.</figcaption>
       </figure>
     </div>
@@ -1580,6 +1628,7 @@
       });
     })(buttons[i]);
   }
+  document.addEventListener('themechange', function(){ build(active); });
 })();
 </script>
 <script>
@@ -1718,6 +1767,14 @@
     el.addEventListener('mouseleave', off);
     el.addEventListener('focusin', on);
     el.addEventListener('focusout', off);
+  });
+
+  document.addEventListener('themechange', function(){
+    Plotly.restyle(div, {'line.color':css('--accent2')}, [0]);
+    Plotly.restyle(div, {'marker.line.color':css('--surface')}, [1]);
+    Plotly.relayout(div, {'font.color':css('--ink-soft'), 'geo.landcolor':css('--line'),
+                          'geo.oceancolor':css('--surface'), 'geo.countrycolor':css('--line-strong')});
+    paint();
   });
 })();
 </script>
