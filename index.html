@@ -552,6 +552,8 @@
   #project .project-cap{ font-size:0.78rem; max-width:none; margin-top:10px; }
   .rig-split{ display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:40px; align-items:start; }
   .rig-split .rig-text > p:first-child{ margin-top:0; }
+  .rig-next{ margin-top:22px; padding-top:14px; border-top:1px dashed var(--line-strong); font-size:0.95rem; color:var(--ink-soft); }
+  .rig-next .arrow{ color:var(--accent); }
   #project .rig-parts .parts-title{ margin-top:0; }
   .rig-parts .parts{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
   .rig-result{ display:grid; grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr); gap:40px; align-items:center; margin-top:40px; }
@@ -1016,6 +1018,10 @@
         &mdash; pressing a button every two minutes for several hours, for one device per run. The new setup
         automates that measurement and reads four regions at once, so a run that used to return a single data
         point now returns four.
+      </p>
+      <p class="rig-next">
+        Now building, on my own: <a href="bench.html">a photodiode test bench</a> with its own analog readout
+        <span class="arrow">&rarr;</span>
       </p>
     </div>
     <div class="rig-parts">
