@@ -227,10 +227,18 @@
   }
   @media (max-width:600px){ .contact-card{ padding:26px 20px; } }
   .contact-card h2{ font-size:1.45rem; max-width:22ch; }
-  .contact-links{ display:flex; flex-direction:column; gap:10px; }
-  .contact-links a{ text-decoration:none; font-family:"IBM Plex Mono", monospace; font-size:0.9rem; color:var(--ink-soft); display:flex; align-items:center; gap:8px; transition:color .15s ease; overflow-wrap:anywhere; }
+  /* each contact: the link, then a copy button lined up in a second column (as on the home page) */
+  .contact-links{ display:grid; grid-template-columns:auto auto; justify-content:start; align-items:center; gap:8px 12px; }
+  .contact-links .wide{ grid-column:1 / -1; }
+  .contact-links a, .contact-links .plain{ text-decoration:none; font-family:"IBM Plex Mono", monospace; font-size:0.9rem; color:var(--ink-soft); display:flex; align-items:center; gap:8px; min-width:0; transition:color .15s ease; overflow-wrap:anywhere; }
   .contact-links a:hover, .contact-links a:focus-visible{ color:var(--accent-ink); }
-  .contact-links a .arrow{ color:var(--accent); }
+  .contact-links .arrow{ color:var(--accent); }
+  .copy{ width:28px; height:28px; padding:0; display:grid; place-items:center; background:transparent; color:var(--ink-faint); border:1px solid var(--line); border-radius:6px; cursor:pointer; transition:color .15s ease, border-color .15s ease; }
+  .copy:hover, .copy:focus-visible, .copy.done{ color:var(--accent); border-color:var(--accent); }
+  .copy svg{ width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+  .copy .i-check, .copy.done .i-copy{ display:none; }
+  .copy.done .i-check{ display:block; }
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
   .foot-note{ margin-top:26px; font-size:0.78rem; color:var(--ink-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
 
   @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) img{ filter:brightness(.88); } }
@@ -589,9 +597,20 @@
     <div class="contact-card">
       <h2>Questions about the bench, or a test rig of your own?</h2>
       <div class="contact-links">
-        <a href="index.html"><span class="arrow">&larr;</span> Back to the portfolio</a>
-        <a href="mailto:f.ferrari@rug.nl"><span class="arrow">&rarr;</span> f.ferrari@rug.nl</a>
-        <a href="https://linkedin.com/in/federico-ferrari-3a889b172/" target="_blank" rel="noopener"><span class="arrow">&rarr;</span> linkedin.com/in/federico-ferrari-3a889b172</a>
+        <a class="wide" href="index.html"><span class="arrow">&larr;</span> Back to the portfolio</a>
+        <a href="mailto:fferrari96@gmail.com"><span class="arrow">&rarr;</span> fferrari96@gmail.com</a>
+        <button class="copy" type="button" hidden data-copy="fferrari96@gmail.com" aria-label="Copy email address"></button>
+        <span class="plain"><span class="arrow">&rarr;</span> +886 965 563 369</span>
+        <button class="copy" type="button" hidden data-copy="+886965563369" aria-label="Copy Taiwan phone number"></button>
+        <span class="plain"><span class="arrow">&rarr;</span> +39 347 678 7200</span>
+        <button class="copy" type="button" hidden data-copy="+393476787200" aria-label="Copy Italian phone number"></button>
+        <a href="https://linkedin.com/in/federico-ferrari-3a889b172/" target="_blank" rel="noopener"><span class="arrow">&rarr;</span> LinkedIn</a>
+        <button class="copy" type="button" hidden data-copy="https://linkedin.com/in/federico-ferrari-3a889b172/" aria-label="Copy LinkedIn link"></button>
+        <a href="https://scholar.google.com/citations?hl=it&amp;view_op=list_works&amp;user=7aKljj8AAAAJ" target="_blank" rel="noopener"><span class="arrow">&rarr;</span> Google Scholar</a>
+        <button class="copy" type="button" hidden data-copy="https://scholar.google.com/citations?hl=it&amp;view_op=list_works&amp;user=7aKljj8AAAAJ" aria-label="Copy Google Scholar link"></button>
+        <a href="https://orcid.org/0009-0008-0790-2126" target="_blank" rel="noopener"><span class="arrow">&rarr;</span> ORCID 0009-0008-0790-2126</a>
+        <button class="copy" type="button" hidden data-copy="https://orcid.org/0009-0008-0790-2126" aria-label="Copy ORCID link"></button>
+        <span class="sr-only" id="copy-status" aria-live="polite"></span>
       </div>
     </div>
     <div class="foot-note">
@@ -600,4 +619,37 @@
     </div>
   </div>
 </footer>
+<script>
+(function(){
+  // Copy buttons beside the contacts, as on the home page. Hidden without JavaScript.
+  var ICONS = '<svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>'
+            + '<svg class="i-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var live = document.getElementById('copy-status');
+  function fallback(text){
+    var t = document.createElement('textarea');
+    t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.select();
+    var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(t); return ok;
+  }
+  function copy(text){
+    if (navigator.clipboard && window.isSecureContext)
+      return navigator.clipboard.writeText(text).then(function(){ return true; }, function(){ return fallback(text); });
+    return Promise.resolve(fallback(text));
+  }
+  document.querySelectorAll('.copy[data-copy]').forEach(function(btn){
+    var label = btn.getAttribute('aria-label'), timer;
+    btn.innerHTML = ICONS; btn.title = label; btn.hidden = false;
+    btn.addEventListener('click', function(){
+      copy(btn.getAttribute('data-copy')).then(function(ok){
+        clearTimeout(timer);
+        btn.classList.toggle('done', ok);
+        btn.title = ok ? 'Copied' : 'Copy failed';
+        if (live) live.textContent = ok ? 'Copied: ' + btn.getAttribute('data-copy') : 'Copy failed';
+        timer = setTimeout(function(){ btn.classList.remove('done'); btn.title = label; }, 1600);
+      });
+    });
+  });
+})();
+</script>
 </body></html>
