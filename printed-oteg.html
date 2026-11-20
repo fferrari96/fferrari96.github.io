@@ -772,8 +772,6 @@
   .rth-chart{ height:420px; }
   @media (max-width:600px){ .rth-chart{ height:360px; } }
   .rth-ctl{ display:flex; justify-content:center; margin-top:10px; }
-  .next-soon{ box-shadow:none; border-style:dashed; }
-  .next-soon:hover{ border-color:var(--line-strong); }
 </style>
 </head>
 <body>
@@ -786,6 +784,7 @@
         <a href="#model">Model</a>
         <a href="#heat">Heat paths</a>
         <a href="#sweeps">Design sweeps</a>
+        <a href="otegs.html">Chapter 6</a>
         <a href="index.html">Portfolio</a>
       </div>
       <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
@@ -825,7 +824,6 @@
       used it as a <strong>digital twin</strong>: to see where the heat goes, why the textbook model fails for
       thin printed devices, and which design changes could win back three orders of magnitude of power.
     </p>
-    <p class="review-note"><span class="dot" aria-hidden="true"></span>Page in progress: the text and figures are still being revised.</p>
     <div class="facts">
       <div class="fact"><b>~6%</b><span>twin vs bench, open-circuit voltage</span></div>
       <div class="fact"><b>7 vs 14&nbsp;&Omega;</b><span>simulated vs measured resistance</span></div>
@@ -1222,13 +1220,14 @@
     millimetres to centimetres thick, beyond what screen printing can lay down, so the practical answer is to
     stack several printed OTEGs. That system-level view is where the next chapter picks up.
   </p>
-  <div class="next-card next-soon">
+  <a class="next-card" href="otegs.html">
     <span>
-      <span class="k">Thesis &middot; Chapter 6 &middot; coming soon</span>
+      <span class="k">Thesis &middot; Chapter 6</span>
       <span class="t">Technological assessment of organic thermoelectric generators</span>
       <span class="d">How OTEGs compare with inorganic TEGs and the Rankine cycle, in performance, cost and footprint</span>
     </span>
-  </div>
+    <span class="arrow" aria-hidden="true">&rarr;</span>
+  </a>
   <div class="footnote">
     <span>Federico Ferrari &middot; PhD thesis, chapter 5 &middot; devices from <a href="https://doi.org/10.1002/admt.202302058" target="_blank" rel="noopener">Advanced Materials Technologies, 2024</a>, printed with InnovationLab</span>
     <span><a href="index.html">&larr; Back to the portfolio</a></span>
