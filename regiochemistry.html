@@ -1,0 +1,1232 @@
+<!doctype html><html data-theme="dark"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#F5F5F5;color:#222222}:root[data-theme=dark] body{background:#1F2023;color:#F2F2F2}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}
+  /* ---------- Project cards (home) and project pages ---------- */
+  .proj-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:22px; }
+  .proj-card{ display:flex; flex-direction:column; overflow:hidden; text-decoration:none; color:inherit;
+    border:1px solid var(--line-strong); border-radius:12px; background:var(--surface); box-shadow:var(--shadow);
+    transition:border-color .15s ease, transform .15s ease; }
+  .proj-card:hover, .proj-card:focus-visible{ border-color:var(--accent); transform:translateY(-2px); }
+  .proj-card img{ display:block; width:100%; aspect-ratio:16/10; height:auto; object-fit:cover; background:#fff;
+    border-bottom:1px solid var(--line); mix-blend-mode:normal; }
+  .proj-body{ display:flex; flex-direction:column; gap:8px; flex:1; padding:16px 18px 18px; }
+  .proj-k{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); }
+  .proj-t{ font-family:"Fraunces", serif; font-size:1.2rem; line-height:1.25; color:var(--ink); }
+  .proj-d{ font-size:0.92rem; color:var(--ink-soft); line-height:1.5; }
+  .proj-more{ margin-top:auto; padding-top:6px; font-family:"IBM Plex Mono", monospace; font-size:0.76rem; color:var(--accent2); }
+  .proj-more .arrow{ display:inline-block; transition:transform .15s ease; }
+  .proj-card:hover .proj-more .arrow{ transform:translateX(3px); }
+  @media (prefers-reduced-motion: reduce){ .proj-card, .proj-more .arrow{ transition:none; } .proj-card:hover{ transform:none; } }
+  .article-head{ position:relative; padding:56px 0 44px; border-bottom:1px solid var(--line); }
+  .article-head h1{ font-size:clamp(2rem, 4.6vw, 3rem); line-height:1.08; letter-spacing:-0.01em; margin-top:10px; }
+  .article-head .hero-sub{ margin-top:18px; }
+  .back{ display:inline-flex; gap:8px; margin:0 0 26px; font-family:"IBM Plex Mono", monospace; font-size:0.76rem; color:var(--ink-faint); text-decoration:none; }
+  .back:hover{ color:var(--accent-ink); }
+  .back .arrow{ color:var(--accent); }
+  .next-proj{ display:flex; flex-wrap:wrap; gap:12px; margin-top:56px; padding-top:28px; border-top:1px solid var(--line-strong); }
+  .next-proj a{ font-family:"IBM Plex Mono", monospace; font-size:0.78rem; color:var(--accent2); text-decoration:none;
+    border:1px solid var(--line-strong); border-radius:8px; padding:8px 12px; background:var(--surface); }
+  .next-proj a:hover{ border-color:var(--accent2); }
+</style><script>(function(){var t=null;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light")t="dark";document.documentElement.setAttribute("data-theme",t)})();</script>
+<title>Chemistry ahead, physics catching up — Federico Ferrari</title>
+<meta name="description" content="How the position of a glycol chain on a fullerene changes dielectric constant, mobility, packing and n-doping: a first-author paper in Advanced Electronic Materials, 2026.">
+<meta property="og:title" content="Chemistry ahead, physics catching up">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://fferrari96.github.io/regiochemistry.html">
+<meta property="og:description" content="How the position of a glycol chain on a fullerene changes dielectric constant, mobility, packing and n-doping: a first-author paper in Advanced Electronic Materials, 2026.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%23222222%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-family=%27Georgia,serif%27 font-size=%2730%27 font-style=%27italic%27 fill=%27%23F0784A%27 text-anchor=%27middle%27%3EFF%3C/text%3E%3C/svg%3E">
+</head><body>
+<title>Chemistry ahead, physics catching up — Federico Ferrari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#F5F5F5;
+    --surface:#FCFCFC;
+    --ink:#222222;
+    --ink-soft:#4D4D4D;
+    --ink-faint:#6E6E6E;
+    --line:#E5E5E5;
+    --line-strong:#D0D0D0;
+    --accent:#BA3B00;
+    --accent-ink:#8F2C00;
+    --accent-soft:rgba(186,59,0,0.11);
+    --accent2:#4B6A92;
+    --accent2-soft:rgba(75,106,146,0.12);
+    --shadow: 0 1px 2px rgba(34,34,34,0.04), 0 8px 24px -12px rgba(34,34,34,0.10);
+  }
+  /* dark: the palette of the "GIWAXS illustration" canvas (charcoal, teal, grain greys, gold) */
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1F2023;
+      --surface:#2A2B2F;
+      --ink:#F2F2F2;
+      --ink-soft:#C9C9C9;
+      --ink-faint:#9A9A9A;
+      --line:#33474B;
+      --line-strong:#2E5C64;
+      --accent:#7CC6D2;
+      --accent-ink:#A9D3DA;
+      --accent-soft:rgba(124,198,210,0.14);
+      --accent2:#FFC23D;
+      --accent2-soft:rgba(255,194,61,0.14);
+      --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 12px 28px -14px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1F2023;
+    --surface:#2A2B2F;
+    --ink:#F2F2F2;
+    --ink-soft:#C9C9C9;
+    --ink-faint:#9A9A9A;
+    --line:#33474B;
+    --line-strong:#2E5C64;
+    --accent:#7CC6D2;
+    --accent-ink:#A9D3DA;
+    --accent-soft:rgba(124,198,210,0.14);
+    --accent2:#FFC23D;
+    --accent2-soft:rgba(255,194,61,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 12px 28px -14px rgba(0,0,0,0.6);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:1040px; margin:0 auto; padding:0 28px;}
+
+  h1,h2,h3{font-family:"Fraunces", ui-serif, Georgia, serif; font-weight:500; margin:0; text-wrap:balance;}
+
+  a{color:inherit;}
+
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;}
+
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{
+    content:"";
+    display:inline-block;
+    width:18px; height:1px;
+    background:var(--accent);
+  }
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1040px; margin:0 auto; padding:16px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px;
+  }
+  .nav-name{
+    font-family:"Fraunces", serif; font-weight:500; font-size:1rem;
+    letter-spacing:0.01em;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .nav-links{
+    display:flex; gap:22px; flex-wrap:wrap;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.76rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  .nav-links a{
+    text-decoration:none; color:var(--ink-soft);
+    padding-bottom:3px;
+    border-bottom:1px solid transparent;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible{ color:var(--ink); border-color:var(--accent); }
+  .nav-right{ display:flex; align-items:center; gap:20px; }
+  .theme-toggle{
+    flex:none; width:36px; height:36px; padding:0; margin:-6px 0;
+    display:grid; place-items:center;
+    background:transparent; color:var(--ink-soft);
+    border:1px solid var(--line); border-radius:50%;
+    cursor:pointer; transition:color .15s ease, border-color .15s ease;
+  }
+  .theme-toggle:hover, .theme-toggle:focus-visible{ color:var(--accent); border-color:var(--accent); }
+  .theme-toggle svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+  .theme-toggle .i-sun, :root[data-theme="dark"] .theme-toggle .i-moon{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .i-sun{ display:block; }
+  @media (max-width:640px){
+    .nav-inner{ flex-wrap:wrap; row-gap:6px; }
+    .nav-right{ display:contents; }
+    .theme-toggle{ order:2; }
+    .nav-links{ order:3; width:100%; gap:4px 18px; }
+  }
+
+  /* ---------- Hero ---------- */
+  header.hero{
+    position:relative;
+    padding:76px 0 64px;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  .hero-grid{
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle, var(--line-strong) 1px, transparent 1px);
+    background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(to bottom, black, transparent 78%);
+            mask-image:linear-gradient(to bottom, black, transparent 78%);
+    opacity:0.55;
+    pointer-events:none;
+  }
+  .hero-inner{position:relative;}
+  .hero-split{ display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:48px; align-items:start; margin-top:30px; }
+  @media (max-width:860px){ .hero-split{ grid-template-columns:1fr; gap:0; } }
+  .slideshow{ position:relative; margin:34px 0 26px; outline:none; }
+  .slides{ position:relative; height:clamp(250px, 36vw, 400px); overflow:hidden; }
+  .slide{ position:absolute; top:0; left:50%; height:100%; aspect-ratio:1/1; margin:0; overflow:hidden; cursor:pointer;
+    border-radius:12px; border:1px solid var(--line-strong); background:var(--surface); box-shadow:var(--shadow);
+    opacity:0; transform:translateX(-50%) scale(0.66);
+    transition:transform .6s cubic-bezier(.3,.7,.3,1), opacity .6s ease, filter .6s ease; }
+  .slide.is-on{ opacity:1; transform:translateX(-50%); cursor:default; }
+  .slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .slide.fit img{ object-fit:contain; background:#fff; }
+  .slide-svg{ width:100%; height:100%; display:block; background:var(--surface); }
+  .slide-svg .sp-grid{ stroke:var(--line); stroke-width:1; }
+  .slide-svg .sp-axis{ stroke:var(--ink-faint); stroke-width:1.2; fill:none; }
+  .slide-svg .sp-tick{ font-family:"IBM Plex Mono", monospace; font-size:13px; fill:var(--ink-faint); }
+  .slide-svg .sp-sup{ font-size:10px; }
+  .slide-svg .sp-sub{ font-size:11px; }
+  .slide-svg .sp-lab{ font-family:"IBM Plex Sans", sans-serif; font-size:15px; fill:var(--ink-soft); }
+  .slide-svg .sp-name{ font-family:"IBM Plex Sans", sans-serif; font-size:15px; font-weight:600; }
+  .slide-svg .sp-key{ font-family:"IBM Plex Sans", sans-serif; font-size:14px; fill:var(--ink-soft); }
+  .slide-svg .sp-note{ font-family:"IBM Plex Mono", monospace; font-size:12px; fill:var(--ink-faint); }
+  .slide-svg .sp-dot{ stroke:var(--surface); stroke-width:0.8; }
+  .slideshow.vertical{ margin:0; }
+  .slideshow.vertical .slides{ height:540px; }
+  .slideshow.vertical .slide{ top:50%; height:62%; transform:translate(-50%, -50%) scale(0.64); }
+  .slideshow.vertical .slide.is-on{ transform:translate(-50%, -50%); }
+  .slideshow.vertical .slide-btn{ left:calc(50% - 19px); right:auto; }
+  .slideshow.vertical .slide-btn.prev{ top:4px; transform:rotate(90deg); }
+  .slideshow.vertical .slide-btn.next{ top:auto; bottom:4px; transform:rotate(90deg); }
+  .slide-btn{ position:absolute; top:calc(50% - 19px); z-index:5; width:38px; height:38px; border-radius:50%; cursor:pointer;
+    border:1px solid var(--line-strong); background:color-mix(in srgb, var(--surface) 90%, transparent); color:var(--ink);
+    font-size:22px; line-height:34px; }
+  .slide-btn.prev{ left:4px; } .slide-btn.next{ right:4px; }
+  .slide-bar{ display:flex; flex-direction:column; align-items:center; gap:10px; max-width:640px; margin:14px auto 0; text-align:center; }
+  .slide-cap{ margin:0; min-height:4.2em; font-family:"IBM Plex Mono", monospace; font-size:0.74rem; line-height:1.4; color:var(--ink-soft); }
+  .slide-cap a{ color:var(--accent-ink); text-decoration:none; white-space:nowrap; }
+  .slide-cap a:hover{ text-decoration:underline; }
+  .slide-dots{ display:flex; gap:6px; }
+  .slide-dots button{ width:8px; height:8px; padding:0; border:0; border-radius:50%; cursor:pointer; background:var(--line-strong); }
+  .slide-dots button.on{ background:var(--accent); }
+  @media (prefers-reduced-motion: reduce){ .slide{ transition:none; } }
+  .hero-role{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.85rem;
+    color:var(--accent-ink);
+    letter-spacing:0.03em;
+    margin:0 0 18px;
+  }
+  h1.name{
+    font-size:clamp(2.6rem, 6.4vw, 4.8rem);
+    line-height:0.98;
+    letter-spacing:-0.01em;
+  }
+  h1.name em{ font-style:italic; color:var(--accent); font-weight:400; }
+  h1.name strong{ font-weight:600; color:var(--ink); }
+  .hero-sub{
+    max-width:56ch;
+    margin-top:22px;
+    color:var(--ink-soft);
+    font-size:1.08rem;
+  }
+  .hero-sub strong{ color:var(--ink); font-weight:600; }
+  .hero-brief{ margin:30px 0 0; }
+  .hero-brief + .hero-sub{ margin-top:12px; }
+  .hero-sub + .hero-sub{ margin-top:14px; }
+
+  .hero-anim{ opacity:0; transform:translateY(10px); animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards; }
+  .hero-anim.d1{ animation-delay:.05s; }
+  .hero-anim.d2{ animation-delay:.18s; }
+  .hero-anim.d3{ animation-delay:.3s; }
+  .hero-anim.d4{ animation-delay:.42s; }
+  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+  @media (prefers-reduced-motion: reduce){
+    .hero-anim{ opacity:1; transform:none; animation:none; }
+  }
+
+  /* chart styles kept for the chapter 4 page, where the annealing plot will go */
+  .trace{ margin-top:44px; max-width:880px; }
+  .trace svg{ width:100%; height:auto; display:block; overflow:visible; }
+  .trace-path{
+    fill:none; stroke:var(--accent); stroke-width:1.6;
+    stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:600; stroke-dashoffset:600;
+    animation:draw 1.6s ease-out .5s forwards;
+  }
+  @media (prefers-reduced-motion: reduce){ .trace-path{ stroke-dashoffset:0; animation:none; } }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  .trace-path.trace-alt{ stroke:var(--accent2); }
+  .trace-path{ stroke-dasharray:1; stroke-dashoffset:1; }
+  @media (prefers-reduced-motion: reduce){ .trace-path{ stroke-dashoffset:0; } }
+  .trace-axis{ stroke:var(--line-strong); stroke-width:1; }
+  .trace-grid{ stroke:var(--line); stroke-width:1; stroke-dasharray:2 4; }
+  .trace svg .trace-key{ fill:var(--accent-ink); font-size:10px; }
+  .trace svg .trace-key.trace-alt{ fill:var(--accent2); }
+  .trace svg.trace-narrow{ display:none; }
+  .trace svg.trace-narrow .trace-label{ font-size:10.5px; }
+  .trace svg.trace-narrow .trace-key{ font-size:11px; }
+  .trace-soft{ stroke-opacity:.55; }
+  .trace-band{ fill:var(--accent); stroke:none; opacity:.13; animation:bandin 1.2s ease-out .9s backwards; }
+  .trace-band.trace-alt{ fill:var(--accent2); }
+  @keyframes bandin{ from{ opacity:0; } }
+  @media (prefers-reduced-motion: reduce){ .trace-band{ animation:none; } }
+  @media (max-width:600px){
+    .trace svg.trace-wide{ display:none; }
+    .trace svg.trace-narrow{ display:block; }
+  }
+  .trace-label{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:9.5px;
+    fill:var(--ink-faint);
+  }
+  .trace-caption{
+    margin-top:10px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    color:var(--ink-faint);
+    letter-spacing:0.02em;
+  }
+
+  .instrument-strip{
+    margin-top:40px;
+    padding-top:22px;
+    border-top:1px dashed var(--line-strong);
+    display:flex; flex-wrap:wrap; gap:10px 22px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.74rem;
+    color:var(--ink-faint);
+  }
+  .instrument-strip span{ white-space:nowrap; }
+  @media (max-width:600px){ .instrument-strip span{ white-space:normal; } }
+  .instrument-strip b{ color:var(--ink-soft); font-weight:500; }
+
+  /* ---------- Sections ---------- */
+  section{ padding:64px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  .section-head{ margin-bottom:36px; }
+  .section-head h2{ font-size:1.7rem; }
+
+  .story p{ max-width:66ch; color:var(--ink-soft); font-size:1.02rem; }
+  .story p + p{ margin-top:16px; }
+  .story strong{ color:var(--ink); font-weight:600; }
+  .story{ margin:0 0 34px; border:1px solid var(--line-strong); border-radius:10px; background:var(--surface); }
+  .story > summary{ list-style:none; cursor:pointer; display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; padding:14px 18px;
+    font-family:"IBM Plex Mono", monospace; font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink); }
+  .story > summary::-webkit-details-marker{ display:none; }
+  .story > summary::before{ content:"+"; width:14px; color:var(--accent); font-size:1rem; line-height:1; }
+  .story[open] > summary::before{ content:"\2212"; }
+  .story > summary:hover .story-title{ color:var(--accent-ink); }
+  .story-hint{ text-transform:none; letter-spacing:0; color:var(--ink-faint); }
+  .story[open] > summary{ border-bottom:1px solid var(--line); }
+  .story .about-text{ padding:26px 22px 28px; }
+  .story h3{ font-size:1.18rem; margin:32px 0 10px; }
+  .story .about-text > h3:first-child{ margin-top:0; }
+  .story p a{ color:var(--accent-ink); text-underline-offset:2px; }
+  .story p a:hover{ color:var(--accent); }
+
+  .now-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    margin-top:22px;
+    padding:8px 14px;
+    border:1px solid var(--line-strong);
+    border-radius:999px;
+    background:var(--surface);
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.74rem;
+    color:var(--ink-soft);
+  }
+  .now-badge .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--accent2);
+    box-shadow:0 0 0 3px var(--accent2-soft);
+  }
+
+  /* ---------- Timeline (Research) ---------- */
+  .timeline{ display:flex; flex-direction:column; }
+  .entry{
+    display:grid;
+    grid-template-columns:130px 1fr;
+    gap:24px;
+    padding:26px 0;
+    border-top:1px solid var(--line);
+    position:relative;
+  }
+  .entry:first-child{ border-top:none; padding-top:0; }
+  .entry-date{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.78rem;
+    color:var(--ink-faint);
+    padding-top:3px;
+  }
+  .entry h3{ font-size:1.18rem; font-weight:500; }
+  .entry .org{
+    display:block;
+    font-family:"IBM Plex Sans", sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    color:var(--accent-ink);
+    margin-top:3px;
+  }
+  .entry ul{
+    margin:14px 0 0; padding-left:18px;
+    color:var(--ink-soft);
+    font-size:0.96rem;
+  }
+  .entry li{ margin-bottom:7px; }
+  .entry li a{ color:var(--accent-ink); text-underline-offset:2px; }
+  .entry li a:hover{ color:var(--accent); }
+  .entry-body > summary{ list-style:none; cursor:pointer; position:relative; padding-right:36px; }
+  .entry-body > summary::-webkit-details-marker{ display:none; }
+  .entry-body > summary::after{ content:"+"; position:absolute; right:4px; top:0; font-family:"IBM Plex Mono", monospace; font-size:1.15rem; color:var(--accent); }
+  .entry-body[open] > summary::after{ content:"\2212"; }
+  .entry-body > summary:hover h3{ color:var(--accent-ink); }
+  .timeline-tools{ display:flex; justify-content:flex-end; margin:0 0 6px; }
+  .entry ul, .entry .thesis, .entry .degree{ max-width:80ch; }
+  .entry li::marker{ color:var(--accent); }
+  .entry .degree{ display:block; margin-top:8px; font-size:0.92rem; color:var(--ink); }
+  .entry .thesis{
+    margin-top:10px; font-size:0.92rem; color:var(--ink-faint);
+    font-style:italic;
+  }
+  @media (max-width:600px){
+    .entry{ grid-template-columns:1fr; gap:6px; }
+  }
+
+  /* ---------- Skills ---------- */
+  .spec{ border-top:1px solid var(--line-strong); }
+  .spec-row{
+    display:grid;
+    grid-template-columns:200px 1fr;
+    gap:20px;
+    padding:20px 0;
+    border-bottom:1px solid var(--line);
+    align-items:start;
+  }
+  .spec-row .cat{
+    font-weight:600; font-size:0.95rem;
+    padding-top:5px;
+  }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    background:var(--surface);
+    border:1px solid var(--line-strong);
+    border-radius:6px;
+    padding:5px 10px;
+    max-width:100%;
+  }
+  @media (max-width:600px){
+    .spec-row{ grid-template-columns:1fr; gap:10px; }
+  }
+
+  /* ---------- Publications ---------- */
+  .pub-list{ display:flex; flex-direction:column; gap:22px; }
+  .pub{
+    padding-bottom:20px;
+    border-bottom:1px solid var(--line);
+    display:flex; flex-direction:column; gap:5px;
+  }
+  .pub:last-child{ border-bottom:none; padding-bottom:0; }
+  .pub-title{ font-size:1rem; color:var(--ink); }
+  .pub-meta{ font-size:0.9rem; color:var(--ink-faint); }
+  .pub-meta em{ color:var(--ink-soft); font-style:italic; }
+  .status{
+    display:inline-block;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--accent2);
+    background:var(--accent2-soft);
+    border-radius:4px;
+    padding:2px 7px;
+    margin-left:8px;
+  }
+
+  /* ---------- Hover-preview links ---------- */
+  .preview-link{
+    position:relative;
+    display:inline;
+    color:var(--ink);
+    text-decoration:none;
+    border-bottom:1px solid var(--line-strong);
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .preview-link:hover, .preview-link:focus-visible{
+    color:var(--accent-ink);
+    border-color:var(--accent);
+  }
+  .preview-pop{
+    position:absolute;
+    left:0;
+    bottom:calc(100% + 12px);
+    width:290px;
+    max-width:calc(100vw - 56px);
+    background:var(--surface);
+    border:1px solid var(--line-strong);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:14px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    opacity:0;
+    transform:translateY(6px);
+    pointer-events:none;
+    transition:opacity .16s ease, transform .16s ease;
+    z-index:30;
+    white-space:normal;
+    text-align:left;
+  }
+  .preview-pop::before{
+    content:"";
+    position:absolute;
+    top:100%;
+    left:22px;
+    width:11px; height:11px;
+    background:var(--surface);
+    border-right:1px solid var(--line-strong);
+    border-bottom:1px solid var(--line-strong);
+    transform:translateY(-6px) rotate(45deg);
+  }
+  .preview-link:hover .preview-pop,
+  .preview-link:focus-visible .preview-pop{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .preview-kicker{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--accent);
+  }
+  .preview-authors{ font-size:0.82rem; color:var(--ink-soft); line-height:1.45; }
+  .preview-cta{ font-family:"IBM Plex Mono", monospace; font-size:0.74rem; color:var(--ink-faint); margin-top:2px; }
+  .preview-cta .arrow{ color:var(--accent); display:inline-block; transition:transform .15s ease; }
+  .preview-link:hover .preview-cta .arrow{ transform:translateX(3px); }
+  .preview-thumb{
+    width:100%; height:120px;
+    border-radius:6px;
+    object-fit:cover;
+    border:1px solid var(--line);
+    margin-bottom:2px;
+    background:var(--bg);
+  }
+  @media (prefers-reduced-motion: reduce){ .preview-pop{ transition:none; } }
+  @media (max-width:640px){ .preview-pop{ display:none; } }
+
+  .chip{ position:relative; }
+  .chip-preview{
+    cursor:help;
+    border-bottom:1px dotted var(--accent);
+  }
+  .chip-preview .preview-pop{ left:50%; transform:translate(-50%,6px); bottom:calc(100% + 10px); width:220px; }
+  .chip-preview:hover .preview-pop, .chip-preview:focus-visible .preview-pop{
+    transform:translate(-50%,0); opacity:1; pointer-events:auto;
+  }
+  .chip-preview .preview-pop::before{ left:50%; margin-left:-6px; }
+  /* Skill chips sit at the right of the spec sheet: their pop-ups open leftwards, so they never widen the page. */
+  .chips .chip-preview .preview-pop{ left:auto; right:0; transform:translate(0,6px); }
+  .chips .chip-preview:hover .preview-pop, .chips .chip-preview:focus-visible .preview-pop{ transform:translate(0,0); }
+  .chips .chip-preview .preview-pop::before{ left:auto; right:22px; margin-left:0; }
+
+  /* ---------- Featured project ---------- */
+  #project p{ max-width:66ch; color:var(--ink-soft); font-size:1.02rem; }
+  #project p + p{ margin-top:16px; }
+  .project-hero{ float:right; width:min(300px, 42%); margin:6px 0 16px 28px; }
+  .project-hero img{ width:100%; height:auto; display:block; border-radius:10px; border:1px solid var(--line); box-shadow:var(--shadow); }
+  .project-hero figcaption{ margin-top:8px; font-family:"IBM Plex Mono", monospace; font-size:0.74rem; color:var(--ink-faint); line-height:1.4; }
+  @media (max-width:600px){ .project-hero{ float:none; width:100%; max-width:360px; margin:4px auto 22px; } .rig-result .project-hero{ margin:0 auto; } }
+  .project-cap{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.78rem;
+    color:var(--ink-faint);
+    text-align:center;
+    margin:0 0 28px;
+  }
+  #project .project-cap{ font-size:0.78rem; max-width:none; margin-top:10px; }
+  .rig-split{ display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:40px; align-items:start; }
+  .rig-split .rig-text > p:first-child{ margin-top:0; }
+  .rig-next{ margin-top:22px; padding-top:14px; border-top:1px dashed var(--line-strong); font-size:0.95rem; color:var(--ink-soft); }
+  .rig-next .arrow{ color:var(--accent); }
+  #project .rig-parts .parts-title{ margin-top:0; }
+  .rig-parts .parts{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
+  .rig-result{ display:grid; grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr); gap:40px; align-items:center; margin-top:40px; }
+  .rig-result .project-hero{ float:none; width:auto; margin:0; }
+  .rig-trace{ margin:0; max-width:520px; }
+  .rig-trace .plot-title{ margin:0; }
+  .rig-trace .trace{ margin-top:14px; max-width:none; }
+  .rig-trace .trace svg.trace-narrow{ display:block; }
+  .rig-trace .trace-caption{ margin-top:12px; line-height:1.5; }
+  .rig-trace .trace-caption a{ color:var(--accent-ink); }
+  .rig-trace .trace-path, .rig-trace .trace-band{ animation-play-state:paused; }
+  .rig-trace.seen .trace-path, .rig-trace.seen .trace-band{ animation-play-state:running; }
+  @media (max-width:860px){
+    .rig-split, .rig-result{ grid-template-columns:1fr; gap:28px; }
+    .rig-result .project-hero{ max-width:380px; }
+  }
+  .parts{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px; margin-top:14px; }
+  .part{ font:inherit; padding:10px 8px; text-align:left; cursor:pointer; background:var(--surface); border:1px solid var(--line); border-radius:8px; transition:border-color .15s ease, transform .15s ease; }
+  .part:hover, .part:focus-visible{ border-color:var(--accent); transform:translateY(-2px); }
+  .part img{ width:100%; height:auto; display:block; mix-blend-mode:normal; }
+  .part span{ display:block; margin-top:6px; font-family:"IBM Plex Mono", monospace; font-size:0.7rem; color:var(--ink-soft); line-height:1.35; }
+  .parts.still .part{ cursor:default; }
+  .parts.still .part:hover{ border-color:var(--line); transform:none; }
+  @media (max-width:600px){ .parts, .rig-parts .parts{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+  @media (prefers-reduced-motion: reduce){ .part{ transition:none; } .part:hover, .part:focus-visible{ transform:none; } }
+  .part-view{ width:min(640px, 92vw); padding:0; color:var(--ink); background:var(--surface); border:1px solid var(--line-strong); border-radius:12px; box-shadow:var(--shadow); }
+  .part-view::backdrop{ background:rgba(0,0,0,0.5); }
+  .part-plot{ height:min(540px, 68vh); }
+  .part-bar{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px; border-top:1px solid var(--line); font-family:"IBM Plex Mono", monospace; font-size:0.78rem; }
+  .project-divider{ margin-top:72px; padding-top:64px; border-top:1px solid var(--line-strong); }
+  .paper-figs{ display:flex; flex-direction:column; gap:26px; margin-top:28px; }
+  .paper-figs figure{ margin:0; max-width:640px; }
+  .plot-title{ font-family:"Fraunces", serif; font-size:1.15rem; font-weight:500; color:var(--ink); margin:28px 0 0; }
+  .plot-tabs{ display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 16px; }
+  .plot-tab{
+    font-family:"IBM Plex Mono", monospace; font-size:0.74rem; letter-spacing:0.04em;
+    background:var(--surface); color:var(--ink-soft); border:1px solid var(--line-strong);
+    border-radius:6px; padding:5px 11px; cursor:pointer;
+    transition:color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .plot-tab:hover{ color:var(--ink); border-color:var(--accent); }
+  .plot-tab.active{ color:var(--accent-ink); border-color:var(--accent); background:var(--accent-soft); }
+  .duo{ position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; }
+  .duo .paper-plot{ height:380px; }
+  .duo-lab{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-faint); margin:0 0 6px 2px; }
+  @media (max-width:720px){ .duo{ grid-template-columns:1fr; gap:22px; } }
+  .mol-tip{ position:absolute; z-index:5; width:150px; pointer-events:none; display:flex; flex-direction:column; gap:3px;
+    background:var(--surface); border:1px solid var(--line-strong); border-radius:8px; box-shadow:var(--shadow); padding:8px 10px; }
+  .mol-tip[hidden]{ display:none; }
+  .mol-tip img{ width:100%; height:92px; object-fit:contain; margin-bottom:2px; }
+  .mol-tip .n{ font-family:"IBM Plex Mono", monospace; font-size:0.74rem; font-weight:500; }
+  .mol-tip .v{ font-family:"IBM Plex Mono", monospace; font-size:0.7rem; color:var(--ink-soft); line-height:1.35; }
+  .paper-plot{ height:400px; border:1px solid var(--line); border-radius:8px; background:var(--surface); padding:8px 4px 0; }
+  @media (max-width:600px){ .paper-plot{ height:340px; } }
+  .paper-figs img{ width:100%; height:auto; display:block; border-radius:8px; border:1px solid var(--line); background:var(--surface); }
+  .paper-figs figcaption{ margin-top:8px; font-family:"IBM Plex Mono", monospace; font-size:0.76rem; color:var(--ink-faint); line-height:1.4; }
+  .fig-side{ display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:36px; align-items:start; margin-top:28px; }
+  .fig-side figure{ margin:0; }
+  .fig-side img{ width:100%; display:block; border-radius:8px; border:1px solid var(--line); background:var(--surface); }
+  .fig-side figcaption{ margin-top:8px; font-family:"IBM Plex Mono", monospace; font-size:0.76rem; color:var(--ink-faint); line-height:1.4; }
+  @media (max-width:720px){ .fig-side{ grid-template-columns:1fr; gap:20px; } }
+  /* GIWAXS viewer */
+  .gx-controls{ display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+  .gx-row{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+  .gx-row[hidden]{ display:none; }
+  .gx-lab{ font-family:"IBM Plex Mono", monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-faint); width:58px; }
+  .gx-row .plot-tab{ padding:4px 9px; font-size:0.72rem; }
+  .gx-row .plot-tab.solo{ cursor:default; }
+  .gx-plot{ display:grid; grid-template-columns:16px 28px minmax(0,1fr); align-items:stretch; }
+  .gx-ylab{ writing-mode:vertical-rl; transform:rotate(180deg); text-align:center; font-family:"IBM Plex Mono", monospace; font-size:0.7rem; color:var(--ink-soft); }
+  .gx-yticks, .gx-xticks{ position:relative; font-family:"IBM Plex Mono", monospace; font-size:0.66rem; color:var(--ink-faint); }
+  .gx-yticks span{ position:absolute; right:5px; transform:translateY(50%); }
+  .gx-xticks{ height:20px; }
+  .gx-xticks span{ position:absolute; top:3px; transform:translateX(-50%); }
+  .gx-xlab{ text-align:center; font-family:"IBM Plex Mono", monospace; font-size:0.7rem; color:var(--ink-soft); }
+  .gx-stage{ position:relative; aspect-ratio:760/874; border:1px solid var(--ink-soft); background:#2C1338; overflow:hidden; touch-action:pan-y; }
+  .gx-stage img{ position:absolute; inset:0; width:100%; height:100%; display:block; mix-blend-mode:normal; }
+  .gx-idx{ clip-path:inset(0 calc(100% - var(--gx, 50%)) 0 0); }
+  .gx-handle{ position:absolute; top:0; bottom:0; left:var(--gx, 50%); width:2px; margin-left:-1px; background:#fff; box-shadow:0 0 0 1px rgba(0,0,0,0.25); pointer-events:none; }
+  .gx-handle::after{ content:"\2194"; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:26px; height:26px; border-radius:50%; background:#fff; color:#222222; font-size:14px; line-height:26px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,0.35); }
+  .gx-tag{ position:absolute; top:8px; font-family:"IBM Plex Mono", monospace; font-size:0.64rem; text-transform:uppercase; letter-spacing:0.08em; color:#fff; background:rgba(0,0,0,0.45); border-radius:4px; padding:2px 6px; pointer-events:none; }
+  .gx-tag-l{ left:8px; } .gx-tag-r{ right:8px; }
+  .gx-range{ position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:ew-resize; }
+  .gx-range:focus-visible + .gx-handle, .gx-stage:focus-within .gx-handle{ background:var(--accent); }
+  .gx.no-idx .gx-idx, .gx.no-idx .gx-handle, .gx.no-idx .gx-tag, .gx.no-idx .gx-range{ display:none; }
+  .gx-cap{ margin-top:10px; font-family:"IBM Plex Mono", monospace; font-size:0.76rem; color:var(--ink-faint); line-height:1.45; }
+  img{ mix-blend-mode:multiply; }
+  .project-hero img, .slide img, .preview-thumb{ mix-blend-mode:normal; }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) img{ mix-blend-mode:normal; filter:brightness(.88); } }
+  :root[data-theme="dark"] img{ mix-blend-mode:normal; filter:brightness(.88); }
+  /* line drawings on white (the molecules) turn light-on-dark; logos sit on a light chip */
+  :root[data-theme="dark"] img.ink, :root[data-theme="dark"] .mol-tip:not(.place-tip) img{ filter:invert(1) hue-rotate(180deg) brightness(.9); mix-blend-mode:screen; }
+  :root[data-theme="dark"] .place-tip img{ filter:none; background:#F2F2F2; padding:4px 6px; border-radius:4px; }
+  .pub-extra{ margin-top:2px; }
+  .pub-extra a{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.78rem;
+    color:var(--accent2);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+  }
+  .pub-extra a:hover{ border-color:var(--accent2); }
+
+  /* ---------- Awards / Languages ---------- */
+  .exp-grid{ display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:40px; align-items:start; }
+  .places{ position:sticky; top:84px; margin:0; }
+  .places-map{ height:310px; padding:0; overflow:hidden; }
+  @media (max-width:860px){
+    .exp-grid{ grid-template-columns:1fr; gap:26px; }
+    .places{ position:relative; top:auto; order:-1; }
+  }
+  .places .project-cap{ margin:10px 0 0; }
+  .place-tip{ width:230px; }
+  .place-tip img{ width:auto; max-width:100%; height:42px; object-fit:contain; object-position:left center; margin-bottom:5px; }
+  .place-tip .n{ color:var(--ink); }
+  @media (max-width:600px){ .places-map{ height:240px; } }
+  .exp-extra{ margin-top:36px; padding-top:36px; border-top:1px solid var(--line-strong); }
+  .two-col{ display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:8px; }
+  @media (max-width:640px){ .two-col{ grid-template-columns:1fr; gap:32px; } }
+  .mini-head{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:14px;
+  }
+  .award{ margin-bottom:16px; }
+  .award .t{ font-weight:600; font-size:0.95rem; }
+  .award .d{ color:var(--ink-soft); font-size:0.9rem; margin-top:2px; }
+  .lang-row{
+    display:flex; justify-content:space-between;
+    padding:9px 0; border-top:1px solid var(--line);
+    font-size:0.92rem;
+  }
+  .lang-row:first-child{ border-top:none; }
+  .lang-row .level{ color:var(--ink-faint); font-family:"IBM Plex Mono", monospace; font-size:0.82rem; }
+
+  /* ---------- Contact / Footer ---------- */
+  footer{ padding:64px 0 56px; }
+  .contact-card{
+    background:var(--surface);
+    border:1px solid var(--line-strong);
+    border-radius:14px;
+    padding:38px 34px;
+    box-shadow:var(--shadow);
+    display:flex; flex-wrap:wrap;
+    gap:32px;
+    justify-content:space-between;
+    align-items:flex-end;
+  }
+  .contact-card h2{ font-size:1.5rem; max-width:20ch; }
+  /* each contact: the link (phones as plain text), then a copy button lined up in a second column */
+  .contact-links{ display:grid; grid-template-columns:auto auto; justify-content:start; align-items:center; gap:8px 12px; }
+  .contact-links a, .contact-links .plain{
+    text-decoration:none;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.92rem;
+    color:var(--ink-soft);
+    display:flex; align-items:center; gap:8px;
+    min-width:0; overflow-wrap:anywhere;
+    transition:color .15s ease;
+  }
+  .contact-links a:hover, .contact-links a:focus-visible{ color:var(--accent-ink); }
+  .contact-links .arrow{ color:var(--accent); transition:transform .15s ease; }
+  .contact-links a:hover .arrow{ transform:translateX(3px); }
+  .copy{
+    width:28px; height:28px; padding:0; display:grid; place-items:center;
+    background:transparent; color:var(--ink-faint);
+    border:1px solid var(--line); border-radius:6px;
+    cursor:pointer; transition:color .15s ease, border-color .15s ease;
+  }
+  .copy:hover, .copy:focus-visible, .copy.done{ color:var(--accent); border-color:var(--accent); }
+  .copy svg{ width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+  .copy .i-check, .copy.done .i-copy{ display:none; }
+  .copy.done .i-check{ display:block; }
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  @media (max-width:480px){
+    .contact-card{ padding:30px 22px; }
+    .contact-links a, .contact-links .plain{ font-size:0.86rem; }
+  }
+  .foot-note{
+    margin-top:28px;
+    font-size:0.78rem;
+    color:var(--ink-faint);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+</style>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-name" href="index.html">Federico Ferrari</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="index.html#experience">Experience</a>
+        <a href="index.html#project">Projects</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+<script>
+(function(){
+  // Dark by default; light if the visitor picked it (saved). Charts redraw on 'themechange'.
+  var root = document.documentElement, btn = document.querySelector('.theme-toggle');
+  function label(){
+    var t = root.getAttribute('data-theme') === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    btn.setAttribute('aria-label', t); btn.title = t;
+  }
+  function set(t, keep){
+    root.setAttribute('data-theme', t);
+    if (keep) { try { localStorage.setItem('theme', t); } catch (e) {} }
+    label();
+    document.dispatchEvent(new CustomEvent('themechange', {detail:t}));
+  }
+  label();
+  btn.addEventListener('click', function(){ set(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true); });
+})();
+</script>
+
+<header class="article-head" id="top">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <a class="back" href="index.html#project"><span class="arrow">&larr;</span> All projects</a>
+    <p class="eyebrow">First-Author Paper &middot; Advanced Electronic Materials 2026</p>
+    <h1>Chemistry ahead, physics catching up</h1>
+    <p class="hero-sub">Three isomers of the same n-type fullerene derivative, differing only in where a glycol chain sits, and how that one change ripples through dielectric constant, mobility, packing and doping.</p>
+  </div>
+</header>
+
+<section id="project">
+  <div class="wrap">
+    <p>
+      The premise of this study is what makes it interesting. Fullerene derivatives are an intriguing class of
+      materials: their chemistry is vast &mdash; thousands of derivatives have been synthesized, and there is no
+      shortage of reviews &mdash; but the solid-state physics of these materials is far less explored, leaving many
+      gaps in the structure&ndash;property picture. In this work we probe one such gap: how simply changing where
+      a glycol chain sits on the molecule affects a wide variety of material properties &mdash; from the dielectric
+      constant to the mobility, the morphology and the doping efficiency.
+    </p>
+    <p>
+      This study was very fun, exactly for that reason: it was a playground to explore and learn, hands on, the
+      different characterization methods. Perfect for a first PhD project, since it let me get familiar with all
+      the tools available in the lab.
+    </p>
+    <div class="paper-figs">
+      <figure>
+        <img class="ink" src="img/molecules/pdeg2-isomers.png" width="856" height="352" alt="Chemical structures of the three PDEG-2 regioisomers: 2,5, 3,5 and 3,4">
+        <figcaption>Three ways to hang the same two chains off a fullerene: 2,5-, 3,5- and 3,4-PDEG-2.</figcaption>
+      </figure>
+    </div>
+    <p>
+      What I really liked was getting to fabricate unipolar Schottky diodes and metal&ndash;insulator&ndash;semiconductor
+      devices to characterize the mobility and the charge-carrier concentration of these materials. The results were
+      anything but boring: the as-cast mobilities of the three isomers spanned more than an order of magnitude;
+      annealing made them all drop &mdash; more order is not always better for transport; and the dielectric constants
+      ranged from about 4.5 to 8 depending on the isomer and the measurement frequency.
+    </p>
+    <p class="plot-title">Three isomers, pick a property</p>
+    <div class="plot-tabs">
+      <button class="plot-tab active" data-prop="eps" type="button">Dielectric constant</button>
+      <button class="plot-tab" data-prop="mu" type="button">Electron mobility</button>
+      <button class="plot-tab" data-prop="eta" type="button">Doping efficiency</button>
+      <button class="plot-tab" data-prop="sig" type="button">Max conductivity</button>
+    </div>
+    <div class="duo">
+      <div>
+        <div class="duo-lab">Summary &middot; Table 2</div>
+        <div class="paper-plot" id="plot-isomers">
+          <noscript><p>This figure is interactive &mdash; it compares the three isomers across dielectric constant, mobility, doping efficiency and maximum conductivity (Table 2 of the paper). Enable JavaScript to use it.</p></noscript>
+        </div>
+      </div>
+      <div>
+        <div class="duo-lab" id="raw-lab">Raw data</div>
+        <div class="paper-plot" id="plot-raw"></div>
+      </div>
+      <div class="mol-tip" hidden><img alt=""><span class="n"></span><span class="v"></span></div>
+    </div>
+    <p class="project-cap" id="duo-cap"></p>
+    <div class="fig-side">
+      <p>
+        Another really exciting technique was performing GIWAXS on the thin films. The diffractograms of these materials
+        are really beautiful &mdash; the one of the 2,5 isomer looks like the
+        <span class="preview-link" tabindex="0">starry ceiling of the firmament that Giotto painted in the Scrovegni Chapel<span class="preview-pop" role="tooltip">
+            <img class="preview-thumb" style="height:150px;" src="img/giotto-giwaxs-split.webp" alt="Split image: on the left, the GIWAXS pattern of an annealed 2,5-PDEG-2 film; on the right, the starry blue vault Giotto painted in the Scrovegni Chapel" loading="lazy">
+            <span class="preview-kicker">GIWAXS &middot; Giotto, c. 1305</span>
+            <span class="preview-authors">Left, the diffraction spots of an annealed 2,5-PDEG-2 film. Right, gold stars on the lapis-blue vault of the Scrovegni Chapel, Padova.</span>
+          </span></span>, in my hometown Padova. Beyond the aesthetics, this is
+        a dataset I am quite happy about: it allowed me to perform indexing, which is not very common when working with
+        polymer-based organic semiconductors, where diffraction patterns are usually too diffuse. Indexing told the
+        packing stories: the 2,5 isomer grows a low-symmetry triclinic lattice, highly crystalline; the other two
+        organize in tetragonal cells of alternating fullerene and glycol layers &mdash; the packing that in-plane
+        transport likes best.
+      </p>
+      <figure class="gx" id="giwaxs">
+        <div class="gx-controls">
+          <div class="gx-row" data-key="mat"><span class="gx-lab">Isomer</span></div>
+          <div class="gx-row" data-key="dop"><span class="gx-lab">Dopant</span></div>
+        </div>
+        <div class="gx-plot">
+          <div class="gx-ylab">Q<sub>z</sub> (&Aring;<sup>&minus;1</sup>)</div>
+          <div class="gx-yticks" aria-hidden="true"><span style="bottom:0">0</span><span style="bottom:21.74%">0.5</span><span style="bottom:43.48%">1.0</span><span style="bottom:65.22%">1.5</span><span style="bottom:86.96%">2.0</span></div>
+          <div class="gx-stage">
+            <img class="gx-raw" alt="" decoding="async">
+            <img class="gx-idx" alt="" decoding="async">
+            <div class="gx-handle" aria-hidden="true"></div>
+            <span class="gx-tag gx-tag-l" aria-hidden="true">indexed</span>
+            <span class="gx-tag gx-tag-r" aria-hidden="true">raw</span>
+            <input class="gx-range" type="range" min="0" max="100" value="50" aria-label="Slide between the indexed and the raw diffractogram">
+          </div>
+          <div></div><div></div>
+          <div class="gx-xticks" aria-hidden="true"><span style="left:0">0</span><span style="left:25%">0.5</span><span style="left:50%">1.0</span><span style="left:75%">1.5</span><span style="left:100%">2.0</span></div>
+          <div></div><div></div>
+          <div class="gx-xlab">Q<sub>r</sub> (&Aring;<sup>&minus;1</sup>)</div>
+        </div>
+        <figcaption class="gx-cap"></figcaption>
+        <noscript><p>The GIWAXS viewer needs JavaScript.</p></noscript>
+      </figure>
+    </div>
+    <p>
+      In the end, this structure&ndash;property mapping is what let us push the best isomer to a conductivity of
+      7.7 S cm<sup>-1</sup> and a power factor of 35 &micro;W m<sup>-1</sup> K<sup>-2</sup>, among the highest values
+      reported for n-doped molecular semiconductors.
+    </p>
+    <div class="pub-extra"><a href="https://doi.org/10.1002/aelm.202500287" target="_blank" rel="noopener">Read the paper &rarr;</a></div>
+    <div class="next-proj" role="navigation" aria-label="Other projects">
+      <a href="rig.html">Building the rig I wished I had &rarr;</a>
+      <a href="otegs.html">Are organic thermoelectric generators worth it? &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-card">
+      <h2>Let's talk process, devices, or test hardware.</h2>
+      <div class="contact-links">
+        <a href="mailto:fferrari96@gmail.com"><span class="arrow">→</span> fferrari96@gmail.com</a>
+        <button class="copy" type="button" hidden data-copy="fferrari96@gmail.com" aria-label="Copy email address"></button>
+        <span class="plain"><span class="arrow">→</span> +886 965 563 369</span>
+        <button class="copy" type="button" hidden data-copy="+886965563369" aria-label="Copy Taiwan phone number"></button>
+        <span class="plain"><span class="arrow">→</span> +39 347 678 7200</span>
+        <button class="copy" type="button" hidden data-copy="+393476787200" aria-label="Copy Italian phone number"></button>
+        <a href="https://linkedin.com/in/federico-ferrari-3a889b172/" target="_blank" rel="noopener"><span class="arrow">→</span> LinkedIn</a>
+        <button class="copy" type="button" hidden data-copy="https://linkedin.com/in/federico-ferrari-3a889b172/" aria-label="Copy LinkedIn link"></button>
+        <a href="https://scholar.google.com/citations?hl=it&amp;view_op=list_works&amp;user=7aKljj8AAAAJ" target="_blank" rel="noopener"><span class="arrow">→</span> Google Scholar</a>
+        <button class="copy" type="button" hidden data-copy="https://scholar.google.com/citations?hl=it&amp;view_op=list_works&amp;user=7aKljj8AAAAJ" aria-label="Copy Google Scholar link"></button>
+        <a href="https://orcid.org/0009-0008-0790-2126" target="_blank" rel="noopener"><span class="arrow">→</span> ORCID 0009-0008-0790-2126</a>
+        <button class="copy" type="button" hidden data-copy="https://orcid.org/0009-0008-0790-2126" aria-label="Copy ORCID link"></button>
+        <span class="sr-only" id="copy-status" aria-live="polite"></span>
+      </div>
+    </div>
+    <div class="wrap" style="padding:0;">
+      <div class="foot-note">
+        <span>Federico Ferrari — Thin-Film Process Development, Device Testing &amp; Test Automation</span>
+        <span>Based in Taipei, Taiwan &middot; open to relocation</span>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  // Copy buttons beside the contacts. They get their icons here and stay hidden without JavaScript.
+  var ICONS = '<svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>'
+            + '<svg class="i-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var live = document.getElementById('copy-status');
+  function fallback(text){
+    var t = document.createElement('textarea');
+    t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.select();
+    var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(t); return ok;
+  }
+  function copy(text){
+    if (navigator.clipboard && window.isSecureContext)
+      return navigator.clipboard.writeText(text).then(function(){ return true; }, function(){ return fallback(text); });
+    return Promise.resolve(fallback(text));
+  }
+  document.querySelectorAll('.copy[data-copy]').forEach(function(btn){
+    var label = btn.getAttribute('aria-label'), timer;
+    btn.innerHTML = ICONS; btn.title = label; btn.hidden = false;
+    btn.addEventListener('click', function(){
+      copy(btn.getAttribute('data-copy')).then(function(ok){
+        clearTimeout(timer);
+        btn.classList.toggle('done', ok);
+        btn.title = ok ? 'Copied' : 'Copy failed';
+        if (live) live.textContent = ok ? 'Copied: ' + btn.getAttribute('data-copy') : 'Copy failed';
+        timer = setTimeout(function(){ btn.classList.remove('done'); btn.title = label; }, 1600);
+      });
+    });
+  });
+})();
+</script>
+<script>
+(function(){
+  // GIWAXS viewer. Images are cropped to the plot frame (0-2 x 0-2.3 1/A) so raw and indexed overlay exactly.
+  // All films are annealed at 150 C, so there is no film selector.
+  var root = document.getElementById('giwaxs');
+  if (!root) return;
+  var dir = 'img/giwaxs/';
+  var DATA = {
+    '25': {name:'2,5-PDEG-2', ann:{undoped:{raw:'25-undoped', idx:'25-undoped-indexed'}, doped:{raw:'25-doped'}}},
+    '35': {name:'3,5-PDEG-2', ann:{undoped:{raw:'35-undoped', idx:'35-undoped-indexed'}, doped:{raw:'35-doped', idx:'35-doped-indexed'}}},
+    '34': {name:'3,4-PDEG-2', ann:{undoped:{raw:'34-undoped', idx:'34-undoped-indexed'}, doped:{raw:'34-doped', idx:'34-doped-indexed'}}}
+  };
+  var LABEL = {mat:{'25':'2,5', '35':'3,5', '34':'3,4'}, ann:{ann:'annealed 150 \u00B0C'}, dop:{undoped:'undoped', doped:'n-doped'}};
+  var NOTE = {
+    '25': 'Low-symmetry triclinic lattice, highly crystalline; \u00D7 marks the peaks used for indexing.',
+    '35': 'Tetragonal cell of alternating fullerene and glycol layers; labels are Miller indices [h, k, l].',
+    '34': 'Tetragonal cell of alternating fullerene and glycol layers; labels are Miller indices [h, k, l].'
+  };
+  var sel = {mat:'25', ann:'ann', dop:'undoped'};
+  var raw = root.querySelector('.gx-raw'), idx = root.querySelector('.gx-idx');
+  var range = root.querySelector('.gx-range'), cap = root.querySelector('.gx-cap');
+  var rows = {};
+  ['mat', 'dop'].forEach(function(k){ rows[k] = root.querySelector('.gx-row[data-key="' + k + '"]'); });
+
+  function options(k){
+    if (k === 'mat') return ['25', '35', '34'];
+    var film = DATA[sel.mat];
+    var f = film[sel.ann];
+    return ['undoped', 'doped'].filter(function(d){ return f[d]; });
+  }
+  function buttons(k){
+    var row = rows[k], opts = options(k);
+    if (opts.indexOf(sel[k]) < 0) sel[k] = opts[0];
+    Array.prototype.slice.call(row.querySelectorAll('button')).forEach(function(b){ row.removeChild(b); });
+    opts.forEach(function(o){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'plot-tab' + (o === sel[k] ? ' active' : '') + (opts.length === 1 ? ' solo' : '');
+      b.textContent = LABEL[k][o];
+      b.setAttribute('aria-pressed', o === sel[k]);
+      b.addEventListener('click', function(){ if (sel[k] !== o) { sel[k] = o; render(); } });
+      row.appendChild(b);
+    });
+  }
+  function render(){
+    buttons('mat'); buttons('dop');
+    var film = DATA[sel.mat], s = film[sel.ann][sel.dop];
+    raw.src = dir + s.raw + '.webp';
+    raw.alt = 'GIWAXS diffractogram of ' + film.name + ', ' + LABEL.ann[sel.ann] + ', ' + LABEL.dop[sel.dop];
+    root.classList.toggle('no-idx', !s.idx);
+    if (s.idx) idx.src = dir + s.idx + '.webp'; else idx.removeAttribute('src');
+    cap.textContent = film.name + ', ' + LABEL.ann[sel.ann] + ', ' + LABEL.dop[sel.dop] + '. ' +
+      (s.idx ? NOTE[sel.mat] + ' Drag the bar to swap between the indexed and the raw diffractogram.'
+             : 'This film was not indexed.');
+  }
+  function slide(){ root.style.setProperty('--gx', range.value + '%'); }
+  range.addEventListener('input', slide);
+  slide();
+  render();
+})();
+</script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script>
+(function(){
+  // Property picker: Table 2 summary (left) next to the raw measurement it comes from (right).
+  // Hovering any point shows the molecule it belongs to.
+  var barDiv = document.getElementById('plot-isomers'), rawDiv = document.getElementById('plot-raw');
+  if (!barDiv || !rawDiv || typeof Plotly === 'undefined') return;
+  var ISO = {
+    '25': {name:'2,5-PDEG-2', color:'#CC3311'},
+    '35': {name:'3,5-PDEG-2', color:'#0077BB'},
+    '34': {name:'3,4-PDEG-2', color:'#009988'}
+  };
+  var ORDER = ['25', '35', '34'];
+  var KEY = {}; ORDER.forEach(function(k){ KEY[ISO[k].name] = k; });
+  var names = ORDER.map(function(k){ return ISO[k].name; });
+  var cols = ORDER.map(function(k){ return ISO[k].color; });
+  var RAW = {"eps":{"25":[[10.0,5.581,0.9771],[12.59,5.483,1.226],[15.85,5.556,0.7415],[19.95,5.655,0.7393],[25.12,5.386,0.8588],[31.62,5.458,0.7241],[39.81,5.433,0.5934],[50.12,5.518,0.8285],[63.1,5.444,0.5473],[79.43,5.398,0.5504],[100.0,5.34,0.5812],[125.9,5.326,0.5537],[158.5,5.298,0.5456],[199.5,5.283,0.5582],[251.2,5.252,0.5536],[316.2,5.259,0.543],[398.1,5.188,0.5486],[501.2,5.159,0.5515],[631.0,5.133,0.5308],[794.3,5.112,0.5351],[1000.0,5.087,0.5461],[1259.0,5.079,0.5545],[1585.0,5.082,0.5472],[1995.0,5.06,0.5518],[2512.0,5.046,0.5595],[3162.0,5.034,0.5611],[3981.0,5.021,0.5518],[5012.0,5.01,0.5516],[6310.0,5.0,0.549],[7943.0,4.987,0.5467],[10000.0,4.972,0.5483],[12590.0,4.949,0.5361],[15850.0,4.929,0.5374],[19950.0,4.899,0.5403],[25120.0,4.861,0.5493],[31620.0,4.81,0.5948],[39810.0,4.75,0.671],[50120.0,4.68,0.7937],[63100.0,4.602,0.9497],[79430.0,4.53,1.093],[100000.0,4.46,1.248]],"35":[[10.0,7.896,1.085],[12.59,7.81,0.8697],[15.85,7.841,1.021],[19.95,7.012,1.254],[25.12,7.467,0.7209],[31.62,7.504,0.7319],[39.81,7.264,0.5381],[50.12,7.239,0.5935],[63.1,7.192,0.6072],[79.43,7.002,0.4716],[100.0,6.959,0.5076],[125.9,6.863,0.4277],[158.5,6.781,0.4089],[199.5,6.738,0.4052],[251.2,6.691,0.4096],[316.2,6.618,0.3936],[398.1,6.594,0.3799],[501.2,6.558,0.3836],[631.0,6.51,0.3686],[794.3,6.451,0.3568],[1000.0,6.416,0.3673],[1259.0,6.373,0.3534],[1585.0,6.349,0.3419],[1995.0,6.306,0.3383],[2512.0,6.277,0.3296],[3162.0,6.243,0.3186],[3981.0,6.207,0.321],[5012.0,6.177,0.3151],[6310.0,6.156,0.3147],[7943.0,6.124,0.3118],[10000.0,6.097,0.3136],[12590.0,6.065,0.3074],[15850.0,6.032,0.3191],[19950.0,5.999,0.3196],[25120.0,5.967,0.3305],[31620.0,5.904,0.3732],[39810.0,5.863,0.4094],[50120.0,5.797,0.4769],[63100.0,5.723,0.5581],[79430.0,5.612,0.7005],[100000.0,5.509,0.82]],"34":[[10.0,6.589,0.475],[12.59,6.705,0.5542],[15.85,6.558,0.5626],[19.95,6.504,0.5694],[25.12,6.456,0.5021],[31.62,6.335,0.5673],[39.81,6.327,0.5463],[50.12,5.946,1.245],[63.1,6.232,0.4876],[79.43,6.152,0.5113],[100.0,6.128,0.5391],[125.9,6.064,0.5187],[158.5,6.036,0.5212],[199.5,5.987,0.5206],[251.2,5.953,0.505],[316.2,5.926,0.5049],[398.1,5.885,0.5026],[501.2,5.867,0.5067],[631.0,5.845,0.4964],[794.3,5.825,0.5044],[1000.0,5.794,0.495],[1259.0,5.779,0.4956],[1585.0,5.766,0.5084],[1995.0,5.745,0.5048],[2512.0,5.723,0.5017],[3162.0,5.709,0.5071],[3981.0,5.688,0.5037],[5012.0,5.671,0.4922],[6310.0,5.665,0.5001],[7943.0,5.648,0.5017],[10000.0,5.634,0.5024],[12590.0,5.619,0.4993],[15850.0,5.604,0.5008],[19950.0,5.588,0.5036],[25120.0,5.571,0.5024],[31620.0,5.553,0.5035],[39810.0,5.535,0.5082],[50120.0,5.513,0.5133],[63100.0,5.488,0.5197],[79430.0,5.449,0.5336],[100000.0,5.412,0.5592]]},"sig":{"25":[[0.24,1.0,2.73e-05,3.48e-05],[1.73,7.19,0.0064,0.000728],[4.5,18.69,0.04436,0.01211],[9.0,37.38,0.03672,0.00399],[18.0,74.76,0.03357,0.02152]],"35":[[0.23,1.0,1.33e-05,5.82e-06],[1.8,7.48,0.00283,0.00111],[4.5,18.69,1.953,0.5687],[6.63,27.52,5.629,1.094],[9.0,37.38,7.664,1.271],[10.0,41.54,6.719,1.253],[15.0,62.3,4.202,0.7635],[18.0,74.76,3.187,1.199]],"34":[[0.24,1.0,0.000121,8.11e-05],[1.8,7.49,0.4421,0.1701],[3.0,12.46,4.796,1.039],[4.5,18.69,3.283,1.235],[9.0,37.38,1.99,0.1412],[13.5,56.07,0.3218,0.1069],[18.0,74.76,0.01015,0.00532]]},"mis":{"25":[[[5.0,1.007],[4.9,1.0],[4.8,1.0],[4.7,1.0],[4.6,1.0],[4.5,1.0],[4.4,1.0],[4.3,1.0],[4.2,1.0],[4.1,1.0],[4.0,1.0],[3.9,1.0],[3.8,0.9928],[3.7,0.9928],[3.6,0.9928],[3.5,0.9928],[3.4,0.9928],[3.3,0.9928],[3.2,0.9928],[3.1,0.9928],[3.0,0.9928],[2.9,0.9928],[2.8,0.9928],[2.7,0.9928],[2.6,0.9856],[2.5,0.9856],[2.4,0.9856],[2.3,0.9784],[2.2,0.9856],[2.1,0.9784],[2.0,0.9784],[1.9,0.9784],[1.8,0.9712],[1.7,0.9712],[1.6,0.9712],[1.5,0.964],[1.4,0.964],[1.3,0.9568],[1.2,0.9568],[1.1,0.9496],[1.0,0.9496],[0.9,0.9424],[0.8,0.9353],[0.7,0.9281],[0.6,0.9137],[0.5,0.8921],[0.4,0.8705],[0.3,0.8417],[0.2,0.8058],[0.1,0.7482],[0.0,0.675],[-0.1,0.587],[-0.2,0.5029],[-0.3,0.4349],[-0.4,0.39],[-0.5,0.3568],[-0.6,0.3409],[-0.7,0.3349],[-0.8,0.3311],[-0.9,0.3289],[-1.0,0.3281],[-1.1,0.3266],[-1.2,0.3256],[-1.3,0.3245],[-1.4,0.3256],[-1.5,0.3242],[-1.6,0.3238],[-1.7,0.3232],[-1.8,0.3228],[-1.9,0.3228],[-2.0,0.3227],[-2.1,0.3214],[-2.2,0.3209],[-2.3,0.3211],[-2.4,0.3215],[-2.5,0.3217],[-2.6,0.322],[-2.7,0.3223],[-2.8,0.3223],[-2.9,0.3222],[-3.0,0.3215],[-3.1,0.3212],[-3.2,0.3226],[-3.3,0.322],[-3.4,0.3214],[-3.5,0.322],[-3.6,0.3213],[-3.7,0.3231],[-3.8,0.3213],[-3.9,0.3221],[-4.0,0.3219],[-4.1,0.3219],[-4.2,0.3228],[-4.3,0.3216],[-4.4,0.3225],[-4.5,0.3219],[-4.6,0.3212],[-4.7,0.3214],[-4.8,0.3215],[-4.9,0.3211],[-5.0,0.3217],[-5.0,0.3217],[-4.9,0.321],[-4.8,0.3211],[-4.7,0.3207],[-4.6,0.3211],[-4.5,0.3216],[-4.4,0.3211],[-4.3,0.3208],[-4.2,0.321],[-4.1,0.3209],[-4.0,0.3206],[-3.9,0.3219],[-3.8,0.3206],[-3.7,0.3207],[-3.6,0.3212],[-3.5,0.3213],[-3.4,0.3216],[-3.3,0.3214],[-3.2,0.3215],[-3.1,0.3212],[-3.0,0.3224],[-2.9,0.3215],[-2.8,0.3224],[-2.7,0.3218],[-2.6,0.3232],[-2.5,0.3231],[-2.4,0.3237],[-2.3,0.3235],[-2.2,0.3234],[-2.1,0.323],[-2.0,0.3228],[-1.9,0.3234],[-1.8,0.3245],[-1.7,0.3241],[-1.6,0.3251],[-1.5,0.3266],[-1.4,0.3286],[-1.3,0.3287],[-1.2,0.3302],[-1.1,0.3306],[-1.0,0.333],[-0.9,0.3325],[-0.8,0.3362],[-0.7,0.3405],[-0.6,0.346],[-0.5,0.3585],[-0.4,0.383],[-0.3,0.4165],[-0.2,0.466],[-0.1,0.545],[0.0,0.6443],[0.1,0.7338],[0.2,0.7986],[0.3,0.8489],[0.4,0.8777],[0.5,0.8993],[0.6,0.9137],[0.7,0.9281],[0.8,0.9424],[0.9,0.9496],[1.0,0.9568],[1.1,0.964],[1.2,0.964],[1.3,0.964],[1.4,0.9712],[1.5,0.9712],[1.6,0.9784],[1.7,0.9784],[1.8,0.9784],[1.9,0.9784],[2.0,0.9784],[2.1,0.9856],[2.2,0.9856],[2.3,0.9856],[2.4,0.9856],[2.5,0.9856],[2.6,0.9856],[2.7,0.9856],[2.8,0.9928],[2.9,0.9928],[3.0,0.9928],[3.1,0.9928],[3.2,0.9928],[3.3,1.0],[3.4,1.0],[3.5,1.0],[3.6,0.9928],[3.7,0.9928],[3.8,1.0],[3.9,0.9928],[4.0,1.0],[4.1,1.0],[4.2,1.0],[4.3,1.007],[4.4,1.007],[4.5,1.007],[4.6,1.007],[4.7,1.007],[4.8,1.007],[4.9,1.007],[5.0,1.007]],[[5.0,1.0],[4.9,1.0],[4.8,1.007],[4.7,1.007],[4.6,1.007],[4.5,1.0],[4.4,1.0],[4.3,1.0],[4.2,1.0],[4.1,0.9928],[4.0,1.0],[3.9,0.9928],[3.8,1.0],[3.7,1.0],[3.6,0.9928],[3.5,0.9928],[3.4,1.0],[3.3,0.9928],[3.2,0.9928],[3.1,0.9928],[3.0,0.9928],[2.9,0.9855],[2.8,0.9855],[2.7,0.9855],[2.6,0.9855],[2.5,0.9855],[2.4,0.9855],[2.3,0.9855],[2.2,0.9855],[2.1,0.9783],[2.0,0.9783],[1.9,0.9783],[1.8,0.971],[1.7,0.971],[1.6,0.9638],[1.5,0.9638],[1.4,0.9638],[1.3,0.9565],[1.2,0.9565],[1.1,0.9493],[1.0,0.9493],[0.9,0.942],[0.8,0.9348],[0.7,0.9203],[0.6,0.9058],[0.5,0.8841],[0.4,0.8623],[0.3,0.8261],[0.2,0.7754],[0.1,0.7112],[0.0,0.6231],[-0.1,0.5293],[-0.2,0.4525],[-0.3,0.3981],[-0.4,0.3618],[-0.5,0.3403],[-0.6,0.3317],[-0.7,0.3271],[-0.8,0.324],[-0.9,0.3219],[-1.0,0.3199],[-1.1,0.3188],[-1.2,0.3179],[-1.3,0.317],[-1.4,0.3168],[-1.5,0.316],[-1.6,0.3152],[-1.7,0.3142],[-1.8,0.3143],[-1.9,0.314],[-2.0,0.3141],[-2.1,0.3134],[-2.2,0.3135],[-2.3,0.3135],[-2.4,0.3137],[-2.5,0.3133],[-2.6,0.3132],[-2.7,0.3137],[-2.8,0.314],[-2.9,0.3145],[-3.0,0.3137],[-3.1,0.3141],[-3.2,0.314],[-3.3,0.3144],[-3.4,0.315],[-3.5,0.3142],[-3.6,0.3145],[-3.7,0.315],[-3.8,0.3142],[-3.9,0.3139],[-4.0,0.3138],[-4.1,0.3159],[-4.2,0.3132],[-4.3,0.3131],[-4.4,0.3135],[-4.5,0.3133],[-4.6,0.3129],[-4.7,0.3139],[-4.8,0.3137],[-4.9,0.3136],[-5.0,0.3144],[-5.0,0.3145],[-4.9,0.3141],[-4.8,0.3138],[-4.7,0.3143],[-4.6,0.3142],[-4.5,0.3134],[-4.4,0.3134],[-4.3,0.3132],[-4.2,0.3135],[-4.1,0.3137],[-4.0,0.3134],[-3.9,0.3142],[-3.8,0.3145],[-3.7,0.3144],[-3.6,0.315],[-3.5,0.3146],[-3.4,0.3149],[-3.3,0.3149],[-3.2,0.3146],[-3.1,0.3144],[-3.0,0.3147],[-2.9,0.3146],[-2.8,0.3139],[-2.7,0.3147],[-2.6,0.3138],[-2.5,0.3141],[-2.4,0.3142],[-2.3,0.3152],[-2.2,0.315],[-2.1,0.3153],[-2.0,0.3164],[-1.9,0.3164],[-1.8,0.3169],[-1.7,0.318],[-1.6,0.3191],[-1.5,0.3183],[-1.4,0.3204],[-1.3,0.3216],[-1.2,0.3231],[-1.1,0.3247],[-1.0,0.3264],[-0.9,0.3269],[-0.8,0.3309],[-0.7,0.3338],[-0.6,0.3382],[-0.5,0.3468],[-0.4,0.365],[-0.3,0.3913],[-0.2,0.4289],[-0.1,0.4911],[0.0,0.5867],[0.1,0.6906],[0.2,0.7681],[0.3,0.8261],[0.4,0.8623],[0.5,0.8913],[0.6,0.913],[0.7,0.9275],[0.8,0.9348],[0.9,0.942],[1.0,0.9493],[1.1,0.9565],[1.2,0.9638],[1.3,0.9638],[1.4,0.971],[1.5,0.971],[1.6,0.9783],[1.7,0.9783],[1.8,0.9783],[1.9,0.9783],[2.0,0.9783],[2.1,0.9783],[2.2,0.9855],[2.3,0.9855],[2.4,0.9855],[2.5,0.9855],[2.6,0.9928],[2.7,0.9928],[2.8,0.9928],[2.9,0.9928],[3.0,0.9928],[3.1,0.9928],[3.2,0.9928],[3.3,0.9928],[3.4,0.9928],[3.5,0.9928],[3.6,0.9928],[3.7,1.0],[3.8,1.0],[3.9,1.0],[4.0,1.0],[4.1,1.0],[4.2,1.0],[4.3,1.0],[4.4,1.0],[4.5,1.0],[4.6,1.0],[4.7,1.0],[4.8,1.0],[4.9,1.0],[5.0,1.0]]],"35":[[[5.0,1.0],[4.9,1.007],[4.8,1.007],[4.7,1.0],[4.6,1.007],[4.5,1.007],[4.4,1.0],[4.3,1.007],[4.2,1.0],[4.1,1.0],[4.0,1.0],[3.9,0.9926],[3.8,0.9926],[3.7,1.0],[3.6,1.0],[3.5,0.9926],[3.4,1.0],[3.3,1.0],[3.2,0.9926],[3.1,0.9926],[3.0,0.9926],[2.9,0.9853],[2.8,0.9853],[2.7,0.9853],[2.6,0.9853],[2.5,0.9853],[2.4,0.9853],[2.3,0.9853],[2.2,0.9853],[2.1,0.9779],[2.0,0.9779],[1.9,0.9779],[1.8,0.9706],[1.7,0.9706],[1.6,0.9632],[1.5,0.9632],[1.4,0.9559],[1.3,0.9485],[1.2,0.9412],[1.1,0.9412],[1.0,0.9265],[0.9,0.9191],[0.8,0.9044],[0.7,0.875],[0.6,0.8456],[0.5,0.7941],[0.4,0.7299],[0.3,0.6254],[0.2,0.4715],[0.1,0.3568],[0.0,0.3233],[-0.1,0.3131],[-0.2,0.3113],[-0.3,0.3095],[-0.4,0.3084],[-0.5,0.3087],[-0.6,0.308],[-0.7,0.3081],[-0.8,0.3084],[-0.9,0.3082],[-1.0,0.3077],[-1.1,0.3075],[-1.2,0.3083],[-1.3,0.3085],[-1.4,0.3073],[-1.5,0.3089],[-1.6,0.3081],[-1.7,0.3085],[-1.8,0.3089],[-1.9,0.3094],[-2.0,0.3071],[-2.1,0.3086],[-2.2,0.3091],[-2.3,0.3092],[-2.4,0.3094],[-2.5,0.3088],[-2.6,0.3084],[-2.7,0.3075],[-2.8,0.3104],[-2.9,0.3085],[-3.0,0.3089],[-3.1,0.31],[-3.2,0.3097],[-3.3,0.3086],[-3.4,0.309],[-3.5,0.3087],[-3.6,0.3098],[-3.7,0.3095],[-3.8,0.3077],[-3.9,0.3078],[-4.0,0.3076],[-4.1,0.3087],[-4.2,0.3089],[-4.3,0.3077],[-4.4,0.3084],[-4.5,0.3088],[-4.6,0.3094],[-4.7,0.3085],[-4.8,0.3075],[-4.9,0.3097],[-5.0,0.309],[-5.0,0.3076],[-4.9,0.3085],[-4.8,0.3095],[-4.7,0.3098],[-4.6,0.3091],[-4.5,0.3089],[-4.4,0.3099],[-4.3,0.3099],[-4.2,0.3098],[-4.1,0.3089],[-4.0,0.309],[-3.9,0.309],[-3.8,0.3072],[-3.7,0.3089],[-3.6,0.309],[-3.5,0.3084],[-3.4,0.3094],[-3.3,0.3089],[-3.2,0.3089],[-3.1,0.3101],[-3.0,0.3104],[-2.9,0.3087],[-2.8,0.3087],[-2.7,0.3093],[-2.6,0.3093],[-2.5,0.3079],[-2.4,0.3071],[-2.3,0.3079],[-2.2,0.3071],[-2.1,0.3091],[-2.0,0.3092],[-1.9,0.3073],[-1.8,0.3078],[-1.7,0.3088],[-1.6,0.3089],[-1.5,0.3084],[-1.4,0.3081],[-1.3,0.3087],[-1.2,0.3073],[-1.1,0.31],[-1.0,0.3081],[-0.9,0.3087],[-0.8,0.3106],[-0.7,0.3093],[-0.6,0.3096],[-0.5,0.3102],[-0.4,0.3111],[-0.3,0.3101],[-0.2,0.3113],[-0.1,0.3163],[0.0,0.3214],[0.1,0.3555],[0.2,0.4552],[0.3,0.6026],[0.4,0.7156],[0.5,0.7868],[0.6,0.8456],[0.7,0.875],[0.8,0.8971],[0.9,0.9191],[1.0,0.9265],[1.1,0.9412],[1.2,0.9485],[1.3,0.9559],[1.4,0.9559],[1.5,0.9632],[1.6,0.9706],[1.7,0.9706],[1.8,0.9779],[1.9,0.9779],[2.0,0.9779],[2.1,0.9853],[2.2,0.9853],[2.3,0.9853],[2.4,0.9853],[2.5,0.9926],[2.6,0.9853],[2.7,0.9926],[2.8,0.9926],[2.9,0.9926],[3.0,0.9926],[3.1,0.9926],[3.2,0.9926],[3.3,0.9926],[3.4,0.9926],[3.5,0.9926],[3.6,1.0],[3.7,1.0],[3.8,1.0],[3.9,1.0],[4.0,1.0],[4.1,1.0],[4.2,1.007],[4.3,1.007],[4.4,1.0],[4.5,1.0],[4.6,1.007],[4.7,1.007],[4.8,1.007],[4.9,1.007],[5.0,1.007]],[[5.0,1.007],[4.9,1.007],[4.8,1.007],[4.7,1.007],[4.6,1.007],[4.5,1.007],[4.4,1.0],[4.3,1.007],[4.2,1.007],[4.1,1.007],[4.0,1.0],[3.9,1.007],[3.8,1.0],[3.7,1.0],[3.6,1.0],[3.5,1.0],[3.4,1.0],[3.3,0.9927],[3.2,1.0],[3.1,1.0],[3.0,1.0],[2.9,0.9927],[2.8,0.9927],[2.7,0.9927],[2.6,0.9927],[2.5,0.9927],[2.4,0.9854],[2.3,0.9927],[2.2,0.9854],[2.1,0.9854],[2.0,0.9781],[1.9,0.9781],[1.8,0.9708],[1.7,0.9708],[1.6,0.9708],[1.5,0.9635],[1.4,0.9635],[1.3,0.9562],[1.2,0.9489],[1.1,0.9416],[1.0,0.9343],[0.9,0.9197],[0.8,0.9051],[0.7,0.8832],[0.6,0.8467],[0.5,0.7956],[0.4,0.7258],[0.3,0.6085],[0.2,0.4473],[0.1,0.3424],[0.0,0.3164],[-0.1,0.3103],[-0.2,0.308],[-0.3,0.3077],[-0.4,0.3073],[-0.5,0.3065],[-0.6,0.3076],[-0.7,0.308],[-0.8,0.3076],[-0.9,0.3066],[-1.0,0.3063],[-1.1,0.3064],[-1.2,0.3079],[-1.3,0.3075],[-1.4,0.3078],[-1.5,0.3076],[-1.6,0.3066],[-1.7,0.3058],[-1.8,0.3058],[-1.9,0.3062],[-2.0,0.3062],[-2.1,0.3071],[-2.2,0.3077],[-2.3,0.3072],[-2.4,0.3073],[-2.5,0.306],[-2.6,0.3064],[-2.7,0.3069],[-2.8,0.3062],[-2.9,0.3061],[-3.0,0.3067],[-3.1,0.3068],[-3.2,0.3072],[-3.3,0.3073],[-3.4,0.308],[-3.5,0.3076],[-3.6,0.3077],[-3.7,0.3075],[-3.8,0.3064],[-3.9,0.3066],[-4.0,0.3069],[-4.1,0.307],[-4.2,0.3066],[-4.3,0.3072],[-4.4,0.3066],[-4.5,0.3079],[-4.6,0.3082],[-4.7,0.3079],[-4.8,0.3075],[-4.9,0.3077],[-5.0,0.3074],[-5.0,0.3068],[-4.9,0.3065],[-4.8,0.3085],[-4.7,0.308],[-4.6,0.3077],[-4.5,0.3077],[-4.4,0.3069],[-4.3,0.3073],[-4.2,0.3074],[-4.1,0.3065],[-4.0,0.3067],[-3.9,0.3073],[-3.8,0.3063],[-3.7,0.3063],[-3.6,0.3057],[-3.5,0.3066],[-3.4,0.308],[-3.3,0.308],[-3.2,0.3073],[-3.1,0.3072],[-3.0,0.3092],[-2.9,0.3085],[-2.8,0.3083],[-2.7,0.3074],[-2.6,0.3067],[-2.5,0.3062],[-2.4,0.3069],[-2.3,0.3062],[-2.2,0.3074],[-2.1,0.3082],[-2.0,0.3065],[-1.9,0.3076],[-1.8,0.3078],[-1.7,0.307],[-1.6,0.3087],[-1.5,0.3069],[-1.4,0.3069],[-1.3,0.3072],[-1.2,0.3066],[-1.1,0.3071],[-1.0,0.3073],[-0.9,0.3077],[-0.8,0.3081],[-0.7,0.3083],[-0.6,0.3082],[-0.5,0.308],[-0.4,0.3088],[-0.3,0.3094],[-0.2,0.3095],[-0.1,0.3121],[0.0,0.3186],[0.1,0.3422],[0.2,0.4316],[0.3,0.5855],[0.4,0.7109],[0.5,0.7883],[0.6,0.8467],[0.7,0.8832],[0.8,0.9051],[0.9,0.9197],[1.0,0.9343],[1.1,0.9489],[1.2,0.9562],[1.3,0.9562],[1.4,0.9635],[1.5,0.9708],[1.6,0.9708],[1.7,0.9781],[1.8,0.9781],[1.9,0.9781],[2.0,0.9854],[2.1,0.9854],[2.2,0.9854],[2.3,0.9854],[2.4,0.9854],[2.5,0.9927],[2.6,0.9927],[2.7,0.9927],[2.8,0.9927],[2.9,1.0],[3.0,1.0],[3.1,1.0],[3.2,1.0],[3.3,1.0],[3.4,1.0],[3.5,1.0],[3.6,1.0],[3.7,1.0],[3.8,1.0],[3.9,1.0],[4.0,1.007],[4.1,1.007],[4.2,1.007],[4.3,1.0],[4.4,1.007],[4.5,1.007],[4.6,1.007],[4.7,1.007],[4.8,1.007],[4.9,1.007],[5.0,1.007]],[[5.0,1.007],[4.9,1.007],[4.8,1.007],[4.7,1.007],[4.6,1.0],[4.5,1.0],[4.4,1.0],[4.3,1.0],[4.2,1.0],[4.1,1.0],[4.0,1.0],[3.9,1.0],[3.8,1.0],[3.7,1.0],[3.6,1.0],[3.5,0.9926],[3.4,0.9926],[3.3,0.9926],[3.2,0.9926],[3.1,0.9926],[3.0,0.9926],[2.9,0.9853],[2.8,0.9853],[2.7,0.9853],[2.6,0.9853],[2.5,0.9853],[2.4,0.9853],[2.3,0.9853],[2.2,0.9779],[2.1,0.9779],[2.0,0.9779],[1.9,0.9706],[1.8,0.9706],[1.7,0.9706],[1.6,0.9632],[1.5,0.9559],[1.4,0.9559],[1.3,0.9485],[1.2,0.9412],[1.1,0.9412],[1.0,0.9265],[0.9,0.9191],[0.8,0.9044],[0.7,0.8824],[0.6,0.8603],[0.5,0.8162],[0.4,0.7574],[0.3,0.6762],[0.2,0.5508],[0.1,0.4108],[0.0,0.335],[-0.1,0.3142],[-0.2,0.3086],[-0.3,0.3066],[-0.4,0.3057],[-0.5,0.3052],[-0.6,0.3047],[-0.7,0.3045],[-0.8,0.3043],[-0.9,0.304],[-1.0,0.3039],[-1.1,0.3036],[-1.2,0.3036],[-1.3,0.3037],[-1.4,0.3043],[-1.5,0.304],[-1.6,0.3044],[-1.7,0.304],[-1.8,0.3041],[-1.9,0.3047],[-2.0,0.3046],[-2.1,0.3044],[-2.2,0.3048],[-2.3,0.3048],[-2.4,0.3044],[-2.5,0.3042],[-2.6,0.3042],[-2.7,0.3043],[-2.8,0.3046],[-2.9,0.3045],[-3.0,0.3042],[-3.1,0.3042],[-3.2,0.3041],[-3.3,0.3036],[-3.4,0.3041],[-3.5,0.3042],[-3.6,0.3038],[-3.7,0.3038],[-3.8,0.304],[-3.9,0.304],[-4.0,0.3033],[-4.1,0.3034],[-4.2,0.3055],[-4.3,0.3044],[-4.4,0.3037],[-4.5,0.3048],[-4.6,0.3049],[-4.7,0.3053],[-4.8,0.3053],[-4.9,0.3036],[-5.0,0.3055],[-5.0,0.3051],[-4.9,0.3056],[-4.8,0.3051],[-4.7,0.3046],[-4.6,0.3048],[-4.5,0.305],[-4.4,0.3046],[-4.3,0.3045],[-4.2,0.3046],[-4.1,0.3052],[-4.0,0.305],[-3.9,0.3054],[-3.8,0.3051],[-3.7,0.3051],[-3.6,0.3045],[-3.5,0.305],[-3.4,0.3042],[-3.3,0.3048],[-3.2,0.3046],[-3.1,0.3043],[-3.0,0.3048],[-2.9,0.3044],[-2.8,0.3048],[-2.7,0.3054],[-2.6,0.3045],[-2.5,0.3041],[-2.4,0.3051],[-2.3,0.3044],[-2.2,0.3043],[-2.1,0.3044],[-2.0,0.3039],[-1.9,0.3045],[-1.8,0.3045],[-1.7,0.3037],[-1.6,0.3044],[-1.5,0.3037],[-1.4,0.3035],[-1.3,0.3036],[-1.2,0.3041],[-1.1,0.304],[-1.0,0.3038],[-0.9,0.3049],[-0.8,0.305],[-0.7,0.3052],[-0.6,0.3058],[-0.5,0.3064],[-0.4,0.3071],[-0.3,0.3088],[-0.2,0.3115],[-0.1,0.3169],[0.0,0.3344],[0.1,0.4005],[0.2,0.5303],[0.3,0.6615],[0.4,0.7574],[0.5,0.8162],[0.6,0.8603],[0.7,0.8897],[0.8,0.9044],[0.9,0.9191],[1.0,0.9338],[1.1,0.9412],[1.2,0.9485],[1.3,0.9485],[1.4,0.9559],[1.5,0.9632],[1.6,0.9632],[1.7,0.9706],[1.8,0.9706],[1.9,0.9706],[2.0,0.9706],[2.1,0.9779],[2.2,0.9779],[2.3,0.9779],[2.4,0.9853],[2.5,0.9853],[2.6,0.9853],[2.7,0.9853],[2.8,0.9853],[2.9,0.9853],[3.0,0.9853],[3.1,0.9926],[3.2,0.9926],[3.3,0.9926],[3.4,0.9926],[3.5,0.9926],[3.6,0.9926],[3.7,0.9926],[3.8,0.9926],[3.9,0.9926],[4.0,1.0],[4.1,1.0],[4.2,1.0],[4.3,1.0],[4.4,1.0],[4.5,1.0],[4.6,1.0],[4.7,1.0],[4.8,1.0],[4.9,1.0],[5.0,1.0]]],"34":[[[5.0,1.0],[4.9,1.0],[4.8,1.0],[4.7,1.0],[4.6,1.0],[4.5,1.0],[4.4,1.0],[4.3,1.0],[4.2,1.0],[4.1,1.0],[4.0,1.0],[3.9,0.9926],[3.8,0.9926],[3.7,0.9926],[3.6,0.9926],[3.5,0.9926],[3.4,0.9926],[3.3,0.9926],[3.2,0.9926],[3.1,0.9926],[3.0,0.9926],[2.9,0.9926],[2.8,0.9852],[2.7,0.9852],[2.6,0.9852],[2.5,0.9852],[2.4,0.9778],[2.3,0.9778],[2.2,0.9852],[2.1,0.9778],[2.0,0.9778],[1.9,0.9778],[1.8,0.9778],[1.7,0.9704],[1.6,0.9704],[1.5,0.9704],[1.4,0.9704],[1.3,0.963],[1.2,0.963],[1.1,0.9556],[1.0,0.9556],[0.9,0.9481],[0.8,0.9407],[0.7,0.9333],[0.6,0.9259],[0.5,0.9111],[0.4,0.8963],[0.3,0.8815],[0.2,0.8593],[0.1,0.837],[0.0,0.8],[-0.1,0.7556],[-0.2,0.7058],[-0.3,0.651],[-0.4,0.5971],[-0.5,0.5521],[-0.6,0.521],[-0.7,0.4953],[-0.8,0.4798],[-0.9,0.4395],[-1.0,0.4156],[-1.1,0.4014],[-1.2,0.3898],[-1.3,0.3809],[-1.4,0.373],[-1.5,0.3675],[-1.6,0.361],[-1.7,0.3563],[-1.8,0.3524],[-1.9,0.3497],[-2.0,0.3467],[-2.1,0.344],[-2.2,0.3417],[-2.3,0.3395],[-2.4,0.3365],[-2.5,0.3347],[-2.6,0.3322],[-2.7,0.3307],[-2.8,0.3287],[-2.9,0.3271],[-3.0,0.3251],[-3.1,0.3241],[-3.2,0.3235],[-3.3,0.3228],[-3.4,0.3221],[-3.5,0.3218],[-3.6,0.3189],[-3.7,0.3192],[-3.8,0.3184],[-3.9,0.3166],[-4.0,0.3154],[-4.1,0.3155],[-4.2,0.3145],[-4.3,0.3136],[-4.4,0.3131],[-4.5,0.3128],[-4.6,0.3121],[-4.7,0.3119],[-4.8,0.3116],[-4.9,0.3111],[-5.0,0.3113],[-5.0,0.314],[-4.9,0.3139],[-4.8,0.3156],[-4.7,0.3171],[-4.6,0.316],[-4.5,0.3174],[-4.4,0.3171],[-4.3,0.318],[-4.2,0.3195],[-4.1,0.3207],[-4.0,0.3224],[-3.9,0.3244],[-3.8,0.326],[-3.7,0.3266],[-3.6,0.3286],[-3.5,0.3303],[-3.4,0.3295],[-3.3,0.3323],[-3.2,0.3339],[-3.1,0.3354],[-3.0,0.3376],[-2.9,0.3404],[-2.8,0.3404],[-2.7,0.3444],[-2.6,0.3472],[-2.5,0.3496],[-2.4,0.3536],[-2.3,0.3571],[-2.2,0.3581],[-2.1,0.3636],[-2.0,0.3683],[-1.9,0.3716],[-1.8,0.3761],[-1.7,0.3826],[-1.6,0.3834],[-1.5,0.39],[-1.4,0.3965],[-1.3,0.4045],[-1.2,0.4128],[-1.1,0.4266],[-1.0,0.4382],[-0.9,0.4631],[-0.8,0.4894],[-0.7,0.5174],[-0.6,0.5516],[-0.5,0.592],[-0.4,0.637],[-0.3,0.693],[-0.2,0.7407],[-0.1,0.7926],[0.0,0.8296],[0.1,0.8519],[0.2,0.8741],[0.3,0.8963],[0.4,0.9111],[0.5,0.9185],[0.6,0.9333],[0.7,0.9407],[0.8,0.9481],[0.9,0.9556],[1.0,0.9556],[1.1,0.963],[1.2,0.963],[1.3,0.9704],[1.4,0.9704],[1.5,0.9778],[1.6,0.9778],[1.7,0.9778],[1.8,0.9852],[1.9,0.9852],[2.0,0.9852],[2.1,0.9852],[2.2,0.9852],[2.3,0.9926],[2.4,0.9926],[2.5,0.9926],[2.6,0.9926],[2.7,0.9926],[2.8,0.9926],[2.9,0.9926],[3.0,0.9926],[3.1,0.9926],[3.2,1.0],[3.3,1.0],[3.4,1.0],[3.5,1.0],[3.6,1.0],[3.7,1.0],[3.8,1.0],[3.9,1.007],[4.0,1.007],[4.1,1.007],[4.2,1.007],[4.3,1.007],[4.4,1.007],[4.5,1.007],[4.6,1.007],[4.7,1.007],[4.8,1.007],[4.9,1.007],[5.0,1.007]],[[5.0,1.0],[4.9,1.0],[4.8,1.0],[4.7,1.0],[4.6,1.0],[4.5,1.0],[4.4,1.0],[4.3,1.0],[4.2,1.0],[4.1,1.0],[4.0,1.0],[3.9,0.9926],[3.8,0.9926],[3.7,0.9926],[3.6,0.9926],[3.5,0.9926],[3.4,0.9926],[3.3,0.9926],[3.2,0.9926],[3.1,0.9926],[3.0,0.9926],[2.9,0.9852],[2.8,0.9852],[2.7,0.9852],[2.6,0.9852],[2.5,0.9778],[2.4,0.9778],[2.3,0.9778],[2.2,0.9778],[2.1,0.9778],[2.0,0.9778],[1.9,0.9778],[1.8,0.9704],[1.7,0.9704],[1.6,0.963],[1.5,0.963],[1.4,0.963],[1.3,0.9556],[1.2,0.9556],[1.1,0.9481],[1.0,0.9407],[0.9,0.9407],[0.8,0.9333],[0.7,0.9259],[0.6,0.9111],[0.5,0.8889],[0.4,0.8741],[0.3,0.8519],[0.2,0.8222],[0.1,0.7926],[0.0,0.7407],[-0.1,0.6894],[-0.2,0.634],[-0.3,0.5839],[-0.4,0.5396],[-0.5,0.5059],[-0.6,0.4759],[-0.7,0.4501],[-0.8,0.4288],[-0.9,0.4126],[-1.0,0.4009],[-1.1,0.3905],[-1.2,0.3829],[-1.3,0.3761],[-1.4,0.3703],[-1.5,0.3654],[-1.6,0.362],[-1.7,0.3567],[-1.8,0.353],[-1.9,0.3489],[-2.0,0.3456],[-2.1,0.3432],[-2.2,0.3411],[-2.3,0.3381],[-2.4,0.3374],[-2.5,0.3349],[-2.6,0.3336],[-2.7,0.3314],[-2.8,0.3304],[-2.9,0.3286],[-3.0,0.3264],[-3.1,0.3251],[-3.2,0.3238],[-3.3,0.3224],[-3.4,0.3229],[-3.5,0.3217],[-3.6,0.3213],[-3.7,0.3199],[-3.8,0.3186],[-3.9,0.3186],[-4.0,0.3177],[-4.1,0.3157],[-4.2,0.3152],[-4.3,0.3147],[-4.4,0.314],[-4.5,0.314],[-4.6,0.3139],[-4.7,0.3134],[-4.8,0.3136],[-4.9,0.3126],[-5.0,0.3116],[-5.0,0.3144],[-4.9,0.315],[-4.8,0.316],[-4.7,0.317],[-4.6,0.317],[-4.5,0.3174],[-4.4,0.3182],[-4.3,0.3195],[-4.2,0.3204],[-4.1,0.3215],[-4.0,0.3228],[-3.9,0.3251],[-3.8,0.3259],[-3.7,0.3276],[-3.6,0.329],[-3.5,0.3308],[-3.4,0.3324],[-3.3,0.334],[-3.2,0.335],[-3.1,0.3374],[-3.0,0.3395],[-2.9,0.3411],[-2.8,0.3433],[-2.7,0.3456],[-2.6,0.3466],[-2.5,0.3498],[-2.4,0.353],[-2.3,0.357],[-2.2,0.3593],[-2.1,0.3633],[-2.0,0.3657],[-1.9,0.3714],[-1.8,0.3758],[-1.7,0.3803],[-1.6,0.3851],[-1.5,0.3905],[-1.4,0.392],[-1.3,0.3998],[-1.2,0.406],[-1.1,0.4145],[-1.0,0.4248],[-0.9,0.4391],[-0.8,0.4539],[-0.7,0.4792],[-0.6,0.5057],[-0.5,0.5349],[-0.4,0.5709],[-0.3,0.6149],[-0.2,0.664],[-0.1,0.7172],[0.0,0.7704],[0.1,0.8074],[0.2,0.8444],[0.3,0.8667],[0.4,0.8889],[0.5,0.9037],[0.6,0.9185],[0.7,0.9259],[0.8,0.9333],[0.9,0.9407],[1.0,0.9481],[1.1,0.9556],[1.2,0.9556],[1.3,0.963],[1.4,0.963],[1.5,0.963],[1.6,0.9704],[1.7,0.9704],[1.8,0.9778],[1.9,0.9778],[2.0,0.9778],[2.1,0.9778],[2.2,0.9778],[2.3,0.9778],[2.4,0.9852],[2.5,0.9852],[2.6,0.9852],[2.7,0.9852],[2.8,0.9926],[2.9,0.9926],[3.0,0.9926],[3.1,0.9926],[3.2,0.9926],[3.3,0.9926],[3.4,0.9926],[3.5,1.0],[3.6,1.0],[3.7,1.0],[3.8,0.9926],[3.9,0.9926],[4.0,1.0],[4.1,1.0],[4.2,1.0],[4.3,1.0],[4.4,1.0],[4.5,1.0],[4.6,1.0],[4.7,1.0],[4.8,1.007],[4.9,1.0],[5.0,1.0]]]}};
+  var D25=[0.04167,8.405,0.0871,19.96,0.1289,40.73,0.1673,70.03,0.2027,106.7,0.2367,147.3,0.2682,193.8,0.2984,243.8,0.3277,296.2,0.3559,351.2,0.3835,407.8,0.4103,466.4,0.4365,526.6,0.4622,587.8,0.4874,650.5,0.5123,713.9,0.5366,778.7,0.5605,844.7,0.5842,911,0.6075,978.6,0.6306,1047,0.6531,1116,0.6754,1186,0.6976,1256,0.7194,1327,0.7411,1399,0.7625,1471,0.7835,1544,0.8045,1617,0.8251,1692,0.8457,1766,0.866,1841,0.8864,1916,0.9067,1991,0.9275,2064,0.9466,2142,0.967,2217,0.9863,2295,1.007,2368,1.029,2440,1.048,2517,1.07,2587,1.098,2645,1.122,2711,], F25=[0.02,0.8494,0.04,3.398,0.06,7.645,0.08,13.59,0.1,21.23,0.12,30.58,0.14,41.62,0.16,54.36,0.18,68.8,0.2,84.94,0.22,102.8,0.24,122.3,0.26,143.5,0.28,166.5,0.3,191.1,0.32,217.4,0.34,245.5,0.36,275.2,0.38,306.6,0.4,339.8,0.42,374.6,0.44,411.1,0.46,449.3,0.48,489.3,0.5,530.9,0.52,574.2,0.54,619.2,0.56,665.9,0.58,714.3,0.6,764.5,0.62,816.3,0.64,869.8,0.66,925,0.68,981.9,0.7,1041,0.72,1101,0.74,1163,0.76,1227,0.78,1292,0.8,1359,0.82,1428,0.84,1498,0.86,1571,0.88,1644,0.9,1720,0.92,1797,0.94,1876,0.96,1957,0.98,2039,1,2123,1.02,2209,1.04,2297,1.06,2386,1.08,2477,1.1,2569,1.12,2664,1.14,2760,1.16,2857,1.18,2957,1.2,3058,1.22,3161,1.24,3265,1.26,3371,1.28,3479,1.3,3589,1.32,3700,1.34,3813,1.36,3928,1.38,4044,1.4,4162,1.42,4282,1.44,4403,1.46,4526,1.48,4651,1.5,4778,1.52,4906,1.54,5036,1.56,5168,1.58,5301,1.6,5436,1.62,5573,1.64,5711,1.66,5851,1.68,5993,1.7,6137,1.72,6282,1.74,6429,1.76,6578,1.78,6728,1.8,6880,1.82,7034,1.84,7189,1.86,7346,1.88,7505,1.9,7666,1.92,7828,1.94,7992,1.96,8158,1.98,8325,2,8494,2.02,8665,2.04,8837,2.06,9011,2.08,9187,2.1,9365,2.12,9544,2.14,9725,2.16,9907,2.18,1.009e+04,2.2,1.028e+04,2.22,1.047e+04,2.24,1.065e+04,2.26,1.085e+04,2.28,1.104e+04,2.3,1.123e+04,2.32,1.143e+04,2.34,1.163e+04,2.36,1.183e+04,2.38,1.203e+04,2.4,1.223e+04,], D34=[0.00454,3.387,0.02435,4.839,0.04405,7.063,0.06363,10.14,0.08307,14.32,0.1023,19.85,0.1214,26.65,0.1403,34.89,0.159,44.64,0.1775,55.82,0.1958,68,0.214,81.65,0.232,96.29,0.2499,112,0.2676,129.1,0.2852,146.8,0.3026,165.5,0.32,185.5,0.3372,206.1,0.3542,227.9,0.3712,250.2,0.3881,273.4,0.4048,297.7,0.4215,322.4,0.438,347.9,0.4544,374.6,0.4708,401.5,0.4871,429.2,0.5031,458.1,0.5192,487.3,0.5352,517.2,0.551,548.3,0.5667,580.1,0.5824,611.8,0.598,644.8,0.6135,677.8,0.6289,711.7,0.6442,746.7,0.6595,781.6,0.6747,817.2,0.6897,853.9,0.7048,890.5,0.7198,927.7,0.7346,966.1,0.7494,1004,0.7642,1043,0.7788,1083,0.7934,1123,0.8079,1163,0.8223,1205,0.8367,1246,0.8511,1288,0.8652,1332,0.8795,1374,0.8936,1418,0.9076,1462,0.9216,1506,0.9356,1551,0.9495,1596,0.9633,1642,0.9771,1688,0.9908,1735,1.004,1782,1.018,1829,1.031,1878,1.045,1926,1.058,1975,1.072,2025,1.085,2074,1.098,2124,1.111,2175,1.125,2226,1.138,2278,1.151,2329,1.164,2381,1.176,2435,1.189,2487,1.202,2540,1.215,2594,1.228,2648,1.24,2702,1.253,2757,1.265,2812,1.278,2867,1.29,2924,1.303,2979,1.315,3036,1.327,3093,1.34,3150,1.352,3208,1.364,3266,1.376,3324,1.388,3382,1.4,3442,1.412,3501,1.424,3560,1.436,3621,1.448,3681,1.46,3742,1.472,3803,1.483,3864,1.495,3925,1.507,3988,1.518,4050,1.53,4112,1.541,4176,1.553,4238,1.564,4301,1.576,4366,1.587,4430,1.598,4494,1.61,4559,1.621,4624,1.632,4689,1.643,4755,1.654,4821,1.665,4887,1.676,4954,1.687,5020,1.698,5087,1.709,5155,1.72,5222,1.731,5289,1.742,5358,1.752,5426,1.763,5495,1.774,5564,1.785,5633,1.795,5703,1.806,5773,], F34=[0.002,0.00689,0.032,1.763,0.062,6.617,0.092,14.57,0.122,25.62,0.152,39.77,0.182,57.02,0.212,77.37,0.242,100.8,0.272,127.4,0.302,157,0.332,189.7,0.362,225.6,0.392,264.5,0.422,306.6,0.452,351.7,0.482,399.9,0.512,451.3,0.542,505.7,0.572,563.2,0.602,623.8,0.632,687.6,0.662,754.4,0.692,824.3,0.722,897.3,0.752,973.5,0.782,1053,0.812,1135,0.842,1220,0.872,1309,0.902,1401,0.932,1495,0.962,1593,0.992,1694,1.022,1798,1.052,1905,1.082,2015,1.112,2129,1.142,2245,1.172,2364,1.202,2487,1.232,2613,1.262,2742,1.292,2873,1.322,3008,1.352,3147,1.382,3288,1.412,3432,1.442,3579,1.472,3730,1.502,3884,1.532,4040,1.562,4200,1.592,4363,1.622,4529,1.652,4698,1.682,4870,1.712,5045,1.742,5224,1.772,5405,1.802,5590,1.832,5777,1.862,5968,1.892,6162,1.922,6359,1.952,6559,1.982,6762,2.012,6969,2.042,7178,2.072,7390,2.102,7606,2.132,7825,2.162,8046,2.192,8271,2.222,8499,2.252,8730,2.282,8964,2.312,9202,2.342,9442,2.372,9685,2.402,9932,2.432,1.018e+04,2.462,1.043e+04,2.492,1.069e+04,2.522,1.095e+04,2.552,1.121e+04,2.582,1.148e+04,2.612,1.174e+04,2.642,1.202e+04,2.672,1.229e+04,2.702,1.257e+04,2.732,1.285e+04,2.762,1.313e+04,2.792,1.342e+04,2.822,1.371e+04,2.852,1.4e+04,2.882,1.43e+04,2.912,1.46e+04,2.942,1.49e+04,2.972,1.52e+04,3.002,1.551e+04,3.032,1.582e+04,3.062,1.614e+04,3.092,1.646e+04,3.122,1.678e+04,3.152,1.71e+04,3.182,1.743e+04,3.212,1.776e+04,3.242,1.809e+04,3.272,1.843e+04,3.302,1.877e+04,3.332,1.911e+04,3.362,1.946e+04,3.392,1.981e+04,3.422,2.016e+04,3.452,2.051e+04,3.482,2.087e+04,3.512,2.123e+04,3.542,2.16e+04,3.572,2.196e+04,3.602,2.233e+04,], D35=[0.00287,33.63,0.02251,39.33,0.04208,46.13,0.06157,54.25,0.08096,63.92,0.1002,75.39,0.1194,89.21,0.1384,105,0.1572,123.4,0.1759,144.6,0.1943,168.7,0.2126,195.9,0.2307,226.1,0.2486,259.6,0.2663,296.1,0.2838,335.6,0.3011,378,0.3182,423.4,0.3352,471.3,0.352,521.8,0.3686,575,0.3851,630.4,0.4015,687.9,0.4177,747.7,0.4337,810.7,0.4497,873.9,0.4656,939.1,0.4814,1006,0.497,1075,0.5126,1145,0.528,1217,0.5434,1289,0.5588,1363,0.5741,1437,0.5894,1512,0.6046,1588,0.6197,1665,0.6347,1744,0.6496,1825,0.6645,1905,0.6794,1986,0.6942,2069,0.7089,2152,0.7235,2237,0.7382,2321,0.7528,2406,0.7674,2492,0.7819,2579,0.7962,2669,0.8105,2758,0.8248,2849,0.839,2940,0.8532,3033,0.8674,3124,0.8816,3216,0.8956,3310,0.9096,3405,0.9237,3500,0.9377,3594,0.9514,3693,0.9654,3789,0.9789,3891,0.9927,3989,1.007,4086,1.02,4186,1.034,4285,1.048,4386,1.061,4486,1.075,4587,1.089,4688,1.102,4789,1.116,4892,1.129,4994,1.143,5096,1.156,5199,1.17,5300,1.183,5407,1.196,5510,1.21,5616,1.223,5726,1.236,5828,1.25,5935,1.263,6038,1.277,6140,1.29,6244,1.304,6345,1.317,6452,1.329,6580,1.342,6690,1.354,6808,1.368,6915,1.38,7037,1.393,7154,1.405,7268,1.419,7369,1.431,7498,1.444,7608,1.455,7749,1.47,7827,1.483,7937,1.496,8055,1.507,8183,1.519,8314,1.533,8419,1.541,8594,1.555,8689,1.566,8832,1.578,8972,1.591,9069,1.605,9167,1.614,9343,1.622,9539,1.635,9644,1.646,9781,1.664,9823,1.675,9961,1.689,1.006e+04,1.703,1.015e+04,1.718,1.024e+04,1.731,1.033e+04,1.749,1.038e+04,1.761,1.05e+04,1.774,1.061e+04,], F35=[0.002,0.0142,0.022,1.718,0.042,6.263,0.062,13.65,0.082,23.87,0.102,36.94,0.122,52.84,0.142,71.59,0.162,93.17,0.182,117.6,0.202,144.9,0.222,175,0.242,207.9,0.262,243.7,0.282,282.3,0.302,323.8,0.322,368.1,0.342,415.3,0.362,465.2,0.382,518.1,0.402,573.7,0.422,632.3,0.442,693.6,0.462,757.8,0.482,824.8,0.502,894.7,0.522,967.4,0.542,1043,0.562,1121,0.582,1203,0.602,1287,0.622,1374,0.642,1463,0.662,1556,0.682,1651,0.702,1750,0.722,1851,0.742,1955,0.762,2061,0.782,2171,0.802,2284,0.822,2399,0.842,2517,0.862,2638,0.882,2762,0.902,2889,0.922,3018,0.942,3150,0.962,3286,0.982,3424,1.002,3565,1.022,3708,1.042,3855,1.062,4004,1.082,4156,1.102,4312,1.122,4469,1.142,4630,1.162,4794,1.182,4960,1.202,5130,1.222,5302,1.242,5477,1.262,5654,1.282,5835,1.302,6019,1.322,6205,1.342,6394,1.362,6586,1.382,6781,1.402,6979,1.422,7179,1.442,7382,1.462,7589,1.482,7798,1.502,8010,1.522,8224,1.542,8442,1.562,8662,1.582,8885,1.602,9112,1.622,9341,1.642,9572,1.662,9807,1.682,1.004e+04,1.702,1.028e+04,1.722,1.053e+04,1.742,1.077e+04,1.762,1.102e+04,1.782,1.127e+04,1.802,1.153e+04,1.822,1.179e+04,1.842,1.205e+04,1.862,1.231e+04,1.882,1.257e+04,1.902,1.284e+04,1.922,1.312e+04,1.942,1.339e+04,1.962,1.367e+04,1.982,1.395e+04,2.002,1.423e+04,2.022,1.452e+04,2.042,1.48e+04,2.062,1.51e+04,2.082,1.539e+04,2.102,1.569e+04,2.122,1.599e+04,2.142,1.629e+04,2.162,1.66e+04,2.182,1.69e+04,2.202,1.721e+04,2.222,1.753e+04,2.242,1.785e+04,2.262,1.817e+04,2.282,1.849e+04,2.302,1.881e+04,2.322,1.914e+04,2.342,1.947e+04,2.362,1.981e+04,2.382,2.014e+04,2.402,2.048e+04,];
+  var SUM = {
+    eps10:  {y:[5.6, 7.9, 6.6],        e:[1.0, 1.1, 0.5]},
+    eps100: {y:[4.5, 5.5, 5.4],        e:[1.2, 0.8, 0.6]},
+    muB:    {y:[9e-5, 1.1e-3, 1.9e-4], e:[4e-5, 0.6e-3, 0.5e-4]},
+    muA:    {y:[9e-6, 1.5e-5, 5e-5],   e:[1e-6, 0.5e-5, 1e-5]},
+    eta:    {y:[10.7, 4.2, 26],        e:[0.2, 0.1, 2]},
+    sig:    {y:[0.044, 7.7, 4.8],      e:[0.012, 1.3, 1.0]}
+  };
+  var SUP = {'-':'\u207B', '0':'\u2070', '1':'\u00B9', '2':'\u00B2', '3':'\u00B3', '4':'\u2074', '5':'\u2075', '6':'\u2076', '7':'\u2077', '8':'\u2078', '9':'\u2079'};
+  function fmt(v, p){
+    v = Number(v);
+    if (v !== 0 && (Math.abs(v) < 0.01 || Math.abs(v) >= 1e5)) {
+      var s = v.toExponential((p || 2) - 1).split('e');
+      return s[0] + '\u00D710' + String(Number(s[1])).replace(/./g, function(c){ return SUP[c]; });
+    }
+    return String(Number(v.toPrecision(p || 3)));
+  }
+  var cs = getComputedStyle(document.documentElement);
+  var css = function(n){ return cs.getPropertyValue(n).trim(); };
+  var mono = 'IBM Plex Mono, monospace';
+  function axis(o){
+    var a = {gridcolor:css('--line'), linecolor:css('--line'), tickcolor:css('--line'), zeroline:false};
+    for (var k in o) a[k] = o[k];
+    if (a.title) a.title = {text:a.title, font:{family:mono, size:11}};
+    return a;
+  }
+  function layout(x, y, extra){
+    var l = {
+      paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)',
+      font:{family:mono, size:10, color:css('--ink-soft')},
+      margin:{l:58, r:12, t:30, b:50}, hovermode:'closest',
+      xaxis:axis(x), yaxis:axis(y),
+      legend:{orientation:'h', x:0, xanchor:'left', y:1.02, yanchor:'bottom', font:{size:9.5}, bgcolor:'rgba(0,0,0,0)'}
+    };
+    for (var k in extra) l[k] = extra[k];
+    return l;
+  }
+  function xy(a){ var x = [], y = []; for (var i = 0; i < a.length; i += 2) { x.push(a[i]); y.push(a[i+1]); } return {x:x, y:y}; }
+
+  // ---- left: summary bars ----
+  function bar(name, d, opacity, unit, text){
+    var b = {x:names, y:d.y, type:'bar', name:name, marker:{color:cols, opacity:opacity},
+             error_y:{type:'data', array:d.e, visible:true, thickness:1, width:4, color:css('--ink-soft')},
+             hoverinfo:'none', meta:{label:name, unit:unit, err:d.e}};
+    if (text) { b.text = text; b.textposition = 'outside'; b.cliponaxis = false; }
+    return b;
+  }
+  var MU = ' cm\u00B2 V\u207B\u00B9 s\u207B\u00B9';
+  var PROPS = {
+    eps: {bars:[bar('10 Hz', SUM.eps10, 0.95, ''), bar('100 kHz', SUM.eps100, 0.45, '')], leg:true,
+          y:{type:'linear', title:'\u03B5<sub>r</sub>'}},
+    mu:  {bars:[bar('as cast', SUM.muB, 0.95, MU), bar('annealed', SUM.muA, 0.45, MU)], leg:true,
+          y:{type:'log', title:'\u00B5<sub>e</sub> (cm\u00B2 V\u207B\u00B9 s\u207B\u00B9)', exponentformat:'power'}},
+    eta: {bars:[bar('at 0.1 mol% N-DMBI', SUM.eta, 0.95, ' %')], leg:false,
+          y:{type:'linear', title:'Doping efficiency (%)'}},
+    sig: {bars:[bar('\u03C3 max', SUM.sig, 0.95, ' S cm\u207B\u00B9', ['5 wt%', '9 wt%', '3 wt%'])], leg:false,
+          y:{type:'linear', title:'\u03C3<sub>max</sub> (S cm\u207B\u00B9)'}}
+  };
+
+  // ---- right: the raw measurement behind each bar ----
+  function line(k, x, y, o){
+    var t = {x:x, y:y, mode:'lines', name:ISO[k].name, legendgroup:k, line:{color:ISO[k].color, width:1.8}, hoverinfo:'none', meta:{iso:k}};
+    for (var p in o) t[p] = o[p];
+    return t;
+  }
+  function col(a, i){ return a.map(function(r){ return r[i]; }); }
+  var RAWP = {
+    eps: {lab:'Raw data \u00B7 dielectric spectra', traces:function(){
+            var t = [];
+            ORDER.forEach(function(k){
+              var d = RAW.eps[k], f = col(d, 0);
+              var hi = d.map(function(r){ return r[1] + r[2]; }), lo = d.map(function(r){ return r[1] - r[2]; });
+              t.push({x:f, y:hi, mode:'lines', line:{width:0}, hoverinfo:'skip', showlegend:false, legendgroup:k});
+              t.push({x:f, y:lo, mode:'lines', line:{width:0}, fill:'tonexty', fillcolor:ISO[k].color + '22', hoverinfo:'skip', showlegend:false, legendgroup:k});
+              t.push(line(k, f, col(d, 1), {customdata:col(d, 2), meta:{iso:k, fx:function(p){ return fmt(p.x) + ' Hz \u00B7 \u03B5r = ' + fmt(p.y) + ' \u00B1 ' + fmt(p.customdata, 2); }}}));
+            });
+            return t;
+          },
+          x:{type:'log', title:'Frequency (Hz)', exponentformat:'power'}, y:{type:'linear', title:'\u03B5<sub>r</sub>'},
+          cap:'Left: \u03B5<sub>r</sub> at 10 Hz and 100 kHz. Right: the impedance spectra they are read from, mean \u00B1 st. dev. as a band.'},
+    mu:  {lab:'Raw data \u00B7 electron-only diodes, as cast', traces:function(){
+            var t = [];
+            [['25', D25, F25], ['35', D35, F35], ['34', D34, F34]].forEach(function(s){
+              var d = xy(s[1]), f = xy(s[2]);
+              var fx = function(p){ return 'V = ' + fmt(p.x) + ' V \u00B7 J = ' + fmt(p.y) + ' A m\u207B\u00B2'; };
+              t.push(line(s[0], d.x, d.y, {mode:'markers', marker:{color:ISO[s[0]].color, size:4}, meta:{iso:s[0], fx:fx}}));
+              t.push(line(s[0], f.x, f.y, {line:{color:ISO[s[0]].color, width:1.6, dash:'dash'}, showlegend:false,
+                                           meta:{iso:s[0], fx:function(p){ return 'SCLC fit \u00B7 ' + fx(p); }}}));
+            });
+            return t;
+          },
+          x:{type:'linear', range:[0, 1.85], title:'V \u2212 V<sub>BI</sub> \u2212 V<sub>R</sub> (V)'},
+          y:{type:'log', range:[0, 4.3], title:'J (A m\u207B\u00B2)', exponentformat:'power'},
+          cap:'Left: electron mobility, as cast and annealed. Right: the J\u2013V curves of the as-cast diodes &mdash; data (dots) and the SCLC fits (dashed) the mobility comes from.'},
+    eta: {lab:'Raw data \u00B7 MIS capacitors, C\u2013V at 200 Hz', traces:function(){
+            var t = [];
+            ORDER.forEach(function(k){
+              RAW.mis[k].forEach(function(dev, i){
+                t.push(line(k, col(dev, 0), col(dev, 1), {line:{color:ISO[k].color, width:1.3}, opacity:0.85, showlegend:i === 0,
+                  meta:{iso:k, fx:function(p){ return 'Bias ' + fmt(p.x) + ' V \u00B7 C/C<sub>acc</sub> = ' + fmt(p.y); }}}));
+              });
+            });
+            return t;
+          },
+          x:{type:'linear', range:[-5, 5], title:'Bias (V)'}, y:{type:'linear', title:'C / C<sub>acc</sub>'},
+          cap:'Left: doping efficiency at 0.1 mol% N-DMBI. Right: the C\u2013V sweeps of the MIS capacitors it is extracted from (forward and back, one line per device), normalized to accumulation.'},
+    sig: {lab:'Raw data \u00B7 doping series', traces:function(){
+            return ORDER.map(function(k){
+              var d = RAW.sig[k];
+              return line(k, col(d, 0), col(d, 2), {mode:'lines+markers', marker:{color:ISO[k].color, size:6},
+                error_y:{type:'data', array:col(d, 3), thickness:1, width:3, color:ISO[k].color},
+                customdata:col(d, 1),
+                meta:{iso:k, fx:function(p){ return fmt(p.x, 2) + ' wt% (' + fmt(p.customdata, 2) + ' mol%) \u00B7 \u03C3 = ' + fmt(p.y) + ' S cm\u207B\u00B9'; }}});
+            });
+          },
+          x:{type:'linear', title:'N-DMBI (wt%)'}, y:{type:'log', title:'\u03C3 (S cm\u207B\u00B9)', exponentformat:'power'},
+          cap:'Left: the best conductivity of each isomer. Right: the full doping series it is picked from, mean \u00B1 SEM.'}
+  };
+
+  var cfg = {displayModeBar:false, responsive:true};
+  var cap = document.getElementById('duo-cap'), rawLab = document.getElementById('raw-lab');
+  function build(prop){
+    var p = PROPS[prop], r = RAWP[prop];
+    Plotly.react(barDiv, p.bars, layout({type:'category'}, p.y, {barmode:'group', showlegend:p.leg}), cfg);
+    Plotly.react(rawDiv, r.traces(), layout(r.x, r.y, {showlegend:true}), cfg);
+    rawLab.textContent = r.lab;
+    cap.innerHTML = r.cap;
+  }
+
+  // ---- molecule tooltip ----
+  var duo = barDiv.closest('.duo'), tip = duo.querySelector('.mol-tip');
+  var tipImg = tip.querySelector('img'), tipN = tip.querySelector('.n'), tipV = tip.querySelector('.v');
+  function show(e){
+    var pt = e.points && e.points[0];
+    if (!pt) return;
+    var m = pt.data.meta || {}, k = m.iso || KEY[pt.x];
+    if (!k) return;
+    tipImg.src = 'img/molecules/' + k + '.png';
+    tipImg.alt = ISO[k].name + ' structure';
+    tipN.textContent = ISO[k].name;
+    tipN.style.color = ISO[k].color;
+    tipV.innerHTML = m.fx ? m.fx(pt) : m.label + ': ' + fmt(pt.y) + ' \u00B1 ' + fmt(m.err[pt.pointIndex], 2) + m.unit;
+    tip.hidden = false;
+    var box = duo.getBoundingClientRect(), ev = e.event || {};
+    var x = (ev.clientX || box.left) - box.left, y = (ev.clientY || box.top) - box.top;
+    var w = tip.offsetWidth, hgt = tip.offsetHeight;
+    var left = x + 16 + w > box.width ? x - 16 - w : x + 16;
+    tip.style.left = Math.max(0, left) + 'px';
+    tip.style.top = Math.max(0, Math.min(y - hgt / 2, box.height - hgt)) + 'px';
+  }
+  function hide(){ tip.hidden = true; }
+
+  var active = 'eps';
+  build(active);
+  [barDiv, rawDiv].forEach(function(d){ d.on('plotly_hover', show); d.on('plotly_unhover', hide); });
+  ORDER.forEach(function(k){ var i = new Image(); i.src = 'img/molecules/' + k + '.png'; });
+  var buttons = document.querySelectorAll('.plot-tab[data-prop]');
+  for (var i = 0; i < buttons.length; i++) {
+    (function(btn){
+      btn.addEventListener('click', function(){
+        active = btn.getAttribute('data-prop');
+        for (var j = 0; j < buttons.length; j++) buttons[j].classList.toggle('active', buttons[j] === btn);
+        hide();
+        build(active);
+      });
+    })(buttons[i]);
+  }
+  document.addEventListener('themechange', function(){ build(active); });
+})();
+</script>
+</body></html>
