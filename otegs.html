@@ -617,9 +617,9 @@
   article strong{ color:var(--ink); font-weight:600; }
   article .section-head{ margin:0 0 28px; }
   article h2{ font-size:1.5rem; }
-  article figure{ margin:28px 0 32px; max-width:680px; }
+  article figure{ margin:28px 0 32px; }
   article figure img{
-    width:100%; height:auto; display:block;
+    height:auto; display:block;
     border-radius:8px; border:1px solid var(--line);
     background:var(--surface);
   }
@@ -651,7 +651,7 @@
     border-radius:8px;
     background:var(--surface);
   }
-  .axis-group{ display:inline-flex; align-items:center; gap:8px; }
+  .axis-group{ display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px; min-width:0; max-width:100%; }
   .axis-lab{
     font-family:"IBM Plex Mono", monospace;
     font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase;
@@ -667,6 +667,7 @@
     padding:5px 8px;
     cursor:pointer;
     max-width:250px;
+    min-width:0; flex:0 1 auto;
   }
   .axis-sel:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
   .scale-btns{ display:inline-flex; gap:6px; }
@@ -709,7 +710,11 @@
   ul.steps{ max-width:66ch; margin:14px 0 18px; padding-left:20px; color:var(--ink-soft); }
   ul.steps li{ margin:6px 0; }
   ul.steps b{ color:var(--ink); font-weight:600; }
-  article figure.narrow{ max-width:440px; }
+  /* Figures span the text column, and so do their captions. A plain image keeps its own size, up to the
+     column width, and is centred; images inside composite figures (tabs, pairs) fill their frame. */
+  article figure * img{ width:100%; }
+  article figure > img{ max-width:100%; margin:0 auto; }
+  article figure.narrow > img{ max-width:min(100%, 440px); }
   /* ---------- Chart pins and size key ---------- */
   .chart-wrap{ position:relative; }
   .pin-card{ position:absolute; z-index:5; width:300px; max-width:calc(100% - 8px); padding:10px 12px; background:var(--surface); border:1px solid var(--line-strong); border-radius:8px; box-shadow:var(--shadow); font-size:0.78rem; line-height:1.4; }
@@ -777,7 +782,7 @@
       trace where device design, not chemistry, loses the plot, and use finite-element modelling
       to work out what a printed OTEG could actually become.
     </p>
-    <span class="review-note"><span class="dot"></span>Manuscript under peer review &mdash; full text available on request</span>
+    <span class="review-note"><span class="dot"></span>Manuscript in preparation &mdash; full text available on request</span>
   </div>
 </header>
 
@@ -1116,7 +1121,7 @@
     the alternatives.
   </p>
   <div class="footnote">
-    <span>Federico Ferrari &middot; PhD thesis, chapter 6 &middot; perspective manuscript under peer review</span>
+    <span>Federico Ferrari &middot; PhD thesis, chapter 6 &middot; perspective manuscript in preparation</span>
     <span><a href="index.html">&larr; Back to the portfolio</a></span>
   </div>
 </article>

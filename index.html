@@ -418,10 +418,8 @@
     border:1px solid var(--line-strong);
     border-radius:6px;
     padding:5px 10px;
-    white-space:nowrap;
     max-width:100%;
   }
-  @media (max-width:480px){ .chip{ white-space:normal; } }
   @media (max-width:600px){
     .spec-row{ grid-template-columns:1fr; gap:10px; }
   }
@@ -534,6 +532,10 @@
     transform:translate(-50%,0); opacity:1; pointer-events:auto;
   }
   .chip-preview .preview-pop::before{ left:50%; margin-left:-6px; }
+  /* Skill chips sit at the right of the spec sheet: their pop-ups open leftwards, so they never widen the page. */
+  .chips .chip-preview .preview-pop{ left:auto; right:0; transform:translate(0,6px); }
+  .chips .chip-preview:hover .preview-pop, .chips .chip-preview:focus-visible .preview-pop{ transform:translate(0,0); }
+  .chips .chip-preview .preview-pop::before{ left:auto; right:22px; margin-left:0; }
 
   /* ---------- Featured project ---------- */
   #project p{ max-width:66ch; color:var(--ink-soft); font-size:1.02rem; }
@@ -1053,7 +1055,7 @@
         <button class="part" type="button" data-part="masks-4pp"><img src="img/parts/masks-4pp.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow masks for four-point probe</span></button>
         <button class="part" type="button" data-part="mask-vd"><img src="img/parts/mask-vd.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow mask for vapor doping, 30 x 30 mm</span></button>
         <button class="part" type="button" data-part="mask-tlm"><img src="img/parts/mask-tlm.webp" width="520" height="520" alt="" loading="lazy"><span>Shadow mask, 30 x 30 mm, transmission line</span></button>      </div>
-      <p class="project-cap" id="parts-cap">Click a part to turn it around.</p>
+      <p class="project-cap" id="parts-cap">Click a part to turn it around; scroll to zoom.</p>
     </div>
     </div>
     <div class="rig-result">
@@ -1869,14 +1871,23 @@
     var i = [], j = [], k = [];
     for (var n = 0; n < m.x.length; n += 3) { i.push(n); j.push(n + 1); k.push(n + 2); }
     var none = {visible:false, showspikes:false};
+    // Scale so the longest side is 1; aspectmode 'data' normalises to unit volume, which crops long, flat parts.
+    function span(a){ var lo = Infinity, hi = -Infinity; for (var q = 0; q < a.length; q++) { if (a[q] < lo) lo = a[q]; if (a[q] > hi) hi = a[q]; } return hi - lo; }
+    var sx = span(m.x), sy = span(m.y), sz = span(m.z), big = Math.max(sx, sy, sz) || 1;
+    // Camera distance follows the part's diagonal, so square plates and upright parts are not clipped.
+    var e = 0.85 * Math.max(1, Math.sqrt(sx * sx + sy * sy + sz * sz) / big);
     Plotly.react(plot, [{type:'mesh3d', name:name, x:m.x, y:m.y, z:m.z, i:i, j:j, k:k, color:'#C9C7C3', flatshading:true, hoverinfo:'skip',
       lighting:{ambient:0.62, diffuse:0.72, specular:0.08, roughness:0.7, fresnel:0.05, facenormalsepsilon:0, vertexnormalsepsilon:0},
       lightposition:{x:120, y:-160, z:260}}],
       {paper_bgcolor:'rgba(0,0,0,0)', margin:{l:0, r:0, t:0, b:0}, showlegend:false,
-       scene:{xaxis:none, yaxis:none, zaxis:none, aspectmode:'data', dragmode:'turntable', bgcolor:'rgba(0,0,0,0)',
-              camera:{eye:{x:1.25, y:-1.25, z:0.95}}}},
-      {displayModeBar:false, responsive:true, scrollZoom:false});
+       scene:{xaxis:none, yaxis:none, zaxis:none, aspectmode:'manual', aspectratio:{x:sx / big, y:sy / big, z:sz / big},
+              dragmode:'turntable', bgcolor:'rgba(0,0,0,0)',
+              camera:{eye:{x:e, y:-e, z:0.76 * e}}}},
+      {displayModeBar:false, responsive:true, scrollZoom:true});
   }
+  // The wheel zooms the part, never the page behind it; the middle button must not start the browser's autoscroll.
+  dlg.addEventListener('wheel', function(e){ e.preventDefault(); }, {passive:false});
+  plot.addEventListener('mousedown', function(e){ if (e.button === 1) e.preventDefault(); });
   wall.addEventListener('click', function(e){
     var btn = e.target.closest('.part');
     if (!btn) return;
